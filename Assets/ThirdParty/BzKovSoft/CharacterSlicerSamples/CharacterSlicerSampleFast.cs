@@ -30,6 +30,11 @@ namespace BzKovSoft.CharacterSlicerSamples
 
 		public List<Collider> inputColliders = new List<Collider>();
 
+
+		public bool sliced;
+
+		public event Action OnSlicedFinish;
+
 		public bool IsDead { get; private set; }
 
 		protected override BzSliceTryData PrepareData(Plane plane)
@@ -106,9 +111,14 @@ namespace BzKovSoft.CharacterSlicerSamples
 			resultNeg.IsDead = IsDead;
 			resultPos.IsDead = IsDead;
 
+			resultNeg.sliced = true;
+			resultPos.sliced = true;
+
 			--_maxSliceCount;
 			resultNeg._maxSliceCount = _maxSliceCount;
 			resultPos._maxSliceCount = _maxSliceCount;
+
+			OnSlicedFinish?.Invoke();
 		}
 
 		private void ConvertToRagdoll(GameObject resultNeg, GameObject resultPos, LazyActionRunner lazyRunnerNeg, LazyActionRunner lazyRunnerPos)

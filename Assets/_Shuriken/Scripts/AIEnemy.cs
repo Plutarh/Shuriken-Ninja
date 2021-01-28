@@ -22,12 +22,12 @@ public class AIEnemy : Pawn
     }
     private void Awake()
     {
-        
+        characterSlicer.OnSlicedFinish += OnSlice;
     }
 
     void Start()
     {
-        
+        navMeshAgent.SetDestination(player.transform.position);
     }
 
     // Update is called once per frame
@@ -35,9 +35,25 @@ public class AIEnemy : Pawn
     {
        
 
-        if (!characterSlicer.IsDead)
+        if (!characterSlicer.sliced)
         {
-            navMeshAgent.SetDestination(player.transform.position);
+           
+           
         }
+        else
+        {
+            if (!navMeshAgent.isStopped) navMeshAgent.isStopped = true;
+        }
+    }
+
+    void OnSlice()
+    {
+        //Debug.Log(gameObject.name + " dead");
+        navMeshAgent.isStopped = true;
+    }
+
+    private void OnDestroy()
+    {
+        characterSlicer.OnSlicedFinish -= OnSlice;
     }
 }
