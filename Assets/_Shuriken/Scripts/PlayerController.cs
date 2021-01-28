@@ -5,19 +5,23 @@ using Zenject;
 
 public class PlayerController : MonoBehaviour
 {
-
+    public Vector3 shurikenOffset;
     public SimpleMover shurikenPrefab;
+
+    public Transform shurikenSpawnPos;
+
+    Animator animator;
 
     IInputService _inputService;
     [Inject]
     void Construct(IInputService inputService)
     {
         _inputService = inputService;
-        _inputService.OnClick += GetThrowDirection;
+        _inputService.OnColliderClick += GetThrowDirection;
     }
     private void Awake()
     {
-        
+        animator = GetComponent<Animator>();
     }
 
     void Start()
@@ -38,14 +42,22 @@ public class PlayerController : MonoBehaviour
     public Vector3 throwDirection;
     void GetThrowDirection(Vector3 direction)
     {
-        Debug.Log($"{direction} dir");
+        throwDir = direction - (shurikenSpawnPos.position);
+        animator.SetTrigger("Throw");
+    }
 
-        ThrowShuriken(direction.normalized);
+    public Vector3 throwDir;
+
+    public void ThrowShurikenByAnimator()
+    {
+        ThrowShuriken(throwDir.normalized);
     }
 
     void ThrowShuriken(Vector3 velocity)
     {
-        var shuriken = Instantiate(shurikenPrefab, transform.position, Quaternion.identity);
+       
+
+        var shuriken = Instantiate(shurikenPrefab, shurikenSpawnPos.position, Quaternion.identity);
 
         //shuriken.GetComponent<Rigidbody>().velocity = velocity;
         shuriken.moveDir = velocity;
@@ -53,6 +65,6 @@ public class PlayerController : MonoBehaviour
 
     private void OnDestroy()
     {
-        _inputService.OnClick -= GetThrowDirection;
+        _inputService.OnColliderClick -= GetThrowDirection;
     }
 }

@@ -132,7 +132,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   raycastLenght: 300
-  farMultiplier: 1
+  farMultiplier: 10
 --- !u!114 &2119470527868603417
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -28,6 +28,8 @@ namespace BzKovSoft.CharacterSlicerSamples
 		bool _alignPrefSize = false;
 #pragma warning restore 0649
 
+		public List<Collider> inputColliders = new List<Collider>();
+
 		public bool IsDead { get; private set; }
 
 		protected override BzSliceTryData PrepareData(Plane plane)
@@ -42,10 +44,17 @@ namespace BzKovSoft.CharacterSlicerSamples
 			addData.stopwatch = Stopwatch.StartNew();
 
 			// collider we want to participate in slicing
-			var collidersArr = GetComponentsInChildren<Collider>();
+			var collidersArr = GetComponentsInChildren<Collider>().ToList();
+
+            for (int i = 0; i < collidersArr.Count; i++)
+            {
+				if (inputColliders.Contains(collidersArr[i])) collidersArr.Remove(collidersArr[i]);
+
+			}
+
 
 			// create component manager.
-			var componentManager = new CharacterComponentManagerFast(this.gameObject, plane, collidersArr);
+			var componentManager = new CharacterComponentManagerFast(this.gameObject, plane, collidersArr.ToArray());
 
 			return new BzSliceTryData()
 			{

@@ -815,8 +815,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d007aecc3b4a429488771798218b3105, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  shurikenOffset: {x: 0, y: 1, z: 0}
   shurikenPrefab: {fileID: 1256524102279454997, guid: 1926bf5dbaa7cd847875efbda854f26f,
     type: 3}
+  shurikenSpawnPos: {fileID: 8860387233480460189}
   throwDirection: {x: 0, y: 0, z: 0}
 --- !u!1 &3366307688531798547
 GameObject:
