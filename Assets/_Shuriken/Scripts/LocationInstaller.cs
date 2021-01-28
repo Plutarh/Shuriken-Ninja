@@ -5,6 +5,8 @@ public class LocationInstaller : MonoInstaller
 {
     public Transform startPoint;
     public GameObject playerPrefab;
+
+
     public override void InstallBindings()
     {
         PlayerController playerController = Container

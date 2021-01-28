@@ -3,14 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : Pawn
 {
     public Vector3 shurikenOffset;
     public SimpleMover shurikenPrefab;
 
     public Transform shurikenSpawnPos;
-
-    Animator animator;
 
     IInputService _inputService;
     [Inject]
@@ -19,7 +17,13 @@ public class PlayerController : MonoBehaviour
         _inputService = inputService;
         _inputService.OnColliderClick += GetThrowDirection;
     }
-    private void Awake()
+
+    private void OnValidate()
+    {
+        base.Init();
+    }
+
+    void Awake()
     {
         animator = GetComponent<Animator>();
     }
