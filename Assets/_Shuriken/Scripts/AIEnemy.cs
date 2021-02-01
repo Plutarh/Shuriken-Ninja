@@ -42,7 +42,14 @@ public class AIEnemy : Pawn
         }
         else
         {
-            if (!navMeshAgent.isStopped) navMeshAgent.isStopped = true;
+            if(navMeshAgent != null)
+            {
+                if (!navMeshAgent.isStopped)
+                {
+                    OnSlice();
+                }
+            }
+          
         }
     }
 
@@ -50,6 +57,9 @@ public class AIEnemy : Pawn
     {
         //Debug.Log(gameObject.name + " dead");
         navMeshAgent.isStopped = true;
+
+        Destroy(navMeshAgent);
+        navMeshAgent = null;
     }
 
     private void OnDestroy()
