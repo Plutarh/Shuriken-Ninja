@@ -10,7 +10,7 @@ public class InputService : MonoBehaviour, IInputService
     public float raycastLenght = 100;
     public float farMultiplier = 10;
 
-    public event Action<Vector3> OnColliderClick;
+    public event Action<Vector3,GameObject> OnColliderClick;
     public event Action<Vector3> OnNonColliderClick;
 
     private void Awake()
@@ -41,7 +41,7 @@ public class InputService : MonoBehaviour, IInputService
             {
                 Debug.Log($"<color=purple> {raycastHit.transform.name} raycast </color>");
                 Debug.DrawLine(Camera.main.transform.position, raycastHit.point, Color.cyan, 10f);
-                OnColliderClick?.Invoke(raycastHit.point);
+                OnColliderClick?.Invoke(raycastHit.point,raycastHit.collider.gameObject);
 
             }
             else

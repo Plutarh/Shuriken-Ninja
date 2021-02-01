@@ -748,7 +748,7 @@ GameObject:
   - component: {fileID: 9084128991959987859}
   - component: {fileID: 1147098821234217864}
   m_Layer: 0
-  m_Name: LowpolyNinja_v1.1
+  m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -815,11 +815,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d007aecc3b4a429488771798218b3105, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 8811075188374177638}
+  body: {fileID: 0}
+  navMeshAgent: {fileID: 0}
+  health: {fileID: 0}
+  characterSlicer: {fileID: 0}
+  adderSliceable: {fileID: 0}
   shurikenOffset: {x: 0, y: 1, z: 0}
-  shurikenPrefab: {fileID: 1256524102279454997, guid: 1926bf5dbaa7cd847875efbda854f26f,
+  shurikenPrefab: {fileID: 8384404545662291182, guid: 689bf4832e7a04f41a356e7230a3dbaa,
     type: 3}
-  shurikenSpawnPos: {fileID: 8860387233480460189}
+  R_shurikenSpawnPos: {fileID: 1793454430395363940}
+  L_shurikenSpawnPos: {fileID: 3769405718454553801}
   throwDirection: {x: 0, y: 0, z: 0}
+  relPoint: {x: 0, y: 0, z: 0}
+  throwDir: {x: 0, y: 0, z: 0}
 --- !u!1 &3366307688531798547
 GameObject:
   m_ObjectHideFlags: 0

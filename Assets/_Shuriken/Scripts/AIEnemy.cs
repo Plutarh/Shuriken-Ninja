@@ -13,6 +13,7 @@ public class AIEnemy : Pawn
     [Inject]
     void Construct(PlayerController playerInstance)
     {
+        Debug.Log("ENEMY");
         player = playerInstance;
     }
 
