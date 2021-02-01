@@ -3,7 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-
+using BzKovSoft.CharacterSlicer;
+using BzKovSoft.ObjectSlicerSamples;
 
 [RequireComponent(typeof(Health))]
 public class Pawn : MonoBehaviour , IDamageable
@@ -14,6 +15,7 @@ public class Pawn : MonoBehaviour , IDamageable
     public NavMeshAgent navMeshAgent;
     public Health health;
     public CharacterSlicerSampleFast characterSlicer;
+    public AdderSliceableAsync adderSliceable;
 
     void Awake()
     {
@@ -36,6 +38,7 @@ public class Pawn : MonoBehaviour , IDamageable
         if (!body) body = GetComponent<Rigidbody>();
         if (!navMeshAgent) navMeshAgent = GetComponent<NavMeshAgent>();
         if (!characterSlicer) characterSlicer = GetComponent<CharacterSlicerSampleFast>();
+        if (!adderSliceable) adderSliceable = GetComponent<AdderSliceableAsync>();
     }
 
     public void Death()

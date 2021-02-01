@@ -55,11 +55,15 @@ public class AIEnemy : Pawn
 
     void OnSlice()
     {
+        if (navMeshAgent == null) return;
         //Debug.Log(gameObject.name + " dead");
         navMeshAgent.isStopped = true;
 
         Destroy(navMeshAgent);
         navMeshAgent = null;
+        body = null;
+        animator = null;
+        adderSliceable = null;
     }
 
     private void OnDestroy()

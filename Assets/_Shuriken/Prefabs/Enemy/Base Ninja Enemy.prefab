@@ -1570,7 +1570,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 0, y: 0, z: -1}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -0.10559411, y: 0.08304646, z: -0.015082445}
+  m_ConnectedAnchor: {x: -0.10559417, y: 0.08304646, z: -0.015082445}
   serializedVersion: 2
   m_SwingAxis: {x: 1, y: 0, z: 0}
   m_TwistLimitSpring:
@@ -1959,7 +1959,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 0, y: 0, z: -1}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0.00000020861626, y: 0.38872403, z: 0.00000035017192}
+  m_ConnectedAnchor: {x: 0.00000020349398, y: 0.38872403, z: 0.00000040977565}
   serializedVersion: 2
   m_SwingAxis: {x: -1, y: 0, z: 0}
   m_TwistLimitSpring:
@@ -2614,6 +2614,7 @@ MonoBehaviour:
   navMeshAgent: {fileID: 7724396083544934838}
   health: {fileID: 2163834641358370411}
   characterSlicer: {fileID: 4014323919445584458}
+  adderSliceable: {fileID: 4014323919445584457}
   player: {fileID: 0}
 --- !u!114 &4014323919445584458
 MonoBehaviour:
@@ -2629,11 +2630,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _sliceId: 0
   _lastSliceTime: -3.4028235e+38
-  _defaultSliceMaterial: {fileID: 2100000, guid: f8ce3b3f786c145e397f3c275f706895,
+  _defaultSliceMaterial: {fileID: 2100000, guid: ef50e6197bd53ac488206e2110b76dc7,
     type: 2}
   _asynchronously: 1
   _delayBetweenSlices: 1
-  _maxSliceCount: 3
+  _maxSliceCount: 1
   _bloodPrefub: {fileID: 0}
   _prefubDirection: {x: 0, y: 1, z: 0}
   _convertToRagdoll: 1
