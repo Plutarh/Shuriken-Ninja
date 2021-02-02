@@ -15,8 +15,6 @@ public class LocationInstaller : MonoInstaller
     {
         BindPlayer();
         BindEnemyFactory();
-
-        //Initialize();
     }
 
     private void BindPlayer()
@@ -31,8 +29,7 @@ public class LocationInstaller : MonoInstaller
 
         playerInstance = playerController;
 
-        //playerInstance.MoveToPoint(runPoint);
-        playerInstance.runPoint = runPoint;
+       
     }
 
     private void BindEnemyFactory()
