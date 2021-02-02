@@ -8,14 +8,13 @@ public class LocationInstaller : MonoInstaller
     public GameObject playerPrefab;
 
     public PlayerController playerInstance;
-    public List<Transform> enemySpawnPoints = new List<Transform>();
+
+    public Transform runPoint;
 
     public override void InstallBindings()
     {
         BindPlayer();
         BindEnemyFactory();
-
-        //Initialize();
     }
 
     private void BindPlayer()
@@ -29,6 +28,8 @@ public class LocationInstaller : MonoInstaller
             .AsSingle();
 
         playerInstance = playerController;
+
+       
     }
 
     private void BindEnemyFactory()
@@ -38,16 +39,4 @@ public class LocationInstaller : MonoInstaller
             .To<EnemyFactory>()
             .AsSingle();
     }
-
-    /*
-    public void Initialize()
-    {
-        var enemyFactory = Container.Resolve<IEnemyFactory>();
-        enemyFactory.Load();
-
-        foreach (var esp in enemySpawnPoints)
-        {
-            enemyFactory.Create(esp.position);
-        }
-    }*/
 }
