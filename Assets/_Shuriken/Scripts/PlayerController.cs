@@ -11,6 +11,9 @@ public class PlayerController : Pawn
     public Transform R_shurikenSpawnPos;
     public Transform L_shurikenSpawnPos;
 
+
+    public Transform runPoint;
+
     IInputService _inputService;
     [Inject]
     void Construct(IInputService inputService)
@@ -31,13 +34,22 @@ public class PlayerController : Pawn
 
     void Start()
     {
-        
+        MoveToPoint(runPoint);
     }
 
+    public void MoveToPoint(Transform point)
+    {
+        runPoint = point;
+        navMeshAgent.SetDestination(runPoint.position);
+        animator.SetBool("Run", true);
+    }
     // Update is called once per frame
     void Update()
     {
-        
+        if(Vector3.Distance(transform.position,runPoint.position) < 0.2f)
+        {
+            animator.SetBool("Run", false);
+        }
     }
 
     private void FixedUpdate()
