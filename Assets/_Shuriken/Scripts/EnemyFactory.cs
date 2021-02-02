@@ -2,31 +2,25 @@
 using UnityEngine;
 using Zenject;
 
-public class EnemyFactory : MonoBehaviour, IEnemyFactory
+public class EnemyFactory :  IEnemyFactory
 {
-    [SerializeField] Pawn enemyPawnPrefab;
+    Object enemyPawnPrefab;
 
     DiContainer _diContainer;
-
-   
-    /*
+    
     public EnemyFactory(DiContainer diContainer)
     {
-      
         _diContainer = diContainer;
-    }*/
-
-    
-
-    public void Load()
-    {
-
     }
 
-    
-
-    public void Create(Vector3 spawnPos)
+    // Возможно,когда то сделаю загрузку из ресурсов,если очень надо будет
+    public void Load()
     {
-        _diContainer.InstantiatePrefab(enemyPawnPrefab, spawnPos, Quaternion.identity,null);
+        enemyPawnPrefab = Resources.Load("Base Ninja Enemy");
+    }
+
+    public void Create(Object enemy,Vector3 spawnPos)
+    {
+        _diContainer.InstantiatePrefab(enemy, spawnPos, Quaternion.identity,null);
     }
 }

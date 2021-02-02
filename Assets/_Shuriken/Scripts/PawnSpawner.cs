@@ -11,23 +11,25 @@ public class PawnSpawner : MonoBehaviour
     public float spawnDelay;
 
     float spawnTimer;
-
-    /*
+    
     IEnemyFactory _enemyFactory;
 
     [Inject]
     void Construct(IEnemyFactory enemyFactory)
     {
-       // Debug.Log("FACTORY");
-       // _enemyFactory = enemyFactory;
-    }*/
+        _enemyFactory = enemyFactory;
+
+        if(_enemyFactory != null)
+        {
+            _enemyFactory.Load();
+        }
+    }
 
     void Start()
     {
        
     }
 
-    // Update is called once per frame
     void Update()
     {
         SpawnPawn();
@@ -39,7 +41,8 @@ public class PawnSpawner : MonoBehaviour
         spawnTimer += Time.deltaTime;
         if(spawnTimer > spawnDelay)
         {
-            Instantiate (pawnPrefab, transform.position, Quaternion.identity);
+            //Instantiate (pawnPrefab, transform.position, Quaternion.identity);
+            _enemyFactory.Create(pawnPrefab,transform.position);
             spawnTimer = 0;
             spawnCount--;
         }

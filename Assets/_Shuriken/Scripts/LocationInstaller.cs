@@ -7,13 +7,15 @@ public class LocationInstaller : MonoInstaller
     public Transform startPoint;
     public GameObject playerPrefab;
 
-
+    public PlayerController playerInstance;
     public List<Transform> enemySpawnPoints = new List<Transform>();
 
     public override void InstallBindings()
     {
         BindPlayer();
-        //SpawnEnemy();
+        BindEnemyFactory();
+
+        //Initialize();
     }
 
     private void BindPlayer()
@@ -26,19 +28,26 @@ public class LocationInstaller : MonoInstaller
             .FromInstance(playerController)
             .AsSingle();
 
-       
+        playerInstance = playerController;
     }
 
-    private void SpawnEnemy()
+    private void BindEnemyFactory()
+    {
+        Container
+            .Bind<IEnemyFactory>()
+            .To<EnemyFactory>()
+            .AsSingle();
+    }
+
+    /*
+    public void Initialize()
     {
         var enemyFactory = Container.Resolve<IEnemyFactory>();
-
-        // Может буду грузить из ресурсов,пока полежит
         enemyFactory.Load();
-        foreach (var sp in enemySpawnPoints)
-        {
-            enemyFactory.Create(sp.position);
-        }
 
-    }
+        foreach (var esp in enemySpawnPoints)
+        {
+            enemyFactory.Create(esp.position);
+        }
+    }*/
 }
