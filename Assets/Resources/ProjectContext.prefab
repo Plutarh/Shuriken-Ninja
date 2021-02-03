@@ -310,6 +310,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   raycastLenght: 300
   farMultiplier: 10
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 1024
 --- !u!114 &2119470527868603417
 MonoBehaviour:
   m_ObjectHideFlags: 0

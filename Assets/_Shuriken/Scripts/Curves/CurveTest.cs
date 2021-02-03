@@ -21,7 +21,6 @@ public class CurveTest : MonoBehaviour
     public bool coroutineAloud;
 
     public Vector3 shurPos;
-
     public Transform[] routes;
 
 
@@ -37,7 +36,6 @@ public class CurveTest : MonoBehaviour
      
     }
 
-    // Update is called once per frame
     void Update()
     {
         tParam += Time.deltaTime * speed;
@@ -46,14 +44,9 @@ public class CurveTest : MonoBehaviour
 
     }
 
-   
-
-
     private void OnDrawGizmos()
     {
         Handles.DrawBezier(startPoint.position, endPoint.position, startPointAnchor.position, endPointAnchor.position, Color.red, null, 2);
     }
-
-   
 }
 

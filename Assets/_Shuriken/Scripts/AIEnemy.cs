@@ -13,7 +13,6 @@ public class AIEnemy : Pawn
     [Inject]
     void Construct(PlayerController playerInstance)
     {
-        Debug.Log("ENEMY");
         player = playerInstance;
     }
 
@@ -34,8 +33,6 @@ public class AIEnemy : Pawn
     // Update is called once per frame
     void Update()
     {
-       
-
         if (!characterSlicer.sliced)
         {
            
@@ -50,14 +47,12 @@ public class AIEnemy : Pawn
                     OnSlice();
                 }
             }
-          
         }
     }
 
     void OnSlice()
     {
         if (navMeshAgent == null) return;
-        //Debug.Log(gameObject.name + " dead");
         navMeshAgent.isStopped = true;
 
         Destroy(navMeshAgent);

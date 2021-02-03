@@ -34,7 +34,7 @@ public class PlayerController : Pawn
 
     void Start()
     {
-        MoveToPoint(runPoint);
+        //MoveToPoint(runPoint);
     }
 
     public void MoveToPoint(Transform point)
@@ -103,13 +103,14 @@ public class PlayerController : Pawn
 
     public void ThrowShurikenByAnimator()
     {
+        Debug.Log("<color=green> Trow Shuriken </color> " + relPoint);
         ThrowShuriken(relPoint);
     }
 
     void ThrowShuriken(Vector3 relPoint)
     {
         SimpleMover shuriken;
-
+      
         /*
         if (relPoint.x >= 0)
         {
@@ -124,13 +125,15 @@ public class PlayerController : Pawn
 
         if (relPoint.x > 1)
         {
-            shuriken = Instantiate(shurikenPrefab, R_shurikenSpawnPos.position, Quaternion.identity);
+            shuriken = Instantiate(shurikenPrefab, L_shurikenSpawnPos.position, Quaternion.identity);
             shuriken.flySide = SimpleMover.EFlySide.Right;
+            Debug.Log("Throw Right");
         }
         else if (relPoint.x < -1)
         {
-            shuriken = Instantiate(shurikenPrefab, L_shurikenSpawnPos.position, Quaternion.identity);
+            shuriken = Instantiate(shurikenPrefab, R_shurikenSpawnPos.position, Quaternion.identity);
             shuriken.flySide = SimpleMover.EFlySide.Left;
+            Debug.Log("Throw Left");
         }
         else
         {
@@ -142,7 +145,8 @@ public class PlayerController : Pawn
            // shuriken.rotateDir = Vector3.left * 20;
         }
 
-        shuriken.SetTargetPosition(throwDir);
+        if(shuriken != null)
+            shuriken.SetTargetPosition(throwDir);
     }
 
     private void OnDestroy()

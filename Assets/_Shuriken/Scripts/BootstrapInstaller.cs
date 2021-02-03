@@ -14,6 +14,7 @@ public class BootstrapInstaller : MonoInstaller
     {
         BindEventService();
         BindCoreInstance();
+        BindInputService();
     }
 
     private void BindEventService()
@@ -30,7 +31,10 @@ public class BootstrapInstaller : MonoInstaller
            .Bind<Core>()
            .FromInstance(coreInstance)
            .AsSingle();
+    }
 
+    private void BindInputService()
+    {
         Container
           .Bind<IInputService>()
           .To<InputService>()

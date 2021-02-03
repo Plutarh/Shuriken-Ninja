@@ -19,8 +19,8 @@ public class EnemyFactory :  IEnemyFactory
         enemyPawnPrefab = Resources.Load("Base Ninja Enemy");
     }
 
-    public void Create(Object enemy,Vector3 spawnPos)
+    public AIEnemy Create(AIEnemy enemy,Vector3 spawnPos)
     {
-        _diContainer.InstantiatePrefab(enemy, spawnPos, Quaternion.identity,null);
+        return _diContainer.InstantiatePrefabForComponent<AIEnemy>(enemy, spawnPos, Quaternion.identity,null);
     }
 }

@@ -13,6 +13,8 @@ public class InputService : MonoBehaviour, IInputService
     public event Action<Vector3,GameObject> OnColliderClick;
     public event Action<Vector3> OnNonColliderClick;
 
+    public LayerMask layerMask;
+
     private void Awake()
     {
         if (raycastLenght == 0) raycastLenght = 200;
@@ -37,7 +39,7 @@ public class InputService : MonoBehaviour, IInputService
             RaycastHit raycastHit;
           
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out raycastHit, raycastLenght))
+            if (Physics.Raycast(ray, out raycastHit, raycastLenght, layerMask))
             {
                 Debug.Log($"<color=purple> {raycastHit.transform.name} raycast </color>");
                 Debug.DrawLine(Camera.main.transform.position, raycastHit.point, Color.cyan, 10f);

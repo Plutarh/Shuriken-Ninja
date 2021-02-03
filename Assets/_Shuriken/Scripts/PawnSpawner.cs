@@ -1,11 +1,12 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 
 public class PawnSpawner : MonoBehaviour
 {
-    public Pawn pawnPrefab;
+    public AIEnemy pawnPrefab;
 
     public float spawnCount;
     public float spawnDelay;
@@ -13,6 +14,8 @@ public class PawnSpawner : MonoBehaviour
     float spawnTimer;
     
     IEnemyFactory _enemyFactory;
+
+    public event Action<AIEnemy> OnPawnSpawn;
 
     [Inject]
     void Construct(IEnemyFactory enemyFactory)
@@ -32,19 +35,19 @@ public class PawnSpawner : MonoBehaviour
 
     void Update()
     {
-        SpawnPawn();
+
     }
 
-    void SpawnPawn()
+    public void SpawnPawn()
     {
         if (spawnCount <= 0) return;
         spawnTimer += Time.deltaTime;
         if(spawnTimer > spawnDelay)
         {
-            //Instantiate (pawnPrefab, transform.position, Quaternion.identity);
-            _enemyFactory.Create(pawnPrefab,transform.position);
+            AIEnemy createdEnemy = _enemyFactory.Create(pawnPrefab,transform.position) as AIEnemy;
             spawnTimer = 0;
             spawnCount--;
+            OnPawnSpawn?.Invoke(createdEnemy);
         }
     }
 

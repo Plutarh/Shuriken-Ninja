@@ -48,26 +48,28 @@ public class SimpleMover : MonoBehaviour
             switch (flySide)
             {
                 case EFlySide.Right:
-                    startAnchor = startPos + new Vector3(3, 0, vectorLength / 3);
+                    //startAnchor = startPos + new Vector3(3, 0, vectorLength / 3);
+                    startAnchor = startPos;
                     break;
                 case EFlySide.Left:
-                    startAnchor = startPos + new Vector3(-3, 0, vectorLength / 3);
+                    //startAnchor = startPos + new Vector3(-3, 0, vectorLength / 3);
                     break;
                 case EFlySide.Middle:
-                    startAnchor = startPos + new Vector3(0, vectorLength / 8,0);
+                     //startAnchor = startPos + new Vector3(0, vectorLength / 8,0);
                     break;
             }
-
+            startAnchor = startPos;
             endAnchor = endPos;
         }
         else
         {
-            bezieMove = false;
+            //bezieMove = false;
             moveSpeed = 5;
             moveDir = (endPos - startPos).normalized;
         }
-      
 
+        startAnchor = startPos;
+        endAnchor = endPos;
         //Destroy(gameObject,5f);
     }
 
@@ -86,19 +88,19 @@ public class SimpleMover : MonoBehaviour
     {
         tParam += Time.deltaTime * moveSpeed;
         if (tParam < 1)
+        {
             transform.position = BezieCurve.GetPointOnBezierCurve
-                (startPos
-                , startAnchor
-                , endAnchor
-                , endPos
-                , tParam);
+             (startPos
+             , startAnchor
+             , endAnchor
+             , endPos
+             , tParam);
+        }
         else
         {
             if (moveDir == Vector3.zero) moveDir = endPos - startPos;
             transform.Translate(moveDir * moveSpeed * Time.deltaTime);
         }
-
-
      
     }
 
@@ -133,6 +135,9 @@ public class SimpleMover : MonoBehaviour
             Gizmos.color = Color.red;
             Gizmos.DrawSphere(startAnchor, 0.1f);
             Gizmos.DrawSphere(endAnchor, 0.1f);
+            Gizmos.color = Color.cyan;
+            Gizmos.DrawWireSphere(startPos, 0.1f);
+            Gizmos.DrawWireSphere(endPos, 0.1f);
         }
 #endif
     }
