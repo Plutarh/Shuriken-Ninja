@@ -1,4 +1,5 @@
 ﻿using BzKovSoft.CharacterSlicerSamples;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,6 +10,7 @@ public class AIEnemy : Pawn
 
     public PlayerController player;
 
+    public event Action<AIEnemy> OnDeath;
 
     [Inject]
     void Construct(PlayerController playerInstance)
@@ -27,7 +29,7 @@ public class AIEnemy : Pawn
 
     void Start()
     {
-        navMeshAgent.SetDestination(player.transform.position);
+       
     }
 
     // Update is called once per frame
@@ -35,8 +37,8 @@ public class AIEnemy : Pawn
     {
         if (!characterSlicer.sliced)
         {
-           
-           
+
+            navMeshAgent.SetDestination(player.transform.position);
         }
         else
         {
@@ -54,7 +56,13 @@ public class AIEnemy : Pawn
     {
         if (navMeshAgent == null) return;
         navMeshAgent.isStopped = true;
+        OnDeath?.Invoke(this);
+        ClearComponents();
+        Destroy(gameObject, 2f);
+    }
 
+    void ClearComponents()
+    {
         Destroy(navMeshAgent);
         navMeshAgent = null;
         body = null;

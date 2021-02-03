@@ -32,6 +32,8 @@ public class LevelSessionService : MonoBehaviour
 
     private void Awake()
     {
+        var sortedPoints = actionPoints.OrderBy(p => p.name);
+        actionPoints = sortedPoints.ToList();
         SetCurrentActionPoint();
     }
 
@@ -46,7 +48,6 @@ public class LevelSessionService : MonoBehaviour
         player.MoveToPoint(currentActionPoint.playerActionPosition);
     }
 
-    // Update is called once per frame
     void Update()
     {
         
@@ -54,7 +55,18 @@ public class LevelSessionService : MonoBehaviour
 
     void SetCurrentActionPoint()
     {
-        if (actionPoints.Count > 0 && curActionPointIndex < actionPoints.Count - 1)
+        if (actionPoints.Count > 0 && curActionPointIndex < actionPoints.Count)
+        {
             currentActionPoint = actionPoints[curActionPointIndex];
+        }
+        else Debug.LogError("Нету такого Action Point",this);
+           
+    }
+
+    public void ActionPointDone(ActionPoint actionPoint)
+    {
+        curActionPointIndex++;
+        SetCurrentActionPoint();
+        SetPlayerMovePoint();
     }
 }

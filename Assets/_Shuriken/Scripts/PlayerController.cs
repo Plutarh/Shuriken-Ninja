@@ -88,7 +88,6 @@ public class PlayerController : Pawn
 
         relPoint = transform.InverseTransformPoint(point);
 
-        Debug.Log($"{relPoint.x} THROW");
 
         if (relPoint.x > 1)
             animator.SetTrigger("ThrowL");
@@ -103,7 +102,6 @@ public class PlayerController : Pawn
 
     public void ThrowShurikenByAnimator()
     {
-        Debug.Log("<color=green> Trow Shuriken </color> " + relPoint);
         ThrowShuriken(relPoint);
     }
 

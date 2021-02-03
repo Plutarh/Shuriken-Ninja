@@ -11,6 +11,9 @@ public class ActionPoint : MonoBehaviour
     public EActionPointState pointState;
 
     public List<AIEnemy> actionPointEnemies = new List<AIEnemy>();
+
+    public int enemiesCount;
+
     public enum EActionPointState
     {
         Wait,
@@ -18,15 +21,20 @@ public class ActionPoint : MonoBehaviour
         Done
     }
 
+    LevelSessionService _levelSessionService;
+
     [Inject]
     void Construct(LevelSessionService levelSessionService)
     {
-        levelSessionService.actionPoints.Add(this);
+        _levelSessionService = levelSessionService;
+        _levelSessionService.actionPoints.Add(this);
     }
 
     private void Awake()
     {
-        pawnSpawner.OnPawnSpawn += AddPawn;
+        pawnSpawner.OnPawnSpawn += AddEnemy;
+
+        pawnSpawner.spawnCount = enemiesCount;
     }
 
     void Start()
@@ -60,15 +68,34 @@ public class ActionPoint : MonoBehaviour
         pointState = newState;
     }
 
-    void AddPawn(AIEnemy pawn)
+    void AddEnemy(AIEnemy pawn)
     {
-        actionPointEnemies.Add(pawn);
         if (!actionPointEnemies.Contains(pawn))
+        {
             actionPointEnemies.Add(pawn);
+            pawn.OnDeath += RemoveEnemy;
+        }
+            
+    }
+
+    void RemoveEnemy(AIEnemy enemy)
+    {
+        if (actionPointEnemies.Contains(enemy))
+        {
+            enemy.OnDeath -= RemoveEnemy;
+            actionPointEnemies.Remove(enemy);
+            enemiesCount--;
+        }
+
+        if(enemiesCount <= 0)
+        {
+            ChangeState(EActionPointState.Done);
+            _levelSessionService.ActionPointDone(this);
+        }
     }
 
     private void OnDestroy()
     {
-        pawnSpawner.OnPawnSpawn -= AddPawn;
+        pawnSpawner.OnPawnSpawn -= AddEnemy;
     }
 }
