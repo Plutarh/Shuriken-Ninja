@@ -2415,12 +2415,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetToFollow: {fileID: 0}
-  offset: {x: 0, y: 4, z: 0}
-  rotationOffset: {x: 0, y: -0.2, z: 0}
-  distanceToTarget: 4
-  followSpeed: 5
+  followOffset: {x: 0, y: 3, z: 0}
+  followRotationOffset: {x: 0, y: 0, z: 0}
+  standOffset: {x: 0, y: 2.5, z: 0}
+  standRotationOffset: {x: 0, y: -0.24, z: 0}
+  followDistToTarget: 4
+  standDistToTarget: 2
+  followSpeed: 2
   rotateSpeed: 2
-  cameraState: 0
+  cameraState: 1
 --- !u!4 &1017036896 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 429170, guid: c14fb016084df564595efe3fe51fd084,

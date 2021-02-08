@@ -10,9 +10,18 @@ public class PlayerController : Pawn
 
     public Transform R_shurikenSpawnPos;
     public Transform L_shurikenSpawnPos;
+    public Vector3 throwDirection;
 
+    public Vector3 relPoint;
 
     public Transform runPoint;
+
+    public EPlayerState playerState;
+    public enum EPlayerState
+    {
+        MoveToPoint,
+        Stand
+    }
 
     IInputService _inputService;
     [Inject]
@@ -37,18 +46,17 @@ public class PlayerController : Pawn
         //MoveToPoint(runPoint);
     }
 
-    public void MoveToPoint(Transform point)
-    {
-        runPoint = point;
-        navMeshAgent.SetDestination(runPoint.position);
-        animator.SetBool("Run", true);
-    }
+   
     // Update is called once per frame
     void Update()
     {
-        if(Vector3.Distance(transform.position,runPoint.position) < 0.2f)
+        StateMachine();
+
+
+        if (Vector3.Distance(transform.position,runPoint.position) < 0.2f)
         {
-            animator.SetBool("Run", false);
+            
+            ChangeState(EPlayerState.Stand);
         }
     }
 
@@ -56,9 +64,32 @@ public class PlayerController : Pawn
     {
         
     }
-    public Vector3 throwDirection;
+ 
+    void StateMachine()
+    {
+        switch (playerState)
+        {
+            case EPlayerState.MoveToPoint:
+                break;
+            case EPlayerState.Stand:
+                animator.SetBool("Run", false);
+                break;
+        }
+    }
 
-    public Vector3 relPoint;
+    public void ChangeState(EPlayerState newState)
+    {
+        if (playerState == newState) return;
+        playerState = newState;
+    }
+
+    public void MoveToPoint(Transform point)
+    {
+        runPoint = point;
+        navMeshAgent.SetDestination(runPoint.position);
+        animator.SetBool("Run", true);
+        ChangeState(EPlayerState.MoveToPoint);
+    }
 
     /*
     void GetThrowDirection(Vector3 point)

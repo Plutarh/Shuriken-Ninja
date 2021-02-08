@@ -5,11 +5,15 @@ using Zenject;
 
 public class CameraMover : MonoBehaviour
 {
-    public GameObject targetToFollow;
+    public PlayerController targetToFollow;
 
-    [SerializeField] Vector3 offset;
-    [SerializeField] Vector3 rotationOffset;
-    public float distanceToTarget;
+    [SerializeField] Vector3 followOffset;
+    [SerializeField] Vector3 followRotationOffset;
+
+    [SerializeField] Vector3 standOffset;
+    [SerializeField] Vector3 standRotationOffset;
+    public float followDistToTarget;
+    public float standDistToTarget;
     public float followSpeed;
     public float rotateSpeed;
 
@@ -29,7 +33,7 @@ public class CameraMover : MonoBehaviour
     [Inject]
     void Constuct(PlayerController playerController)
     {
-        targetToFollow = playerController.gameObject;
+        targetToFollow = playerController;
     }
 
     void Start()
@@ -40,7 +44,31 @@ public class CameraMover : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        CheckPlayerState();
+    }
+
+    private void LateUpdate()
+    {
         CameraStateMachine();
+    }
+
+    void CheckPlayerState()
+    {
+        switch (targetToFollow.playerState)
+        {
+            case PlayerController.EPlayerState.MoveToPoint:
+                ChangeState(ECameraState.Follow);
+                break;
+            case PlayerController.EPlayerState.Stand:
+                ChangeState(ECameraState.Stand);
+                break;
+        }
+    }
+
+    void ChangeState(ECameraState newState)
+    {
+        if (cameraState == newState) return;
+        cameraState = newState;
     }
 
     void CameraStateMachine()
@@ -51,8 +79,11 @@ public class CameraMover : MonoBehaviour
                 FollowTarget();
                 break;
             case ECameraState.Stand:
+                StandNearTarget();
                 break;
         }
+
+        
     }
 
    
@@ -62,13 +93,21 @@ public class CameraMover : MonoBehaviour
         if (targetMoveDir != Vector3.zero)
         {
             targetMoveDir.Normalize();
-            Vector3 targetPos = targetToFollow.transform.position - targetMoveDir * distanceToTarget;
-            targetPos += offset;
+            Vector3 targetPos = targetToFollow.transform.position - targetMoveDir * followDistToTarget;
+            targetPos += followOffset;
             transform.position = Vector3.Lerp(transform.position, targetPos, Time.deltaTime * followSpeed);
             targetPrevPos = targetToFollow.transform.position;
         }
 
-        transform.rotation = Quaternion.LookRotation(targetToFollow.transform.forward + rotationOffset, Vector3.up);
-      
+        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(targetToFollow.transform.forward + followRotationOffset, Vector3.up), Time.deltaTime * 5);
+    }
+
+    void StandNearTarget()
+    {
+        Vector3 targetPos = targetToFollow.transform.position - targetMoveDir * standDistToTarget;
+        targetPos += standOffset;
+        transform.position = Vector3.Lerp(transform.position, targetPos, Time.deltaTime * followSpeed);
+
+        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(targetToFollow.transform.forward + standRotationOffset, Vector3.up), Time.deltaTime * 5);
     }
 }
