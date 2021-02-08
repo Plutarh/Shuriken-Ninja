@@ -15,7 +15,8 @@ public class CameraMover : MonoBehaviour
     public float followDistToTarget;
     public float standDistToTarget;
     public float followSpeed;
-    public float rotateSpeed;
+    public float followRotateSpeed;
+    public float standRotateSpeed;
 
     public ECameraState cameraState;
 
@@ -30,10 +31,13 @@ public class CameraMover : MonoBehaviour
     Vector3 targetMoveDir;
 
 
+    LevelSessionService levelSession;
+
     [Inject]
-    void Constuct(PlayerController playerController)
+    void Constuct(PlayerController playerController, LevelSessionService lvlSession)
     {
         targetToFollow = playerController;
+        levelSession = lvlSession;
     }
 
     void Start()
@@ -45,6 +49,7 @@ public class CameraMover : MonoBehaviour
     void Update()
     {
         CheckPlayerState();
+        FindClosestEnemy();
     }
 
     private void LateUpdate()
@@ -97,6 +102,8 @@ public class CameraMover : MonoBehaviour
             targetPos += followOffset;
             transform.position = Vector3.Lerp(transform.position, targetPos, Time.deltaTime * followSpeed);
             targetPrevPos = targetToFollow.transform.position;
+
+            Debug.DrawLine(transform.position, targetPos, Color.red, 0.1f);
         }
 
         transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(targetToFollow.transform.forward + followRotationOffset, Vector3.up), Time.deltaTime * 5);
@@ -104,10 +111,60 @@ public class CameraMover : MonoBehaviour
 
     void StandNearTarget()
     {
-        Vector3 targetPos = targetToFollow.transform.position - targetMoveDir * standDistToTarget;
-        targetPos += standOffset;
-        transform.position = Vector3.Lerp(transform.position, targetPos, Time.deltaTime * followSpeed);
+       
 
-        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(targetToFollow.transform.forward + standRotationOffset, Vector3.up), Time.deltaTime * 5);
+        if(closestEnemy != null)
+        {
+            Vector3 targetPos = closestEnemy.transform.position - targetToFollow.transform.position;
+            Vector3 dir = closestEnemy.transform.position - targetToFollow.transform.position;
+
+           
+
+            Debug.DrawRay(targetToFollow.transform.position, dir, Color.green);
+            Debug.DrawRay(targetToFollow.transform.position, -dir.normalized, Color.black);
+            Vector3 relativePos = targetToFollow.transform.position + (-dir.normalized) * standDistToTarget;
+            Debug.DrawLine(targetToFollow.transform.position, relativePos, Color.red, 0.1f);
+
+            //targetPos += standOffset;
+            transform.position = Vector3.Lerp(transform.position, relativePos + standOffset, Time.deltaTime * followSpeed);
+            //transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(closestEnemy.transform.position - targetToFollow.transform.position, Vector3.up), Time.deltaTime * standRotateSpeed);
+            targetToFollow.transform.rotation = Quaternion.Slerp(targetToFollow.transform.rotation, Quaternion.LookRotation(targetPos, Vector3.up), Time.deltaTime * standRotateSpeed);
+        }
+        else
+        {
+            Vector3 targetPos = targetToFollow.transform.position - targetMoveDir * standDistToTarget;
+            targetPos += standOffset;
+            transform.position = Vector3.Lerp(transform.position, targetPos, Time.deltaTime * followSpeed);
+           
+        }
+        
+        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(targetToFollow.transform.forward + standRotationOffset, Vector3.up), Time.deltaTime * standRotateSpeed);
+        
+       
+    }
+
+    public GameObject closestEnemy;
+    public float closestDist;
+
+    void FindClosestEnemy()
+    {
+        if (levelSession == null)
+        {
+            Debug.LogError("Level Session for Camera is NULL", this);
+            return;
+        }
+
+        closestEnemy = null;
+
+        foreach (var enemy in levelSession.currentActionPoint.actionPointEnemies)
+        {
+            if (enemy == null) continue;
+            float dist = (enemy.transform.position - targetToFollow.transform.position).sqrMagnitude;
+            if(closestEnemy == null || dist < closestDist)
+            {
+                closestDist = dist;
+                closestEnemy = enemy.gameObject;
+            }
+        }
     }
 }

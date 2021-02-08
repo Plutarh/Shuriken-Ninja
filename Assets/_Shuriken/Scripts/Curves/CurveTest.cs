@@ -46,7 +46,9 @@ public class CurveTest : MonoBehaviour
 
     private void OnDrawGizmos()
     {
+#if UNITY_EDITOR
         Handles.DrawBezier(startPoint.position, endPoint.position, startPointAnchor.position, endPointAnchor.position, Color.red, null, 2);
+#endif
     }
 }
 

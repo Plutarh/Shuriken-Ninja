@@ -2424,6 +2424,8 @@ MonoBehaviour:
   followSpeed: 2
   rotateSpeed: 2
   cameraState: 1
+  closestEnemy: {fileID: 0}
+  closestDist: 0
 --- !u!4 &1017036896 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 429170, guid: c14fb016084df564595efe3fe51fd084,
@@ -5819,7 +5821,7 @@ PrefabInstance:
     - target: {fileID: 7123869138054152345, guid: 4e8b20a36becb0949bbb6049cb390f67,
         type: 3}
       propertyPath: enemiesCount
-      value: 1
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7123869138054152346, guid: 4e8b20a36becb0949bbb6049cb390f67,
         type: 3}
