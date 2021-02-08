@@ -15,10 +15,13 @@ public class LevelSessionService : MonoBehaviour
     public ActionPoint currentActionPoint;
     public int curActionPointIndex;
 
+    public float delayToStartNextPoint;
+
     [Inject]
     void Constuct(PlayerController playerC)
     {
         player = playerC;
+        player.SetLevelSessionService(this);
     }
 
     private void OnValidate()
@@ -39,11 +42,19 @@ public class LevelSessionService : MonoBehaviour
 
     void Start()
     {
-        SetPlayerMovePoint();
+        SetPlayerNextMovePoint();
     }
 
-    private void SetPlayerMovePoint()
+    private void SetPlayerNextMovePoint()
     {
+        StartCoroutine(IESetPlayerNextMovePoint());
+    }
+
+    IEnumerator IESetPlayerNextMovePoint()
+    {
+        float delay = delayToStartNextPoint;
+        if (curActionPointIndex == 0) delay = 0;
+        yield return new WaitForSecondsRealtime(delay);
         currentActionPoint.ChangeState(ActionPoint.EActionPointState.Action);
         player.MoveToPoint(currentActionPoint.playerActionPosition);
     }
@@ -67,6 +78,6 @@ public class LevelSessionService : MonoBehaviour
     {
         curActionPointIndex++;
         SetCurrentActionPoint();
-        SetPlayerMovePoint();
+        SetPlayerNextMovePoint();
     }
 }

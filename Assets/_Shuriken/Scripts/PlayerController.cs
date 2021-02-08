@@ -17,6 +17,10 @@ public class PlayerController : Pawn
     public Transform runPoint;
 
     public EPlayerState playerState;
+
+    public AIEnemy closestEnemy;
+    public float closestDist;
+
     public enum EPlayerState
     {
         MoveToPoint,
@@ -24,11 +28,17 @@ public class PlayerController : Pawn
     }
 
     IInputService _inputService;
+    LevelSessionService levelSession;
     [Inject]
     void Construct(IInputService inputService)
     {
         _inputService = inputService;
         _inputService.OnColliderClick += GetThrowDirection;
+    }
+
+    public void SetLevelSessionService(LevelSessionService instance)
+    {
+        levelSession = instance;
     }
 
     private void OnValidate()
@@ -51,28 +61,34 @@ public class PlayerController : Pawn
     void Update()
     {
         StateMachine();
+        CheckDistanceToCurrentRunPoint();
 
-
-        if (Vector3.Distance(transform.position,runPoint.position) < 0.2f)
-        {
-            
-            ChangeState(EPlayerState.Stand);
-        }
     }
 
     private void FixedUpdate()
     {
         
     }
+
+    void CheckDistanceToCurrentRunPoint()
+    {
+        if (runPoint == null) return;
+        if (Vector3.Distance(transform.position, runPoint.position) < 0.2f)
+        {
+            ChangeState(EPlayerState.Stand);
+        }
+    }
  
     void StateMachine()
     {
+        // Every frame call
         switch (playerState)
         {
             case EPlayerState.MoveToPoint:
                 break;
             case EPlayerState.Stand:
-                animator.SetBool("Run", false);
+             
+                FindClosestEnemy();
                 break;
         }
     }
@@ -81,6 +97,16 @@ public class PlayerController : Pawn
     {
         if (playerState == newState) return;
         playerState = newState;
+
+        // Single call
+        switch (playerState)
+        {
+            case EPlayerState.MoveToPoint:
+                break;
+            case EPlayerState.Stand:
+                animator.SetBool("Run", false);
+                break;
+        }
     }
 
     public void MoveToPoint(Transform point)
@@ -115,6 +141,8 @@ public class PlayerController : Pawn
 
     void GetThrowDirection(Vector3 point,GameObject go)
     {
+        if (playerState != EPlayerState.Stand) return;
+
         throwDir = point;
 
         relPoint = transform.InverseTransformPoint(point);
@@ -177,6 +205,31 @@ public class PlayerController : Pawn
         if(shuriken != null)
             shuriken.SetTargetPosition(throwDir);
     }
+
+  
+
+    void FindClosestEnemy()
+    {
+        if (levelSession == null)
+        {
+            Debug.LogError("Level Session for Player is NULL", this);
+            return;
+        }
+
+        closestEnemy = null;
+
+        foreach (var enemy in levelSession.currentActionPoint.actionPointEnemies)
+        {
+            if (enemy == null) continue;
+            float dist = (enemy.transform.position - transform.position).sqrMagnitude;
+            if (closestEnemy == null || dist < closestDist)
+            {
+                closestDist = dist;
+                closestEnemy = enemy;
+            }
+        }
+    }
+
 
     private void OnDestroy()
     {

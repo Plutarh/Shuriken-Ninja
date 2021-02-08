@@ -13,9 +13,10 @@ public class LocationInstaller : MonoInstaller
     public LevelSessionService levelSession;
     public override void InstallBindings()
     {
+        BindLevelSessionService();
         BindPlayer();
         BindEnemyFactory();
-        BindLevelSessionService();
+        
     }
 
     private void BindPlayer()
@@ -26,7 +27,8 @@ public class LocationInstaller : MonoInstaller
         Container
             .Bind<PlayerController>()
             .FromInstance(playerController)
-            .AsSingle();
+            .AsSingle()
+            .NonLazy();
 
         playerInstance = playerController;
     }
@@ -36,9 +38,8 @@ public class LocationInstaller : MonoInstaller
         Container
             .Bind<IEnemyFactory>()
             .To<EnemyFactory>()
-            .AsSingle();
-
-        
+            .AsSingle()
+            .NonLazy();
     }
 
     private void BindLevelSessionService()

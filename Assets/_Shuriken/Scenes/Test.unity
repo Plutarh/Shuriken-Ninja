@@ -1261,7 +1261,7 @@ MonoBehaviour:
   playerActionPosition: {fileID: 1592030690}
   pointState: 0
   actionPointEnemies: []
-  enemiesCount: 1
+  enemiesCount: 3
 --- !u!4 &534198035
 Transform:
   m_ObjectHideFlags: 0
@@ -2204,7 +2204,7 @@ MonoBehaviour:
   playerActionPosition: {fileID: 1042617584}
   pointState: 0
   actionPointEnemies: []
-  enemiesCount: 1
+  enemiesCount: 2
 --- !u!4 &855596224
 Transform:
   m_ObjectHideFlags: 0
@@ -2422,10 +2422,9 @@ MonoBehaviour:
   followDistToTarget: 4
   standDistToTarget: 2
   followSpeed: 2
-  rotateSpeed: 2
+  followRotateSpeed: 2
+  standRotateSpeed: 4
   cameraState: 1
-  closestEnemy: {fileID: 0}
-  closestDist: 0
 --- !u!4 &1017036896 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 429170, guid: c14fb016084df564595efe3fe51fd084,
@@ -5450,6 +5449,7 @@ MonoBehaviour:
   actionPoints: []
   currentActionPoint: {fileID: 0}
   curActionPointIndex: 0
+  delayToStartNextPoint: 0.5
 --- !u!1001 &2080449920
 PrefabInstance:
   m_ObjectHideFlags: 0

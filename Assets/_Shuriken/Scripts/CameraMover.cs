@@ -49,7 +49,6 @@ public class CameraMover : MonoBehaviour
     void Update()
     {
         CheckPlayerState();
-        FindClosestEnemy();
     }
 
     private void LateUpdate()
@@ -87,8 +86,6 @@ public class CameraMover : MonoBehaviour
                 StandNearTarget();
                 break;
         }
-
-        
     }
 
    
@@ -100,71 +97,57 @@ public class CameraMover : MonoBehaviour
             targetMoveDir.Normalize();
             Vector3 targetPos = targetToFollow.transform.position - targetMoveDir * followDistToTarget;
             targetPos += followOffset;
-            transform.position = Vector3.Lerp(transform.position, targetPos, Time.deltaTime * followSpeed);
-            targetPrevPos = targetToFollow.transform.position;
 
+            transform.position = Vector3.Lerp(transform.position
+                ,targetPos
+                ,Time.deltaTime * followSpeed);
+
+            targetPrevPos = targetToFollow.transform.position;
             Debug.DrawLine(transform.position, targetPos, Color.red, 0.1f);
         }
 
-        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(targetToFollow.transform.forward + followRotationOffset, Vector3.up), Time.deltaTime * 5);
+        transform.rotation = Quaternion.Slerp(transform.rotation
+            ,Quaternion.LookRotation(targetToFollow.transform.forward + followRotationOffset, Vector3.up)
+            ,Time.deltaTime * 5);
     }
 
     void StandNearTarget()
     {
        
 
-        if(closestEnemy != null)
+        if(targetToFollow.closestEnemy != null)
         {
-            Vector3 targetPos = closestEnemy.transform.position - targetToFollow.transform.position;
-            Vector3 dir = closestEnemy.transform.position - targetToFollow.transform.position;
+            Vector3 targetPos = targetToFollow.closestEnemy.transform.position - targetToFollow.transform.position;
+            Vector3 dir = targetToFollow.closestEnemy.transform.position - targetToFollow.transform.position;
+            Vector3 relativePos = targetToFollow.transform.position + (-dir.normalized) * standDistToTarget;
 
-           
 
             Debug.DrawRay(targetToFollow.transform.position, dir, Color.green);
             Debug.DrawRay(targetToFollow.transform.position, -dir.normalized, Color.black);
-            Vector3 relativePos = targetToFollow.transform.position + (-dir.normalized) * standDistToTarget;
             Debug.DrawLine(targetToFollow.transform.position, relativePos, Color.red, 0.1f);
 
-            //targetPos += standOffset;
-            transform.position = Vector3.Lerp(transform.position, relativePos + standOffset, Time.deltaTime * followSpeed);
-            //transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(closestEnemy.transform.position - targetToFollow.transform.position, Vector3.up), Time.deltaTime * standRotateSpeed);
-            targetToFollow.transform.rotation = Quaternion.Slerp(targetToFollow.transform.rotation, Quaternion.LookRotation(targetPos, Vector3.up), Time.deltaTime * standRotateSpeed);
+            transform.position = Vector3.Lerp(transform.position
+                ,relativePos + standOffset
+                ,Time.deltaTime * followSpeed);
+
+            targetToFollow.transform.rotation = Quaternion.Slerp(targetToFollow.transform.rotation
+                ,Quaternion.LookRotation(targetPos, Vector3.up)
+                ,Time.deltaTime * standRotateSpeed);
         }
         else
         {
             Vector3 targetPos = targetToFollow.transform.position - targetMoveDir * standDistToTarget;
             targetPos += standOffset;
-            transform.position = Vector3.Lerp(transform.position, targetPos, Time.deltaTime * followSpeed);
+            transform.position = Vector3.Lerp(transform.position
+                ,targetPos
+                ,Time.deltaTime * followSpeed);
            
         }
         
-        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(targetToFollow.transform.forward + standRotationOffset, Vector3.up), Time.deltaTime * standRotateSpeed);
-        
-       
+        transform.rotation = Quaternion.Slerp(transform.rotation
+            ,Quaternion.LookRotation(targetToFollow.transform.forward + standRotationOffset, Vector3.up)
+            ,Time.deltaTime * standRotateSpeed);
     }
 
-    public GameObject closestEnemy;
-    public float closestDist;
-
-    void FindClosestEnemy()
-    {
-        if (levelSession == null)
-        {
-            Debug.LogError("Level Session for Camera is NULL", this);
-            return;
-        }
-
-        closestEnemy = null;
-
-        foreach (var enemy in levelSession.currentActionPoint.actionPointEnemies)
-        {
-            if (enemy == null) continue;
-            float dist = (enemy.transform.position - targetToFollow.transform.position).sqrMagnitude;
-            if(closestEnemy == null || dist < closestDist)
-            {
-                closestDist = dist;
-                closestEnemy = enemy.gameObject;
-            }
-        }
-    }
+   
 }
