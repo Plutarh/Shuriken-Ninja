@@ -32,9 +32,13 @@ public class ActionPoint : MonoBehaviour
 
     private void Awake()
     {
-        pawnSpawner.OnPawnSpawn += AddEnemy;
+        if(pawnSpawner != null)
+        {
+            pawnSpawner.OnPawnSpawn += AddEnemy;
 
-        pawnSpawner.spawnCount = enemiesCount;
+            pawnSpawner.spawnCount = enemiesCount;
+        }
+      
     }
 
     void Start()
@@ -54,7 +58,8 @@ public class ActionPoint : MonoBehaviour
             case EActionPointState.Wait:
                 break;
             case EActionPointState.Action:
-                pawnSpawner.SpawnPawn();
+                if(pawnSpawner != null)
+                    pawnSpawner.SpawnPawn();
                 
                 break;
             case EActionPointState.Done:
@@ -96,6 +101,7 @@ public class ActionPoint : MonoBehaviour
 
     private void OnDestroy()
     {
-        pawnSpawner.OnPawnSpawn -= AddEnemy;
+        if(pawnSpawner != null)
+            pawnSpawner.OnPawnSpawn -= AddEnemy;
     }
 }
