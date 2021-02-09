@@ -18,7 +18,8 @@ namespace BzKovSoft.ObjectSlicerSamples
 
 		[SerializeField]
 		private Vector3 _direction = Vector3.up;
-		
+
+		public Action OnSliceBegin;
 
 		private void Update()
 		{
@@ -41,6 +42,7 @@ namespace BzKovSoft.ObjectSlicerSamples
 		public void BeginNewSlice()
 		{
 			SliceID = UnityEngine.Random.Range(int.MinValue, int.MaxValue);
+			OnSliceBegin?.Invoke();
 		}
 	}
 }

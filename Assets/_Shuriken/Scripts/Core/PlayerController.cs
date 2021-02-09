@@ -6,7 +6,7 @@ using Zenject;
 public class PlayerController : Pawn
 {
     public Vector3 shurikenOffset;
-    public SimpleMover shurikenPrefab;
+    //public SimpleMover shurikenPrefab;
 
     public Transform R_shurikenSpawnPos;
     public Transform L_shurikenSpawnPos;
@@ -20,6 +20,10 @@ public class PlayerController : Pawn
 
     public AIEnemy closestEnemy;
     public float closestDist;
+
+
+    public Shuriken shurikenPrefab;
+    IThrowable throwableObject;
 
     public enum EPlayerState
     {
@@ -113,7 +117,7 @@ public class PlayerController : Pawn
 
     public void MoveToPoint(Transform point)
     {
-       
+        return;
         runPoint = point;
         navMeshAgent.SetDestination(runPoint.position);
         animator.SetBool("Run", true);
@@ -124,7 +128,7 @@ public class PlayerController : Pawn
     
     void GetThrowDirection(Vector3 point)
     {
-
+        throwTarget = null;
         throwDir = transform.position + (point * 10) + (Vector3.up * 2);
 
         Debug.DrawLine(R_shurikenSpawnPos.position, R_shurikenSpawnPos.position + (point * 10) + Vector3.up, Color.white, 3f);
@@ -132,26 +136,19 @@ public class PlayerController : Pawn
         animator.SetTrigger("ThrowR");
     }
 
+    GameObject throwTarget;
+
     void GetThrowDirection(Vector3 point,GameObject go)
     {
-        if (playerState != EPlayerState.Stand) return;
+        //if (playerState != EPlayerState.Stand) return;
 
         throwDir = point;
 
         relPoint = transform.InverseTransformPoint(point);
         animator.SetTrigger("ThrowR");
 
-        return;
-        if (relPoint.x > 1)
-            animator.SetTrigger("ThrowL");
-      
-           
-        else
-            animator.SetTrigger("ThrowM");
-
+        throwTarget = go;
     }
-
-   
 
     public void ThrowShurikenByAnimator()
     {
@@ -160,14 +157,13 @@ public class PlayerController : Pawn
 
     void ThrowShuriken(Vector3 relPoint)
     {
-        SimpleMover shuriken;
-        shuriken = Instantiate(shurikenPrefab, R_shurikenSpawnPos.position, Quaternion.identity);
-        shuriken.flySide = SimpleMover.EFlySide.Right;
+       
+        throwableObject = Instantiate(shurikenPrefab, R_shurikenSpawnPos.position, new Quaternion(0, 0, transform.rotation.z, 0));
+        if (throwTarget != null) throwableObject.SetMoveType(Shuriken.EMoveType.Target);
+        else throwableObject.SetMoveType(Shuriken.EMoveType.Free);
 
-
-
-        if(shuriken != null)
-            shuriken.SetTargetPosition(throwDir);
+        throwableObject.SetEndPosition(throwDir);
+        throwableObject.SetMoveDirection(relPoint);
     }
 
   

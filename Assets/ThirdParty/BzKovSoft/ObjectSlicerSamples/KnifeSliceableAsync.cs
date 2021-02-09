@@ -36,13 +36,18 @@ namespace BzKovSoft.ObjectSlicerSamples
 			// We have to wait for next frame to work with correct values
 			yield return null;
 
+			
+
 			Vector3 point = GetCollisionPoint(knife);
 			Vector3 normal = Vector3.Cross(knife.MoveDirection, knife.BladeDirection);
 			Plane plane = new Plane(normal, point);
 
 			if (_sliceableAsync != null)
 			{
+				
 				_sliceableAsync.Slice(plane, knife.SliceID, null);
+				//knife.BeginNewSlice();
+
 			}
 		}
 

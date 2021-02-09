@@ -747,8 +747,8 @@ GameObject:
   - component: {fileID: 8811075188374177638}
   - component: {fileID: 9084128991959987859}
   - component: {fileID: 1147098821234217864}
-  - component: {fileID: 6685021606971771319}
   - component: {fileID: 2312790490738129207}
+  - component: {fileID: 6685021606971771319}
   m_Layer: 9
   m_Name: Player
   m_TagString: Untagged
@@ -824,8 +824,6 @@ MonoBehaviour:
   characterSlicer: {fileID: 0}
   adderSliceable: {fileID: 0}
   shurikenOffset: {x: 0, y: 1, z: 0}
-  shurikenPrefab: {fileID: 8384404545662291182, guid: 689bf4832e7a04f41a356e7230a3dbaa,
-    type: 3}
   R_shurikenSpawnPos: {fileID: 1793454430395363940}
   L_shurikenSpawnPos: {fileID: 3769405718454553801}
   throwDirection: {x: 0, y: 0, z: 0}
@@ -835,6 +833,21 @@ MonoBehaviour:
   playerState: 0
   closestEnemy: {fileID: 0}
   closestDist: 0
+  shurikenPrefab: {fileID: 8174397805783031817, guid: a44c03c74227ff64ca8880526e89792e,
+    type: 3}
+--- !u!114 &2312790490738129207
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2492285177935386639}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae31eeba109408147bf2ae4089b36962, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 0
 --- !u!195 &6685021606971771319
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -857,19 +870,6 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &2312790490738129207
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2492285177935386639}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ae31eeba109408147bf2ae4089b36962, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  health: 0
 --- !u!1 &3366307688531798547
 GameObject:
   m_ObjectHideFlags: 0
