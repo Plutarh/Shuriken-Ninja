@@ -804,7 +804,7 @@ CapsuleCollider:
   m_Radius: 0.14
   m_Height: 1.6
   m_Direction: 1
-  m_Center: {x: 0, y: 0.77, z: 0}
+  m_Center: {x: 0, y: 0.8, z: 0}
 --- !u!114 &1147098821234217864
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -828,10 +828,13 @@ MonoBehaviour:
     type: 3}
   R_shurikenSpawnPos: {fileID: 1793454430395363940}
   L_shurikenSpawnPos: {fileID: 3769405718454553801}
-  runPoint: {fileID: 0}
   throwDirection: {x: 0, y: 0, z: 0}
-  relPoint: {x: 0, y: 0, z: 0}
   throwDir: {x: 0, y: 0, z: 0}
+  relPoint: {x: 0, y: 0, z: 0}
+  runPoint: {fileID: 0}
+  playerState: 0
+  closestEnemy: {fileID: 0}
+  closestDist: 0
 --- !u!195 &6685021606971771319
 NavMeshAgent:
   m_ObjectHideFlags: 0

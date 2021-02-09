@@ -41,23 +41,11 @@ public class SimpleMover : MonoBehaviour
 
         if (vectorLength > 8)
         {
-            moveSpeed = moveSpeed / 2;
+           // moveSpeed = moveSpeed / 2;
         }
         if(vectorLength > 6)
         {
-            switch (flySide)
-            {
-                case EFlySide.Right:
-                    //startAnchor = startPos + new Vector3(3, 0, vectorLength / 3);
-                    startAnchor = startPos;
-                    break;
-                case EFlySide.Left:
-                    //startAnchor = startPos + new Vector3(-3, 0, vectorLength / 3);
-                    break;
-                case EFlySide.Middle:
-                     //startAnchor = startPos + new Vector3(0, vectorLength / 8,0);
-                    break;
-            }
+           
             startAnchor = startPos;
             endAnchor = endPos;
         }
@@ -65,9 +53,9 @@ public class SimpleMover : MonoBehaviour
         {
             //bezieMove = false;
             moveSpeed = 5;
-            moveDir = (endPos - startPos).normalized;
+           // moveDir = (endPos - startPos).normalized;
         }
-
+        moveSpeed = 2f;
         startAnchor = startPos;
         endAnchor = endPos;
         //Destroy(gameObject,5f);

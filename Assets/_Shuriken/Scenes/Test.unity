@@ -620,6 +620,75 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fa137f7d0860a204a9ee3970de8ac823, type: 3}
+--- !u!1001 &364459936
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 8384404545662291181, guid: 689bf4832e7a04f41a356e7230a3dbaa,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -29.070587
+      objectReference: {fileID: 0}
+    - target: {fileID: 8384404545662291181, guid: 689bf4832e7a04f41a356e7230a3dbaa,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 6.443288
+      objectReference: {fileID: 0}
+    - target: {fileID: 8384404545662291181, guid: 689bf4832e7a04f41a356e7230a3dbaa,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.5042634
+      objectReference: {fileID: 0}
+    - target: {fileID: 8384404545662291181, guid: 689bf4832e7a04f41a356e7230a3dbaa,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8384404545662291181, guid: 689bf4832e7a04f41a356e7230a3dbaa,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8384404545662291181, guid: 689bf4832e7a04f41a356e7230a3dbaa,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8384404545662291181, guid: 689bf4832e7a04f41a356e7230a3dbaa,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8384404545662291181, guid: 689bf4832e7a04f41a356e7230a3dbaa,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 8384404545662291181, guid: 689bf4832e7a04f41a356e7230a3dbaa,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8384404545662291181, guid: 689bf4832e7a04f41a356e7230a3dbaa,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8384404545662291181, guid: 689bf4832e7a04f41a356e7230a3dbaa,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8384404545662291183, guid: 689bf4832e7a04f41a356e7230a3dbaa,
+        type: 3}
+      propertyPath: m_Name
+      value: Shuriken (1) 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 689bf4832e7a04f41a356e7230a3dbaa, type: 3}
 --- !u!1001 &380753311
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2423,7 +2492,7 @@ MonoBehaviour:
   standDistToTarget: 2
   followSpeed: 2
   followRotateSpeed: 2
-  standRotateSpeed: 4
+  standRotateSpeed: 2
   cameraState: 1
 --- !u!4 &1017036896 stripped
 Transform:
