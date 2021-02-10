@@ -11,7 +11,7 @@ public class PlayerController : Pawn
     public Transform R_shurikenSpawnPos;
     public Transform L_shurikenSpawnPos;
     public Vector3 throwDirection;
-    public Vector3 throwDir;
+    public Vector3 throwPoint;
     public Vector3 relPoint;
 
     public Transform runPoint;
@@ -24,6 +24,8 @@ public class PlayerController : Pawn
 
     public Shuriken shurikenPrefab;
     IThrowable throwableObject;
+
+    public float heightMultiply;
 
     public enum EPlayerState
     {
@@ -117,7 +119,7 @@ public class PlayerController : Pawn
 
     public void MoveToPoint(Transform point)
     {
-        return;
+        //return;
         runPoint = point;
         navMeshAgent.SetDestination(runPoint.position);
         animator.SetBool("Run", true);
@@ -129,9 +131,12 @@ public class PlayerController : Pawn
     void GetThrowDirection(Vector3 point)
     {
         throwTarget = null;
-        throwDir = transform.position + (point * 10) + (Vector3.up * 2);
+        throwPoint = transform.position + (point * 10) + (Vector3.up * heightMultiply);
 
-        Debug.DrawLine(R_shurikenSpawnPos.position, R_shurikenSpawnPos.position + (point * 10) + Vector3.up, Color.white, 3f);
+        Debug.DrawLine(R_shurikenSpawnPos.position, throwPoint, Color.white, 3f);
+        Debug.Log("throwPoint white - " + throwPoint);
+
+        //ThrowShuriken(relPoint);
 
         animator.SetTrigger("ThrowR");
     }
@@ -141,29 +146,40 @@ public class PlayerController : Pawn
     void GetThrowDirection(Vector3 point,GameObject go)
     {
         //if (playerState != EPlayerState.Stand) return;
+        throwTarget = go;
+        throwPoint = point;
 
-        throwDir = point;
+        //relPoint = R_shurikenSpawnPos.InverseTransformPoint(point);
 
-        relPoint = transform.InverseTransformPoint(point);
+        Debug.DrawLine(R_shurikenSpawnPos.position, point, Color.blue, 3f);
         animator.SetTrigger("ThrowR");
 
-        throwTarget = go;
+        
     }
 
     public void ThrowShurikenByAnimator()
     {
         ThrowShuriken(relPoint);
+        //Debug.DrawLine(R_shurikenSpawnPos.transform.position, relPoint, Color.cyan, 2);
     }
 
     void ThrowShuriken(Vector3 relPoint)
     {
        
-        throwableObject = Instantiate(shurikenPrefab, R_shurikenSpawnPos.position, new Quaternion(0, 0, transform.rotation.z, 0));
-        if (throwTarget != null) throwableObject.SetMoveType(Shuriken.EMoveType.Target);
-        else throwableObject.SetMoveType(Shuriken.EMoveType.Free);
+        throwableObject = Instantiate(shurikenPrefab, R_shurikenSpawnPos.position, Quaternion.identity);
+        if (throwTarget != null)
+        {
+            throwableObject.SetMoveType(Shuriken.EMoveType.Target);
+        }
+        else
+        {
+            throwableObject.SetMoveType(Shuriken.EMoveType.Free);
+        }
+        throwableObject.SetTargetPosition(throwPoint);
 
-        throwableObject.SetEndPosition(throwDir);
-        throwableObject.SetMoveDirection(relPoint);
+        
+        //throwableObject.SetMoveDirection(throwPoint);
+
     }
 
   

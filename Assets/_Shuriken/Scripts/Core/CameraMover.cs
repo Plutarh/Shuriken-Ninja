@@ -40,6 +40,10 @@ public class CameraMover : MonoBehaviour
         levelSession = lvlSession;
     }
 
+    private void Awake()
+    {
+        InitCamera();
+    }
     void Start()
     {
         
@@ -88,6 +92,14 @@ public class CameraMover : MonoBehaviour
         }
     }
 
+    void InitCamera()
+    {
+        transform.rotation = Quaternion.LookRotation(targetToFollow.transform.forward + followRotationOffset, Vector3.up);
+        Vector3 targetPos = targetToFollow.transform.position - targetMoveDir;
+        transform.position = transform.position + targetPos;
+                
+    }
+
    
     void FollowTarget()
     {
@@ -103,7 +115,7 @@ public class CameraMover : MonoBehaviour
                 ,Time.deltaTime * followSpeed);
 
             targetPrevPos = targetToFollow.transform.position;
-            Debug.DrawLine(transform.position, targetPos, Color.red, 0.1f);
+            //Debug.DrawLine(transform.position, targetPos, Color.red, 0.1f);
         }
 
         transform.rotation = Quaternion.Slerp(transform.rotation
@@ -122,9 +134,9 @@ public class CameraMover : MonoBehaviour
             Vector3 relativePos = targetToFollow.transform.position + (-dir.normalized) * standDistToTarget;
 
 
-            Debug.DrawRay(targetToFollow.transform.position, dir, Color.green);
-            Debug.DrawRay(targetToFollow.transform.position, -dir.normalized, Color.black);
-            Debug.DrawLine(targetToFollow.transform.position, relativePos, Color.red, 0.1f);
+            //Debug.DrawRay(targetToFollow.transform.position, dir, Color.green);
+            //Debug.DrawRay(targetToFollow.transform.position, -dir.normalized, Color.black);
+           // Debug.DrawLine(targetToFollow.transform.position, relativePos, Color.red, 0.1f);
 
             transform.position = Vector3.Lerp(transform.position
                 ,relativePos + standOffset

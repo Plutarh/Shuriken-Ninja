@@ -40,8 +40,8 @@ public class InputService : MonoBehaviour, IInputService
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out raycastHit, raycastLenght, layerMask))
             {
-                Debug.Log($"<color=green> {raycastHit.transform.name} raycast </color>");
-                Debug.DrawLine(Camera.main.transform.position, raycastHit.point, Color.cyan, 10f);
+                Debug.Log($"<color=green> {raycastHit.transform.root.name}- { raycastHit.point} raycast </color>");
+                //Debug.DrawLine(Camera.main.transform.position, raycastHit.point, Color.cyan, 10f);
                 OnColliderClick?.Invoke(raycastHit.point,raycastHit.collider.gameObject);
 
             }
@@ -49,9 +49,9 @@ public class InputService : MonoBehaviour, IInputService
             {
                 Vector3 direction = ray.origin + ray.direction;
                 OnNonColliderClick?.Invoke(ray.direction.normalized);
-                Debug.Log($"<color=red>{ray.direction} dir / origin {ray.origin} </color>");
+                Debug.Log($"<color=red>{ray.direction.normalized * 10} dir </color>");
                 
-                Debug.DrawLine(Camera.main.transform.position, (ray.direction.normalized * 10) + ray.origin, Color.magenta, 10f);
+                //Debug.DrawLine(Camera.main.transform.position, (ray.direction.normalized * 10) + ray.origin, Color.magenta, 10f);
 
                
             }

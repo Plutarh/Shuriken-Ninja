@@ -6,7 +6,7 @@ public interface IThrowable
 {
     void SetMoveDirection(Vector3 dir);
     void SetStartPosition(Vector3 startPos);
-    void SetEndPosition(Vector3 endPos);
+    void SetTargetPosition(Vector3 tPos);
 
     void SetMoveType(Shuriken.EMoveType mType);
 }

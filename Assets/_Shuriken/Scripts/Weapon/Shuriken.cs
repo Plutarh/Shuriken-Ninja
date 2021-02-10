@@ -45,7 +45,7 @@ public partial class Shuriken : MonoBehaviour , IThrowable
     void Start()
     {
         bezieMove = true;
-        
+        SetRandomYaw();
     }
 
     
@@ -57,7 +57,12 @@ public partial class Shuriken : MonoBehaviour , IThrowable
 
     void BeginSlice()
     {
+       
+    }
 
+    void SetRandomYaw()
+    {
+        mainRotateDir.z = Random.Range(-1.9f, 2);
     }
 
     public void SetMoveType(EMoveType type)
@@ -65,20 +70,25 @@ public partial class Shuriken : MonoBehaviour , IThrowable
         moveType = type;
     }
 
-    public void SetEndPosition(Vector3 _endPos)
+    public void SetTargetPosition(Vector3 tPos)
     {
-        endPos = _endPos;
+        endPos = tPos;
 
         startPos = transform.position;
         vectorLength = (endPos - startPos).magnitude;
 
         startAnchor = startPos;
         endAnchor = endPos;
+
+        moveDir = tPos - transform.position;
+        moveDir.Normalize();
+        secondaryRotateObject.transform.rotation = Quaternion.LookRotation(moveDir);
     }
 
     public void SetMoveDirection(Vector3 _dir)
     {
-        moveDir = _dir;
+
+      
     }
 
     public void SetStartPosition(Vector3 _startPos)
@@ -91,10 +101,12 @@ public partial class Shuriken : MonoBehaviour , IThrowable
         switch (moveType)
         {
             case EMoveType.Free:
-                MoveByBezieCurve();
+               
+                MoveToDirection();
                 break;
             case EMoveType.Target:
                 MoveToDirection();
+                //MoveByBezieCurve();
                 break;
         }
     }
@@ -111,6 +123,7 @@ public partial class Shuriken : MonoBehaviour , IThrowable
              , endPos
              , tParam);
         }
+        else gameObject.SetActive(false);
     }
 
     void MoveToDirection()
@@ -120,11 +133,20 @@ public partial class Shuriken : MonoBehaviour , IThrowable
 
     void Rotation()
     {
+        //return;
+        /*
         Quaternion yaw = Quaternion.Euler(mainRotateDir * Time.deltaTime * mainRotateSpeed);
-        mainRotateObject.transform.rotation = yaw * mainRotateObject.transform.rotation; 
+        mainRotateObject.transform.localRotation = yaw * mainRotateObject.transform.localRotation;
+        */
 
+        //Quaternion pitch = Quaternion.Euler(secondaryRotateDir * Time.deltaTime * secondRotateSpeed);
+        //mainRotateObject.transform.rotation = mainRotateObject.transform.rotation * pitch;
+
+        
         Quaternion pitch = Quaternion.Euler(secondaryRotateDir * Time.deltaTime * secondRotateSpeed);
         secondaryRotateObject.transform.rotation = secondaryRotateObject.transform.rotation * pitch;
+        
+        
     }
 
     void OnDestroy()

@@ -827,7 +827,7 @@ MonoBehaviour:
   R_shurikenSpawnPos: {fileID: 1793454430395363940}
   L_shurikenSpawnPos: {fileID: 3769405718454553801}
   throwDirection: {x: 0, y: 0, z: 0}
-  throwDir: {x: 0, y: 0, z: 0}
+  throwPoint: {x: 0, y: 0, z: 0}
   relPoint: {x: 0, y: 0, z: 0}
   runPoint: {fileID: 0}
   playerState: 0
@@ -835,6 +835,7 @@ MonoBehaviour:
   closestDist: 0
   shurikenPrefab: {fileID: 8174397805783031817, guid: a44c03c74227ff64ca8880526e89792e,
     type: 3}
+  heightMultiply: 2
 --- !u!114 &2312790490738129207
 MonoBehaviour:
   m_ObjectHideFlags: 0
