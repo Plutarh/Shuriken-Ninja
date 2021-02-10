@@ -129,6 +129,7 @@ public class CameraMover : MonoBehaviour
 
         if(targetToFollow.closestEnemy != null)
         {
+          
             Vector3 targetPos = targetToFollow.closestEnemy.transform.position - targetToFollow.transform.position;
             Vector3 dir = targetToFollow.closestEnemy.transform.position - targetToFollow.transform.position;
             Vector3 relativePos = targetToFollow.transform.position + (-dir.normalized) * standDistToTarget;

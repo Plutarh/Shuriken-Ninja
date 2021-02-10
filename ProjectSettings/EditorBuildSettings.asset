@@ -14,4 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/_Shuriken/Scenes/Level_1.unity
     guid: b41bbc36bf4425441a327b7594a1d943
+  - enabled: 1
+    path: Assets/_Shuriken/Scenes/Level_2.unity
+    guid: 85fb8385a2b365a4bbd55ca6dcb90b85
   m_configObjects: {}
