@@ -40,12 +40,15 @@ public partial class Shuriken : MonoBehaviour , IThrowable
     void Awake()
     {
         slicer.OnSliceBegin += BeginSlice;
+        slicer.OnStopSlice += StopSlice;
     }
     
     void Start()
     {
         bezieMove = true;
         SetRandomYaw();
+
+        slicer.SliceID = Random.Range(-100, 100);
     }
 
     
@@ -58,6 +61,13 @@ public partial class Shuriken : MonoBehaviour , IThrowable
     void BeginSlice()
     {
        
+    }
+
+    void StopSlice()
+    {
+        moveSpeed = 0;
+        mainRotateSpeed = 0;
+        secondRotateSpeed = 0;
     }
 
     void SetRandomYaw()
@@ -152,5 +162,6 @@ public partial class Shuriken : MonoBehaviour , IThrowable
     void OnDestroy()
     {
         slicer.OnSliceBegin -= BeginSlice;
+        slicer.OnStopSlice -= StopSlice;
     }
 }

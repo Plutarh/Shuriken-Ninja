@@ -15,7 +15,9 @@ namespace BzKovSoft.ObjectSlicerSamples
 	public class KnifeSliceableAsync : MonoBehaviour
 	{
 		IBzSliceableAsync _sliceableAsync;
-		
+
+		Coroutine sliceCoro;
+
 		void Start()
 		{
 			_sliceableAsync = GetComponentInParent<IBzSliceableAsync>();
@@ -27,7 +29,23 @@ namespace BzKovSoft.ObjectSlicerSamples
 			if (knife == null)
 				return;
 
-			StartCoroutine(Slice(knife));
+			if(knife.sliceable)
+				sliceCoro = StartCoroutine(Slice(knife));
+            else
+            {
+				knife.StopSlice();
+				knife.transform.root.SetParent(this.transform);
+            }
+			/*
+			if (sliceCoro == null )
+            {
+				if(knife.durability > 0)
+				sliceCoro = StartCoroutine(Slice(knife));
+				else 
+					knife.StopSlice();
+			}*/
+				
+
 		}
 
 		private IEnumerator Slice(BzKnife knife)
@@ -44,11 +62,10 @@ namespace BzKovSoft.ObjectSlicerSamples
 
 			if (_sliceableAsync != null)
 			{
-				
+				knife.BeginNewSlice();
 				_sliceableAsync.Slice(plane, knife.SliceID, null);
-				//knife.BeginNewSlice();
-
 			}
+			sliceCoro = null;
 		}
 
 		private Vector3 GetCollisionPoint(BzKnife knife)

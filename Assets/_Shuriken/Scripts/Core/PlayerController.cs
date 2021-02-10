@@ -109,8 +109,11 @@ public class PlayerController : Pawn
         switch (playerState)
         {
             case EPlayerState.MoveToPoint:
+                navMeshAgent.speed = 4;
+              
                 break;
             case EPlayerState.Stand:
+                animator.ResetTrigger("ThrowR");
                 animator.SetBool("Run", false);
                 animator.CrossFade("Idle", 0.2f);
                 break;

@@ -2738,6 +2738,7 @@ MonoBehaviour:
   characterSlicer: {fileID: 4014323919445584458}
   adderSliceable: {fileID: 4014323919445584457}
   player: {fileID: 0}
+  aiState: 0
 --- !u!114 &4014323919445584458
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2755,7 +2756,7 @@ MonoBehaviour:
   _defaultSliceMaterial: {fileID: 2100000, guid: ef50e6197bd53ac488206e2110b76dc7,
     type: 2}
   _asynchronously: 1
-  _delayBetweenSlices: 1
+  _delayBetweenSlices: 3
   _maxSliceCount: 1
   _bloodPrefub: {fileID: 0}
   _prefubDirection: {x: 0, y: 1, z: 0}

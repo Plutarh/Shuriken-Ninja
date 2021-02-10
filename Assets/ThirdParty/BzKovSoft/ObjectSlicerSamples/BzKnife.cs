@@ -9,7 +9,7 @@ namespace BzKovSoft.ObjectSlicerSamples
 	/// </summary>
 	public class BzKnife : MonoBehaviour
 	{
-		public int SliceID { get; private set; }
+		public int SliceID { get; set; }
 		Vector3 _prevPos;
 		Vector3 _pos;
 
@@ -20,8 +20,19 @@ namespace BzKovSoft.ObjectSlicerSamples
 		private Vector3 _direction = Vector3.up;
 
 		public Action OnSliceBegin;
+		public Action OnStopSlice;
 
-		private void Update()
+		public int durability;
+
+		public bool sliceable;
+
+        private void Awake()
+        {
+			sliceable = false;
+
+		}
+
+        private void Update()
 		{
 			_prevPos = _pos;
 			_pos = transform.position;
@@ -41,8 +52,18 @@ namespace BzKovSoft.ObjectSlicerSamples
 
 		public void BeginNewSlice()
 		{
-			SliceID = UnityEngine.Random.Range(int.MinValue, int.MaxValue);
+			durability--;
 			OnSliceBegin?.Invoke();
+
+			
+			Debug.LogError("Begin slice");
+		}
+
+		public void StopSlice()
+        {
+			OnStopSlice?.Invoke();
+			GetComponent<Collider>().enabled = false;
+			Debug.LogError("Stop slice");
 		}
 	}
 }

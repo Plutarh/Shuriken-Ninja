@@ -71,7 +71,7 @@ TrailRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Time: 0.2
+  m_Time: 0.3
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 1
@@ -355,6 +355,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _origin: {x: 0, y: 0, z: 0}
   _direction: {x: 0, y: 0, z: 1}
+  durability: 1
 --- !u!65 &8174397807315709195
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -366,7 +367,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.2666518, y: 0.007329143, z: 0.2666518}
+  m_Size: {x: 0.21, y: 0.007329143, z: 0.21}
   m_Center: {x: 0.000000014901161, y: 0, z: 0.000000014901161}
 --- !u!1 &8587852328977789147
 GameObject:
@@ -384,7 +385,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2814985506296272912
 Transform:
   m_ObjectHideFlags: 0

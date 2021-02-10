@@ -144,7 +144,7 @@ MonoBehaviour:
   actionPoints: []
   currentActionPoint: {fileID: 0}
   curActionPointIndex: 0
-  delayToStartNextPoint: 0.5
+  delayToStartNextPoint: 0
 --- !u!1 &4646760044657132389
 GameObject:
   m_ObjectHideFlags: 0
