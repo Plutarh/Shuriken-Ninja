@@ -83,6 +83,8 @@ public partial class Shuriken : Weapon , IThrowable
             if (!hitImpact.isPlaying)
                 hitImpact.Play();
         }
+
+      
     }
 
     void SetRandomYaw()

@@ -2758,7 +2758,7 @@ MonoBehaviour:
   _asynchronously: 1
   _delayBetweenSlices: 3
   _maxSliceCount: 1
-  _bloodPrefub: {fileID: 0}
+  _bloodPrefub: {fileID: 100000, guid: bc98890f6028f444eaa7789bde5e2eeb, type: 3}
   _prefubDirection: {x: 0, y: 1, z: 0}
   _convertToRagdoll: 1
   _alignPrefSize: 0

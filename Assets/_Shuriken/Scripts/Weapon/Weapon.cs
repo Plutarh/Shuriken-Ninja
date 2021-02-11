@@ -10,4 +10,5 @@ public class Weapon : MonoBehaviour
     //TODO sound effects
     [Header("FX")]
     public ParticleSystem hitImpact;
+    public ParticleSystem bloodImpact;
 }

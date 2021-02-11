@@ -186,6 +186,7 @@ MonoBehaviour:
   damage: 0
   durability: 0
   hitImpact: {fileID: 533855767826384600}
+  bloodImpact: {fileID: 0}
   slicer: {fileID: 7772649374175621836}
   moveDir: {x: 0, y: 0, z: 0}
   moveSpeed: 30
