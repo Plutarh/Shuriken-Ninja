@@ -242,7 +242,16 @@ namespace BzKovSoft.CharacterSlicerSamples
 			return result / vertices.Length;
 		}
 
-		private void ConvertToRagdoll(GameObject go, Vector3 velocityContinue, Vector3 angularVelocityContinue, LazyActionRunner lazyRunner)
+
+		public void ConvertToRagdollSimple(Vector3 velocityContinue,Vector3 angluarVelocity)
+        {
+			OnSlicedFinish?.Invoke();
+			sliced = true;
+			ConvertToRagdoll(gameObject, velocityContinue,angluarVelocity);
+
+		}
+
+		private void ConvertToRagdoll(GameObject go, Vector3 velocityContinue, Vector3 angularVelocityContinue, LazyActionRunner lazyRunner = null)
 		{
 			Profiler.BeginSample("ConvertToRagdoll");
 			// if your player is dead, you do not need animator or collision collider

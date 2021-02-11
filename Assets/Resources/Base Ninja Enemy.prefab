@@ -570,13 +570,13 @@ GameObject:
   m_Component:
   - component: {fileID: 1635306485240544124}
   - component: {fileID: 3022993587332193748}
-  m_Layer: 10
+  m_Layer: 12
   m_Name: Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1635306485240544124
 Transform:
   m_ObjectHideFlags: 0
@@ -1070,8 +1070,8 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.23
-  m_Center: {x: 0, y: 0.05279707, z: 0}
+  m_Radius: 0.14
+  m_Center: {x: 0, y: 0.08, z: 0}
 --- !u!54 &2208883698879753952
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1204,13 +1204,13 @@ GameObject:
   m_Component:
   - component: {fileID: 2774888578640453068}
   - component: {fileID: 5837791568328192945}
-  m_Layer: 10
+  m_Layer: 12
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2774888578640453068
 Transform:
   m_ObjectHideFlags: 0
@@ -2738,6 +2738,8 @@ MonoBehaviour:
   characterSlicer: {fileID: 4014323919445584458}
   adderSliceable: {fileID: 4014323919445584457}
   player: {fileID: 0}
+  rootObj: {fileID: 4789252360816085713}
+  deathParticle: {fileID: 19800000, guid: 83cd9cc9f9c88824ba18dc59b05ae328, type: 3}
   aiState: 0
 --- !u!114 &4014323919445584458
 MonoBehaviour:
@@ -2758,7 +2760,7 @@ MonoBehaviour:
   _asynchronously: 1
   _delayBetweenSlices: 3
   _maxSliceCount: 1
-  _bloodPrefub: {fileID: 0}
+  _bloodPrefub: {fileID: 100000, guid: bc98890f6028f444eaa7789bde5e2eeb, type: 3}
   _prefubDirection: {x: 0, y: 1, z: 0}
   _convertToRagdoll: 1
   _alignPrefSize: 0
@@ -2840,13 +2842,13 @@ GameObject:
   m_Component:
   - component: {fileID: 8613427053497490047}
   - component: {fileID: 6969863904874170517}
-  m_Layer: 10
+  m_Layer: 12
   m_Name: Legs
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &8613427053497490047
 Transform:
   m_ObjectHideFlags: 0

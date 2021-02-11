@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using BzKovSoft.ObjectSlicer;
 using System.Diagnostics;
+using BzKovSoft.CharacterSlicerSamples;
+using Zenject;
 
 namespace BzKovSoft.ObjectSlicerSamples
 {
@@ -18,7 +20,31 @@ namespace BzKovSoft.ObjectSlicerSamples
 
 		Coroutine sliceCoro;
 
-		void Start()
+
+		public Pawn owner;
+
+		public EBodyPart bodyPart;
+
+		public enum EBodyPart
+        {
+			Null,
+			Hand,
+			Tors,
+			Leg,
+			Head
+        }
+
+		[HideInInspector] public TimeControllService timeService;
+
+		
+
+        private void Awake()
+        {
+			bodyPart = EBodyPart.Null;
+			if (gameObject.name.Contains("head")) bodyPart = EBodyPart.Head;
+        }
+
+        void Start()
 		{
 			_sliceableAsync = GetComponentInParent<IBzSliceableAsync>();
 		}
@@ -35,6 +61,10 @@ namespace BzKovSoft.ObjectSlicerSamples
             {
 				knife.StopSlice();
 				knife.transform.root.SetParent(this.transform);
+
+				
+					
+				transform.root.GetComponent<CharacterSlicerSampleFast>().ConvertToRagdollSimple(knife.MoveDirection * 5 + Vector3.up * 2, Vector3.up);
             }
 			/*
 			if (sliceCoro == null )
@@ -44,7 +74,12 @@ namespace BzKovSoft.ObjectSlicerSamples
 				else 
 					knife.StopSlice();
 			}*/
+			if (bodyPart == EBodyPart.Head)
+			{
 				
+				timeService.SlowMotion(1f, 0.3f);
+				//UnityEngine.Debug.Log("Hit head");
+			}
 
 		}
 

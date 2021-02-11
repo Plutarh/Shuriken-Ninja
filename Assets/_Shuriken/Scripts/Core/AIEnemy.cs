@@ -12,6 +12,9 @@ public class AIEnemy : Pawn
 
     public event Action<AIEnemy> OnDeath;
 
+    public Transform rootObj;
+    public ParticleSystem deathParticle;
+
     public EAIState aiState;
     public enum EAIState
     {
@@ -32,6 +35,7 @@ public class AIEnemy : Pawn
     }
     private void Awake()
     {
+        adderSliceable.SetupSliceableParts(this);
         characterSlicer.OnSlicedFinish += OnSlice;
 
         ChangeState(EAIState.Chaise);
@@ -103,7 +107,17 @@ public class AIEnemy : Pawn
         navMeshAgent.isStopped = true;
         OnDeath?.Invoke(this);
         ClearComponents();
-        Destroy(gameObject, 2f);
+
+        StartCoroutine(IEWaitToDestroy());
+    }
+
+    IEnumerator IEWaitToDestroy()
+    {
+        yield return new WaitForSecondsRealtime(2f);
+        var puff = Instantiate(deathParticle, rootObj.position,Quaternion.identity);
+        puff.transform.SetParent(null);
+        //Destroy(puff.gameObject, 3f);
+        Destroy(gameObject);
     }
 
     void ClearComponents()
