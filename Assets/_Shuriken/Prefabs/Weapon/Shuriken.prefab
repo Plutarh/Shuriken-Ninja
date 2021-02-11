@@ -101,7 +101,7 @@ TrailRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 0.6415094, g: 0.6415094, b: 0.6415094, a: 1}
+      key0: {r: 1, g: 0.4009434, b: 0.44825974, a: 1}
       key1: {r: 1, g: 1, b: 1, a: 0}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
@@ -183,6 +183,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1541fcee2534ec640be8885cbb0b52fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weaponName: Shuriken
+  ID: 2
+  damage: 0
+  durability: 0
   slicer: {fileID: 8174397807315709204}
   moveDir: {x: 0, y: 0, z: 0}
   moveSpeed: 22
@@ -353,7 +357,7 @@ MonoBehaviour:
   _origin: {x: 0, y: 0, z: 0}
   _direction: {x: 0, y: 0, z: 1}
   durability: 1
-  sliceable: 0
+  sliceable: 1
 --- !u!65 &8174397807315709195
 BoxCollider:
   m_ObjectHideFlags: 0

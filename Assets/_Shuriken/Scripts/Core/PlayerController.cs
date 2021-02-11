@@ -22,7 +22,7 @@ public class PlayerController : Pawn
     public float closestDist;
 
 
-    public Shuriken shurikenPrefab;
+    public Weapon weaponPrefab;
     IThrowable throwableObject;
 
     public float heightMultiply;
@@ -39,11 +39,13 @@ public class PlayerController : Pawn
     IInputService _inputService;
     LevelSessionService levelSession;
     [Inject]
-    void Construct(IInputService inputService)
+    void Construct(IInputService inputService , WeaponManager weaponManager)
     {
         _inputService = inputService;
         _inputService.OnColliderClick += GetThrowDirection;
         _inputService.OnNonColliderClick += GetThrowDirection;
+
+        weaponManager.playerInstance = this;
     }
 
     public void SetLevelSessionService(LevelSessionService instance)
@@ -214,12 +216,12 @@ public class PlayerController : Pawn
     {
         if (shotLeft)
         {
-            throwableObject = Instantiate(shurikenPrefab, R_shurikenSpawnPos.position, Quaternion.identity);
+            throwableObject = Instantiate(weaponPrefab, R_shurikenSpawnPos.position, Quaternion.identity) as Shuriken;
         }
         else
         {
            
-            throwableObject = Instantiate(shurikenPrefab, L_shurikenSpawnPos.position, Quaternion.identity);
+            throwableObject = Instantiate(weaponPrefab, L_shurikenSpawnPos.position, Quaternion.identity) as Shuriken;
         }
         shotLeft = !shotLeft;
         blockShot = false;

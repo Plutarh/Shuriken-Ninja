@@ -10,6 +10,7 @@ public class BootstrapInstaller : MonoInstaller
     public Core coreInstance;
     public InputService inputServiceInstace;
     public TimeControllService timeControllInstance;
+    public WeaponManager weaponInstance;
 
     public override void InstallBindings()
     {
@@ -17,6 +18,7 @@ public class BootstrapInstaller : MonoInstaller
         BindCoreInstance();
         BindInputService();
         BindTimeControllService();
+        BindWeaponManager();
     }
 
     private void BindEventService()
@@ -30,11 +32,19 @@ public class BootstrapInstaller : MonoInstaller
     private void BindCoreInstance()
     {
         Container
-           .Bind<Core>()
-           .FromInstance(coreInstance)
-           .AsSingle()
-           .NonLazy();
-       
+            .Bind<Core>()
+            .FromInstance(coreInstance)
+            .AsSingle()
+            .NonLazy();
+    }
+
+    private void BindWeaponManager()
+    {
+        Container
+            .Bind<WeaponManager>()
+            .FromInstance(weaponInstance)
+            .AsSingle()
+            .NonLazy();
     }
 
     private void BindTimeControllService()
@@ -49,9 +59,9 @@ public class BootstrapInstaller : MonoInstaller
     private void BindInputService()
     {
         Container
-          .Bind<IInputService>()
-          .To<InputService>()
-          .FromInstance(inputServiceInstace)
-          .AsSingle();
+            .Bind<IInputService>()
+            .To<InputService>()
+            .FromInstance(inputServiceInstace)
+            .AsSingle();
     }
 }

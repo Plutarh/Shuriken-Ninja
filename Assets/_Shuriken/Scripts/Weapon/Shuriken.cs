@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public partial class Shuriken : MonoBehaviour , IThrowable
+public partial class Shuriken : Weapon , IThrowable
 {
 
     [SerializeField] BzKnife slicer;
@@ -148,7 +148,7 @@ public partial class Shuriken : MonoBehaviour , IThrowable
 
     void Rotation()
     {
-        return;
+        if (!slicer.sliceable) return;
         /*
         Quaternion yaw = Quaternion.Euler(mainRotateDir * Time.deltaTime * mainRotateSpeed);
         mainRotateObject.transform.localRotation = yaw * mainRotateObject.transform.localRotation;

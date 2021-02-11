@@ -28,7 +28,7 @@ namespace BzKovSoft.ObjectSlicerSamples
 
         private void Awake()
         {
-			sliceable = false;
+			//sliceable = false;
 
 		}
 
@@ -54,9 +54,7 @@ namespace BzKovSoft.ObjectSlicerSamples
 		{
 			durability--;
 			OnSliceBegin?.Invoke();
-
 			
-			Debug.LogError("Begin slice with id " + SliceID);
 		}
 
 		public void StopSlice()
