@@ -33,6 +33,9 @@ public class PlayerController : Pawn
         Stand
     }
 
+    bool shotLeft;
+    bool blockShot;
+
     IInputService _inputService;
     LevelSessionService levelSession;
     [Inject]
@@ -113,7 +116,9 @@ public class PlayerController : Pawn
               
                 break;
             case EPlayerState.Stand:
+                blockShot = false;
                 animator.ResetTrigger("ThrowR");
+                animator.ResetTrigger("ThrowL");
                 animator.SetBool("Run", false);
                 animator.CrossFade("Idle", 0.2f);
                 break;
@@ -130,18 +135,38 @@ public class PlayerController : Pawn
         ChangeState(EPlayerState.MoveToPoint);
     }
 
-    
+
+  
     void GetThrowDirection(Vector3 point)
     {
         throwTarget = null;
         throwPoint = transform.position + (point * 10) + (Vector3.up * heightMultiply);
 
+
         Debug.DrawLine(R_shurikenSpawnPos.position, throwPoint, Color.white, 3f);
-        Debug.Log("throwPoint white - " + throwPoint);
+        Debug.DrawLine(L_shurikenSpawnPos.position, throwPoint, Color.white, 3f);
 
-        //ThrowShuriken(relPoint);
+        if (shotLeft)
+        {
+            if (!blockShot)
+            {
+                animator.SetTrigger("ThrowR");
+                blockShot = true;
+            }
 
-        animator.SetTrigger("ThrowR");
+
+        }
+        else
+        {
+            if (!blockShot)
+            {
+                animator.SetTrigger("ThrowL");
+                blockShot = true;
+            }
+
+        }
+
+
     }
 
     GameObject throwTarget;
@@ -152,24 +177,53 @@ public class PlayerController : Pawn
         throwTarget = go;
         throwPoint = point;
 
-        //relPoint = R_shurikenSpawnPos.InverseTransformPoint(point);
+        relPoint = R_shurikenSpawnPos.InverseTransformPoint(point);
 
         Debug.DrawLine(R_shurikenSpawnPos.position, point, Color.blue, 3f);
-        animator.SetTrigger("ThrowR");
+        //animator.SetTrigger("ThrowR");
 
-        
+        if (shotLeft)
+        {
+            if (!blockShot)
+            {
+                animator.SetTrigger("ThrowR");
+                blockShot = true;
+            }
+               
+
+        }
+        else
+        {
+            if (!blockShot)
+            {
+                animator.SetTrigger("ThrowL");
+                blockShot = true;
+            }
+                
+        }
     }
 
     public void ThrowShurikenByAnimator()
     {
+        
         ThrowShuriken(relPoint);
         //Debug.DrawLine(R_shurikenSpawnPos.transform.position, relPoint, Color.cyan, 2);
     }
 
     void ThrowShuriken(Vector3 relPoint)
     {
-       
-        throwableObject = Instantiate(shurikenPrefab, R_shurikenSpawnPos.position, Quaternion.identity);
+        if (shotLeft)
+        {
+            throwableObject = Instantiate(shurikenPrefab, R_shurikenSpawnPos.position, Quaternion.identity);
+        }
+        else
+        {
+           
+            throwableObject = Instantiate(shurikenPrefab, L_shurikenSpawnPos.position, Quaternion.identity);
+        }
+        shotLeft = !shotLeft;
+        blockShot = false;
+
         if (throwTarget != null)
         {
             throwableObject.SetMoveType(Shuriken.EMoveType.Target);

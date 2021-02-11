@@ -65,5 +65,14 @@ namespace BzKovSoft.ObjectSlicerSamples
 			GetComponent<Collider>().enabled = false;
 			Debug.LogError("Stop slice");
 		}
-	}
+
+        private void OnTriggerEnter(Collider other)
+        {
+			if (other == null || other.gameObject.GetComponent<KnifeSliceableAsync>() != null) return;
+			StopSlice();
+			transform.root.SetParent(other.transform);
+		}
+
+     
+    }
 }

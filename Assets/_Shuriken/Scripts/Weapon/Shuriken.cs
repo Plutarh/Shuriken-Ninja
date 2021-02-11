@@ -13,11 +13,11 @@ public partial class Shuriken : MonoBehaviour , IThrowable
     public Vector3 moveDir;
     public float moveSpeed;
 
-    public Vector3 startPos;
-    public Vector3 endPos;
+    Vector3 startPos;
+    Vector3 endPos;
 
-    public Vector3 startAnchor;
-    public Vector3 endAnchor;
+    Vector3 startAnchor;
+    Vector3 endAnchor;
 
     [Header("Rotation")]
     public Vector3 mainRotateDir;
@@ -31,6 +31,9 @@ public partial class Shuriken : MonoBehaviour , IThrowable
 
     [Header("Distance")]    
     public float vectorLength;
+
+    [Header("Effects")]
+    public TrailRenderer trail;
 
     float tParam;
     bool bezieMove;
@@ -69,6 +72,7 @@ public partial class Shuriken : MonoBehaviour , IThrowable
         moveSpeed = 0;
         mainRotateSpeed = 0;
         secondRotateSpeed = 0;
+        trail.emitting = false;
     }
 
     void SetRandomYaw()

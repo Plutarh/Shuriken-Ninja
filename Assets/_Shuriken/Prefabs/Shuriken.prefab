@@ -186,10 +186,6 @@ MonoBehaviour:
   slicer: {fileID: 8174397807315709204}
   moveDir: {x: 0, y: 0, z: 0}
   moveSpeed: 22
-  startPos: {x: 0, y: 0, z: 0}
-  endPos: {x: 0, y: 0, z: 0}
-  startAnchor: {x: 0, y: 0, z: 0}
-  endAnchor: {x: 0, y: 0, z: 0}
   mainRotateDir: {x: 0, y: 0, z: 1}
   secondaryRotateDir: {x: 0, y: 10, z: 0}
   mainRotateSpeed: 100
@@ -197,6 +193,7 @@ MonoBehaviour:
   mainRotateObject: {fileID: 8174397805783031818}
   secondaryRotateObject: {fileID: 8174397805926330952}
   vectorLength: 0
+  trail: {fileID: 6438999745834472404}
   moveType: 0
 --- !u!1 &8174397805926330952
 GameObject:
@@ -356,6 +353,7 @@ MonoBehaviour:
   _origin: {x: 0, y: 0, z: 0}
   _direction: {x: 0, y: 0, z: 1}
   durability: 1
+  sliceable: 0
 --- !u!65 &8174397807315709195
 BoxCollider:
   m_ObjectHideFlags: 0
