@@ -39,6 +39,7 @@ public partial class Shuriken : MonoBehaviour , IThrowable
 
     void Awake()
     {
+        
         slicer.OnSliceBegin += BeginSlice;
         slicer.OnStopSlice += StopSlice;
     }
@@ -143,7 +144,7 @@ public partial class Shuriken : MonoBehaviour , IThrowable
 
     void Rotation()
     {
-        //return;
+        return;
         /*
         Quaternion yaw = Quaternion.Euler(mainRotateDir * Time.deltaTime * mainRotateSpeed);
         mainRotateObject.transform.localRotation = yaw * mainRotateObject.transform.localRotation;

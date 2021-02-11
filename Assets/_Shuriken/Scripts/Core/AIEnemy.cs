@@ -32,6 +32,7 @@ public class AIEnemy : Pawn
     }
     private void Awake()
     {
+        adderSliceable.SetupSliceableParts(this);
         characterSlicer.OnSlicedFinish += OnSlice;
 
         ChangeState(EAIState.Chaise);

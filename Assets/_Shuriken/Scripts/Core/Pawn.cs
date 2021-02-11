@@ -23,7 +23,7 @@ public class Pawn : MonoBehaviour , IDamageable
     }
     void Start()
     {
-        
+       
     }
 
     // Update is called once per frame

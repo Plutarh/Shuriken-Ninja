@@ -155,7 +155,7 @@ RectTransform:
   - {fileID: 5227580360588029982}
   - {fileID: 1704080745094649110}
   m_Father: {fileID: 8532489968077085044}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -380,7 +380,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -156, y: -61.700012}
+  m_AnchoredPosition: {x: -156, y: -61.69995}
   m_SizeDelta: {x: 256.26074, y: 123.39038}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4895304217878820055
@@ -558,6 +558,49 @@ MonoBehaviour:
   m_InputActionsPerSecond: 10
   m_RepeatDelay: 0.5
   m_ForceModuleActive: 0
+--- !u!1 &4454315833416578208
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8631829065787204097}
+  - component: {fileID: 8506216659795302638}
+  m_Layer: 0
+  m_Name: Time Controll Service
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8631829065787204097
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4454315833416578208}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 8532489968077085044}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8506216659795302638
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4454315833416578208}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a588383023de4f40ad6c9ea9ee37af0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4753499309785736772
 GameObject:
   m_ObjectHideFlags: 0
@@ -594,7 +637,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 100.999985, y: -61.700012}
+  m_AnchoredPosition: {x: 100.999985, y: -61.69995}
   m_SizeDelta: {x: 256.26074, y: 123.39038}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7220323185790452394
@@ -724,6 +767,7 @@ Transform:
   - {fileID: 2357562472069621034}
   - {fileID: 4173728855346651082}
   - {fileID: 1888498073679737853}
+  - {fileID: 8631829065787204097}
   - {fileID: 1860117984658548640}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -772,6 +816,7 @@ MonoBehaviour:
   eventServiceInstance: {fileID: 6267227658907197954}
   coreInstance: {fileID: 6635261332481725502}
   inputServiceInstace: {fileID: 3266559395445894357}
+  timeControllInstance: {fileID: 8506216659795302638}
 --- !u!1 &5548734243645238017
 GameObject:
   m_ObjectHideFlags: 0
@@ -894,7 +939,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -128.13, y: -61.700012}
+  m_AnchoredPosition: {x: -128.13, y: -61.69995}
   m_SizeDelta: {x: 256.26074, y: 123.39038}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8483806243252473226

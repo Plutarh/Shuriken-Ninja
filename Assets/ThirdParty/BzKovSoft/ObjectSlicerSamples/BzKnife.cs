@@ -56,7 +56,7 @@ namespace BzKovSoft.ObjectSlicerSamples
 			OnSliceBegin?.Invoke();
 
 			
-			Debug.LogError("Begin slice");
+			Debug.LogError("Begin slice with id " + SliceID);
 		}
 
 		public void StopSlice()

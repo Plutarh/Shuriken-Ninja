@@ -9,12 +9,14 @@ public class BootstrapInstaller : MonoInstaller
     public EventService eventServiceInstance;
     public Core coreInstance;
     public InputService inputServiceInstace;
+    public TimeControllService timeControllInstance;
 
     public override void InstallBindings()
     {
         BindEventService();
         BindCoreInstance();
         BindInputService();
+        BindTimeControllService();
     }
 
     private void BindEventService()
@@ -30,7 +32,18 @@ public class BootstrapInstaller : MonoInstaller
         Container
            .Bind<Core>()
            .FromInstance(coreInstance)
-           .AsSingle();
+           .AsSingle()
+           .NonLazy();
+       
+    }
+
+    private void BindTimeControllService()
+    {
+        Container
+            .Bind<TimeControllService>()
+            .FromInstance(timeControllInstance)
+            .AsSingle()
+            .NonLazy();
     }
 
     private void BindInputService()
