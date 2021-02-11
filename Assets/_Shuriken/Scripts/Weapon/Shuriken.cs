@@ -73,6 +73,16 @@ public partial class Shuriken : Weapon , IThrowable
         mainRotateSpeed = 0;
         secondRotateSpeed = 0;
         trail.emitting = false;
+        HitImpact();
+    }
+
+    void HitImpact()
+    {
+        if (hitImpact != null)
+        {
+            if (!hitImpact.isPlaying)
+                hitImpact.Play();
+        }
     }
 
     void SetRandomYaw()
