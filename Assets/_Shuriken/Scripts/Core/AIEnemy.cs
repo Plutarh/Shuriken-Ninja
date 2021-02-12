@@ -103,6 +103,7 @@ public class AIEnemy : Pawn
 
     void OnSlice()
     {
+        if (dead) return;
         if (navMeshAgent == null) return;
         navMeshAgent.isStopped = true;
         OnDeath?.Invoke(this);
