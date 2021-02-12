@@ -12,7 +12,7 @@ public class WeaponManager : MonoBehaviour
 
     void Start()
     {
-        //Debug.unityLogger.logEnabled = false;
+        Debug.unityLogger.logEnabled = false;
     }
 
     // Update is called once per frame

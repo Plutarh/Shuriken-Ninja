@@ -104,4 +104,11 @@ public class ActionPoint : MonoBehaviour
         if(pawnSpawner != null)
             pawnSpawner.OnPawnSpawn -= AddEnemy;
     }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.blue;
+
+        Gizmos.DrawCube(playerActionPosition.position, Vector3.one);
+    }
 }

@@ -176,7 +176,7 @@ public partial class Shuriken : Weapon , IThrowable
         if (target == null) return;
         Vector3 moveDirToTarget = target.transform.position - transform.position;
         //moveDir =
-        moveDir.Normalize();
+        moveDirToTarget.Normalize();
         transform.Translate(moveDirToTarget * moveSpeed * Time.deltaTime);
     }
 

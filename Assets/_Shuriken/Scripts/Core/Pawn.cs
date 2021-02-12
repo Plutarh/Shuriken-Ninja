@@ -17,6 +17,7 @@ public class Pawn : MonoBehaviour , IDamageable
     public CharacterSlicerSampleFast characterSlicer;
     public AdderSliceableAsync adderSliceable;
 
+    public bool dead;
     void Awake()
     {
 

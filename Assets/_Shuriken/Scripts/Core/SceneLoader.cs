@@ -27,14 +27,17 @@ public class SceneLoader : MonoBehaviour
     public void LoadNextLevel()
     {
         sceneIndex = SceneManager.GetActiveScene().buildIndex;
-        if (sceneIndex + 1 > SceneManager.sceneCount + 1) return;
-        SceneManager.LoadScene(sceneIndex + 1);
+        if (sceneIndex  > SceneManager.sceneCount  + 1) return;
+        sceneIndex++;
+        SceneManager.LoadScene(sceneIndex);
+        
     }
 
     public void LoadPrevLevel()
     {
         sceneIndex = SceneManager.GetActiveScene().buildIndex;
         if (sceneIndex - 1 < 0) return;
-        SceneManager.LoadScene(sceneIndex - 1);
+        sceneIndex--;
+        SceneManager.LoadScene(sceneIndex);
     }
 }

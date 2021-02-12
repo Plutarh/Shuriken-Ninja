@@ -179,6 +179,9 @@ public class PlayerController : Pawn
     {
         //if (playerState != EPlayerState.Stand) return;
         targetCol = goCollider;
+
+        if (targetCol.transform.root.GetComponent<Pawn>().dead) targetCol = null;
+
         throwPoint = point;
 
         relPoint = R_shurikenSpawnPos.InverseTransformPoint(point);
@@ -251,7 +254,7 @@ public class PlayerController : Pawn
         throwableObject.SetTargetPosition(throwPoint);
         //throwableObject.SetMoveDirection(throwPoint);
 
-
+        targetCol = null;
     }
 
   

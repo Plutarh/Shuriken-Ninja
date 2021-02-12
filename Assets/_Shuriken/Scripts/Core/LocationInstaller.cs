@@ -11,6 +11,11 @@ public class LocationInstaller : MonoInstaller
 
     public Transform runPoint;
     public LevelSessionService levelSession;
+
+    private void OnValidate()
+    {
+        if (startPoint == null) startPoint = GameObject.Find("StartPoint").transform;
+    }
     public override void InstallBindings()
     {
         BindLevelSessionService();

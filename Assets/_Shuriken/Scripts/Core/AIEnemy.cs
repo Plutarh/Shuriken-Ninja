@@ -107,7 +107,7 @@ public class AIEnemy : Pawn
         navMeshAgent.isStopped = true;
         OnDeath?.Invoke(this);
         ClearComponents();
-
+        dead = true;
         StartCoroutine(IEWaitToDestroy());
     }
 
@@ -127,13 +127,7 @@ public class AIEnemy : Pawn
         body = null;
         animator = null;
         adderSliceable = null;
-
-        gameObject.layer = 0;
-
-        foreach (Transform child in rootObj.transform)
-        {
-            child.gameObject.layer = 0;
-        } 
+       
     }
 
     private void OnDestroy()
