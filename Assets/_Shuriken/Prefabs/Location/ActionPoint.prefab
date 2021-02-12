@@ -79,7 +79,8 @@ MonoBehaviour:
   playerActionPosition: {fileID: 7123869137878983615}
   pointState: 0
   actionPointEnemies: []
-  enemiesCount: 5
+  spawnCount: 5
+  spawnDelay: 1.1
 --- !u!1 &7123869138329341787
 GameObject:
   m_ObjectHideFlags: 0

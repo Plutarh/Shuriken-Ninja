@@ -12,7 +12,11 @@ public class ActionPoint : MonoBehaviour
 
     public List<AIEnemy> actionPointEnemies = new List<AIEnemy>();
 
-    public int enemiesCount;
+    public float livePawns;
+    public float spawnCount;
+    public float spawnDelay;
+
+    float spawnTimer;
 
     public enum EActionPointState
     {
@@ -36,7 +40,6 @@ public class ActionPoint : MonoBehaviour
         {
             pawnSpawner.OnPawnSpawn += AddEnemy;
 
-            pawnSpawner.spawnCount = enemiesCount;
         }
       
     }
@@ -59,8 +62,17 @@ public class ActionPoint : MonoBehaviour
                 break;
             case EActionPointState.Action:
                 if(pawnSpawner != null)
-                    pawnSpawner.SpawnPawn();
-                
+                {
+                    if (spawnCount <= 0) return;
+                    spawnTimer += Time.deltaTime;
+                    if (spawnTimer > spawnDelay)
+                    {
+                        pawnSpawner.SpawnPawn();
+                        spawnTimer = 0;
+                        spawnCount--;
+                        livePawns++;
+                    }
+                }
                 break;
             case EActionPointState.Done:
                 break;
@@ -89,10 +101,10 @@ public class ActionPoint : MonoBehaviour
         {
             enemy.OnDeath -= RemoveEnemy;
             actionPointEnemies.Remove(enemy);
-            enemiesCount--;
+            livePawns--;
         }
 
-        if(enemiesCount <= 0)
+        if(livePawns <= 0)
         {
             ChangeState(EActionPointState.Done);
             _levelSessionService.ActionPointDone(this);

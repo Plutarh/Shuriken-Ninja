@@ -40,15 +40,12 @@ public class PawnSpawner : MonoBehaviour
 
     public void SpawnPawn()
     {
-        if (spawnCount <= 0) return;
-        spawnTimer += Time.deltaTime;
-        if(spawnTimer > spawnDelay)
-        {
-            AIEnemy createdEnemy = _enemyFactory.Create(pawnPrefab,transform.position) as AIEnemy;
-            spawnTimer = 0;
-            spawnCount--;
-            OnPawnSpawn?.Invoke(createdEnemy);
-        }
+      
+
+        AIEnemy createdEnemy = _enemyFactory.Create(pawnPrefab, transform.position) as AIEnemy;
+        spawnTimer = 0;
+        spawnCount--;
+        OnPawnSpawn?.Invoke(createdEnemy);
     }
 
     private void OnDrawGizmos()
