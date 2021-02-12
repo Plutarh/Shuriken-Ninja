@@ -40,6 +40,8 @@ public partial class Shuriken : Weapon , IThrowable
 
     public EMoveType moveType;
 
+    public GameObject target;
+
     void Awake()
     {
         
@@ -92,6 +94,11 @@ public partial class Shuriken : Weapon , IThrowable
         mainRotateDir.z = Random.Range(-1.9f, 2);
     }
 
+    public bool IsSlicer()
+    {
+        return slicer.sliceable;
+    }
+
     public void SetMoveType(EMoveType type)
     {
         moveType = type;
@@ -123,6 +130,12 @@ public partial class Shuriken : Weapon , IThrowable
        
     }
 
+
+    public void SetTargetCollider(Collider tCol)
+    {
+        target = tCol.gameObject;
+    }
+
     void Movement()
     {
         switch (moveType)
@@ -132,7 +145,7 @@ public partial class Shuriken : Weapon , IThrowable
                 MoveToDirection();
                 break;
             case EMoveType.Target:
-                MoveToDirection();
+                MoveToTarget();
                 //MoveByBezieCurve();
                 break;
         }
@@ -158,6 +171,15 @@ public partial class Shuriken : Weapon , IThrowable
         transform.Translate(moveDir * moveSpeed * Time.deltaTime);
     }
 
+    void MoveToTarget()
+    {
+        if (target == null) return;
+        Vector3 moveDirToTarget = target.transform.position - transform.position;
+        //moveDir =
+        moveDir.Normalize();
+        transform.Translate(moveDirToTarget * moveSpeed * Time.deltaTime);
+    }
+
     void Rotation()
     {
         if (!slicer.sliceable) return;
@@ -181,4 +203,6 @@ public partial class Shuriken : Weapon , IThrowable
         slicer.OnSliceBegin -= BeginSlice;
         slicer.OnStopSlice -= StopSlice;
     }
+
+  
 }

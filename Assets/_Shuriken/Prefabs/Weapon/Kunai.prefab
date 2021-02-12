@@ -70,7 +70,7 @@ TrailRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Time: 0.3
   m_Parameters:
     serializedVersion: 3
@@ -199,6 +199,7 @@ MonoBehaviour:
   vectorLength: 0
   trail: {fileID: 9177824822211527181}
   moveType: 0
+  target: {fileID: 0}
 --- !u!1 &7772649374175621827
 GameObject:
   m_ObjectHideFlags: 0

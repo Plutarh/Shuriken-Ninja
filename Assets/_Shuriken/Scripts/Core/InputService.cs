@@ -10,7 +10,7 @@ public class InputService : MonoBehaviour, IInputService
     public float raycastLenght = 100;
     public float farMultiplier = 10;
 
-    public event Action<Vector3,GameObject> OnColliderClick;
+    public event Action<Vector3,Collider> OnColliderClick;
     public event Action<Vector3> OnNonColliderClick;
 
     public LayerMask layerMask;
@@ -42,8 +42,8 @@ public class InputService : MonoBehaviour, IInputService
             {
                 Debug.Log($"<color=green> {raycastHit.transform.root.name}- { raycastHit.point} raycast </color>");
                 //Debug.DrawLine(Camera.main.transform.position, raycastHit.point, Color.cyan, 10f);
-                OnColliderClick?.Invoke(raycastHit.point,raycastHit.collider.gameObject);
-
+                OnColliderClick?.Invoke(raycastHit.point,raycastHit.collider);
+                //raycastHit.collider
             }
             else
             {

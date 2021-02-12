@@ -154,6 +154,7 @@ public class PlayerController : Pawn
             {
                 animator.SetTrigger("ThrowR");
                 blockShot = true;
+                targetCol = null;
             }
 
 
@@ -164,6 +165,7 @@ public class PlayerController : Pawn
             {
                 animator.SetTrigger("ThrowL");
                 blockShot = true;
+                targetCol = null;
             }
 
         }
@@ -172,11 +174,11 @@ public class PlayerController : Pawn
     }
 
     GameObject throwTarget;
-
-    void GetThrowDirection(Vector3 point,GameObject go)
+    Collider targetCol;
+    void GetThrowDirection(Vector3 point,Collider goCollider)
     {
         //if (playerState != EPlayerState.Stand) return;
-        throwTarget = go;
+        targetCol = goCollider;
         throwPoint = point;
 
         relPoint = R_shurikenSpawnPos.InverseTransformPoint(point);
@@ -226,18 +228,29 @@ public class PlayerController : Pawn
         shotLeft = !shotLeft;
         blockShot = false;
 
-        if (throwTarget != null)
-        {
-            throwableObject.SetMoveType(Shuriken.EMoveType.Target);
-        }
-        else
+
+        if (throwableObject.IsSlicer())
         {
             throwableObject.SetMoveType(Shuriken.EMoveType.Free);
         }
-        throwableObject.SetTargetPosition(throwPoint);
+        else
+        {
+            if (targetCol != null)
+            {
+                throwableObject.SetMoveType(Shuriken.EMoveType.Target);
+                throwableObject.SetTargetCollider(targetCol);
+            }
+            else
+            {
+                throwableObject.SetMoveType(Shuriken.EMoveType.Free);
+            }
+        }
 
-        
+       
+
+        throwableObject.SetTargetPosition(throwPoint);
         //throwableObject.SetMoveDirection(throwPoint);
+
 
     }
 

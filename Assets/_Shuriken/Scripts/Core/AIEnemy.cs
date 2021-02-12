@@ -127,6 +127,13 @@ public class AIEnemy : Pawn
         body = null;
         animator = null;
         adderSliceable = null;
+
+        gameObject.layer = 0;
+
+        foreach (Transform child in rootObj.transform)
+        {
+            child.gameObject.layer = 0;
+        } 
     }
 
     private void OnDestroy()
