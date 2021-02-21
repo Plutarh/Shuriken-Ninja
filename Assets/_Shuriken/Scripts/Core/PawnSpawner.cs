@@ -8,10 +8,7 @@ public class PawnSpawner : MonoBehaviour
 {
     public AIEnemy pawnPrefab;
 
-    public float spawnCount;
-    public float spawnDelay;
-
-    float spawnTimer;
+  
     
     IEnemyFactory _enemyFactory;
 
@@ -40,11 +37,7 @@ public class PawnSpawner : MonoBehaviour
 
     public void SpawnPawn()
     {
-      
-
         AIEnemy createdEnemy = _enemyFactory.Create(pawnPrefab, transform.position) as AIEnemy;
-        spawnTimer = 0;
-        spawnCount--;
         OnPawnSpawn?.Invoke(createdEnemy);
     }
 

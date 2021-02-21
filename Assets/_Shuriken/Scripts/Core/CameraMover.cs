@@ -143,9 +143,10 @@ public class CameraMover : MonoBehaviour
                 ,relativePos + standOffset
                 ,Time.deltaTime * followSpeed);
 
+            /*
             targetToFollow.transform.rotation = Quaternion.Slerp(targetToFollow.transform.rotation
                 ,Quaternion.LookRotation(targetPos, Vector3.up)
-                ,Time.deltaTime * standRotateSpeed);
+                ,Time.deltaTime * standRotateSpeed);*/
         }
         else
         {

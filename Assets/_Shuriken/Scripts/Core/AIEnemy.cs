@@ -15,6 +15,8 @@ public class AIEnemy : Pawn
     public Transform rootObj;
     public ParticleSystem deathParticle;
 
+    public float distanceToTarget;
+
     public EAIState aiState;
     public enum EAIState
     {
@@ -62,6 +64,8 @@ public class AIEnemy : Pawn
             case EAIState.Chaise:
                 break;
             case EAIState.Attack:
+                navMeshAgent.isStopped = true;
+                animator.CrossFade("Melee Attack", 0.2f);
                 break;
             case EAIState.Idle:
                 animator.Play("Idle");
@@ -76,28 +80,54 @@ public class AIEnemy : Pawn
         {
             case EAIState.Chaise:
 
-                if (!characterSlicer.sliced)
-                {
-
-                    navMeshAgent.SetDestination(player.transform.position);
-                }
-                else
-                {
-                    if (navMeshAgent != null)
-                    {
-                        if (!navMeshAgent.isStopped)
-                        {
-                            OnSlice();
-                        }
-                    }
-                }
+                Chase();
 
                 break;
             case EAIState.Attack:
+                RotateToTarget();
                 break;
             case EAIState.Idle:
                 animator.CrossFade("Idle", 0.2f);
                 break;
+        }
+    }
+
+    void RotateToTarget()
+    {
+        if (player == null) return;
+
+        Vector3 targetPos = player.transform.position - transform.position;
+
+        transform.rotation = Quaternion.Slerp(transform.rotation
+              , Quaternion.LookRotation(targetPos, Vector3.up)
+              , Time.deltaTime * 1);
+    }
+
+    void Chase()
+    {
+        if(player != null)
+        {
+            distanceToTarget = Vector3.Distance(transform.position, player.transform.position);
+            if (distanceToTarget < 1.5f)
+            {
+                if (!navMeshAgent.isStopped) navMeshAgent.isStopped = true;
+                ChangeState(EAIState.Attack);
+            }
+        }
+
+        if (!characterSlicer.sliced)
+        {
+            navMeshAgent.SetDestination(player.transform.position);
+        }
+        else
+        {
+            if (navMeshAgent != null)
+            {
+                if (!navMeshAgent.isStopped)
+                {
+                    OnSlice();
+                }
+            }
         }
     }
 

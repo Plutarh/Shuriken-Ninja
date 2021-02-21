@@ -14,7 +14,10 @@ public class LocationInstaller : MonoInstaller
 
     private void OnValidate()
     {
-        if (startPoint == null) startPoint = GameObject.Find("StartPoint").transform;
+        if (startPoint == null && this != null)
+        {
+            startPoint = GameObject.Find("StartPoint").transform;
+        }
     }
     public override void InstallBindings()
     {

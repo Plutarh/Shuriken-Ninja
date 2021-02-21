@@ -35,6 +35,8 @@ public class PlayerController : Pawn
 
     bool shotLeft;
     bool blockShot;
+    GameObject throwTarget;
+    Collider targetCol;
 
     IInputService _inputService;
     LevelSessionService levelSession;
@@ -101,8 +103,11 @@ public class PlayerController : Pawn
             case EPlayerState.Stand:
              
                 FindClosestEnemy();
+                RotateToClosestTarget();
                 break;
         }
+
+       
     }
 
     public void ChangeState(EPlayerState newState)
@@ -114,10 +119,12 @@ public class PlayerController : Pawn
         switch (playerState)
         {
             case EPlayerState.MoveToPoint:
+                navMeshAgent.isStopped = false;
                 navMeshAgent.speed = 4;
               
                 break;
             case EPlayerState.Stand:
+                navMeshAgent.isStopped = true;
                 blockShot = false;
                 animator.ResetTrigger("ThrowR");
                 animator.ResetTrigger("ThrowL");
@@ -173,8 +180,7 @@ public class PlayerController : Pawn
 
     }
 
-    GameObject throwTarget;
-    Collider targetCol;
+    
     void GetThrowDirection(Vector3 point,Collider goCollider)
     {
         //if (playerState != EPlayerState.Stand) return;
@@ -258,6 +264,16 @@ public class PlayerController : Pawn
     }
 
   
+    void RotateToClosestTarget()
+    {
+        if (closestEnemy == null) return;
+
+        Vector3 targetPos = closestEnemy.transform.position - transform.position;
+
+        transform.rotation = Quaternion.Slerp(transform.rotation
+              , Quaternion.LookRotation(targetPos, Vector3.up)
+              , Time.deltaTime * 1);
+    }
 
     void FindClosestEnemy()
     {
@@ -267,7 +283,7 @@ public class PlayerController : Pawn
             return;
         }
 
-        closestEnemy = null;
+        //closestEnemy = null;
 
         foreach (var enemy in levelSession.currentActionPoint.actionPointEnemies)
         {
