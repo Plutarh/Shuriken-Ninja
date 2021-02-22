@@ -7,8 +7,6 @@ using Zenject;
 public class PawnSpawner : MonoBehaviour
 {
     public AIEnemy pawnPrefab;
-
-  
     
     IEnemyFactory _enemyFactory;
 
@@ -23,16 +21,6 @@ public class PawnSpawner : MonoBehaviour
         {
             _enemyFactory.Load();
         }
-    }
-
-    void Start()
-    {
-       
-    }
-
-    void Update()
-    {
-
     }
 
     public void SpawnPawn()

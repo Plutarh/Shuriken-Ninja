@@ -18,6 +18,8 @@ public class AIEnemy : Pawn
     public float distanceToTarget;
 
     public EAIState aiState;
+
+    public Weapon weapon;
     public enum EAIState
     {
         Chaise,
@@ -38,10 +40,12 @@ public class AIEnemy : Pawn
     }
     private void Awake()
     {
-        adderSliceable.SetupSliceableParts(this);
-        characterSlicer.OnSlicedFinish += OnSlice;
-
-        ChangeState(EAIState.Chaise);
+        if(characterSlicer.sliceSide == CharacterSlicerSampleFast.ESliceSide.NotSliced)
+        {
+            adderSliceable.SetupSliceableParts(this);
+            characterSlicer.OnSlicedFinish += Death;
+            ChangeState(EAIState.Chaise);
+        }
     }
 
     void Start()
@@ -65,7 +69,8 @@ public class AIEnemy : Pawn
             case EAIState.Chaise:
                 break;
             case EAIState.Attack:
-                navMeshAgent.isStopped = true;
+                if(navMeshAgent != null) navMeshAgent.isStopped = true;
+
                 animator.CrossFade("Melee Attack", 0.2f);
                 break;
             case EAIState.Idle:
@@ -110,12 +115,12 @@ public class AIEnemy : Pawn
 
     void Chase()
     {
+        if (dead) return;
         if(player != null)
         {
             distanceToTarget = Vector3.Distance(transform.position, player.transform.position);
             if (distanceToTarget < 1.5f)
             {
-                if (!navMeshAgent.isStopped) navMeshAgent.isStopped = true;
                 ChangeState(EAIState.Attack);
             }
         }
@@ -130,16 +135,22 @@ public class AIEnemy : Pawn
             {
                 if (!navMeshAgent.isStopped)
                 {
-                    OnSlice();
+                    Death();
                 }
             }
         }
     }
 
-    void OnSlice()
+    public override void Death()
     {
         if (dead) return;
         if (navMeshAgent == null) return;
+        
+        if(weapon != null)
+        {
+            weapon.gameObject.AddComponent<Rigidbody>();
+            weapon.transform.SetParent(null);
+        }
         navMeshAgent.isStopped = true;
         OnDeath?.Invoke(this);
         ClearComponents();
@@ -168,6 +179,6 @@ public class AIEnemy : Pawn
 
     private void OnDestroy()
     {
-        characterSlicer.OnSlicedFinish -= OnSlice;
+        characterSlicer.OnSlicedFinish -= Death;
     }
 }

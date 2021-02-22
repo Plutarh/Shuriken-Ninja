@@ -66,9 +66,24 @@ namespace BzKovSoft.ObjectSlicerSamples
 
         private void OnTriggerEnter(Collider other)
         {
-			if (other == null || other.gameObject.GetComponent<KnifeSliceableAsync>() != null) return;
-			StopSlice();
-			transform.root.SetParent(other.transform);
+			if (other == null) return;
+
+            if (sliceable)
+            {
+				var ksa = other.gameObject.GetComponent<KnifeSliceableAsync>();
+				if(ksa != null)
+                {
+					ksa.BeginSlice(this);
+                }
+			}
+            else
+            {
+				StopSlice();
+				transform.root.SetParent(other.transform);
+			}
+		
+
+		
 		}
 
      

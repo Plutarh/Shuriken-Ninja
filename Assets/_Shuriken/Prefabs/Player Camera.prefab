@@ -137,5 +137,5 @@ MonoBehaviour:
   standDistToTarget: 2
   followSpeed: 2
   followRotateSpeed: 2
-  standRotateSpeed: 2
+  standRotateSpeed: 5
   cameraState: 1

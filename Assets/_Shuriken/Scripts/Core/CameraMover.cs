@@ -134,19 +134,9 @@ public class CameraMover : MonoBehaviour
             Vector3 dir = targetToFollow.closestEnemy.transform.position - targetToFollow.transform.position;
             Vector3 relativePos = targetToFollow.transform.position + (-dir.normalized) * standDistToTarget;
 
-
-            //Debug.DrawRay(targetToFollow.transform.position, dir, Color.green);
-            //Debug.DrawRay(targetToFollow.transform.position, -dir.normalized, Color.black);
-           // Debug.DrawLine(targetToFollow.transform.position, relativePos, Color.red, 0.1f);
-
             transform.position = Vector3.Lerp(transform.position
                 ,relativePos + standOffset
-                ,Time.deltaTime * followSpeed);
-
-            /*
-            targetToFollow.transform.rotation = Quaternion.Slerp(targetToFollow.transform.rotation
-                ,Quaternion.LookRotation(targetPos, Vector3.up)
-                ,Time.deltaTime * standRotateSpeed);*/
+                ,Time.deltaTime * followSpeed * 2);
         }
         else
         {

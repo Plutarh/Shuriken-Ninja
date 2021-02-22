@@ -51,21 +51,23 @@ namespace BzKovSoft.ObjectSlicerSamples
 
 		void OnTriggerEnter(Collider other)
 		{
-			var knife = other.gameObject.GetComponent<BzKnife>();
+		
+		}
+
+		public void BeginSlice(BzKnife knife)
+        {
+			//var knife = bzKnife.gameObject.GetComponent<BzKnife>();
 			if (knife == null)
 				return;
 
-			if(knife.sliceable)
-				sliceCoro = StartCoroutine(Slice(knife));
-            else
-            {
-				knife.StopSlice();
-				knife.transform.root.SetParent(this.transform);
+			sliceCoro = StartCoroutine(Slice(knife));
 
-				
-					
-				transform.root.GetComponent<CharacterSlicerSampleFast>().ConvertToRagdollSimple(knife.MoveDirection * 5 + Vector3.up * 2, Vector3.up);
-            }
+			/*
+			knife.StopSlice();
+			knife.transform.root.SetParent(this.transform);
+
+			transform.root.GetComponent<CharacterSlicerSampleFast>().ConvertToRagdollSimple(knife.MoveDirection * 5 + Vector3.up * 2, Vector3.up);
+			*/
 			/*
 			if (sliceCoro == null )
             {
@@ -76,11 +78,10 @@ namespace BzKovSoft.ObjectSlicerSamples
 			}*/
 			if (bodyPart == EBodyPart.Head)
 			{
-				
+
 				timeService.SlowMotion(1f, 0.3f);
 				//UnityEngine.Debug.Log("Hit head");
 			}
-
 		}
 
 		private IEnumerator Slice(BzKnife knife)

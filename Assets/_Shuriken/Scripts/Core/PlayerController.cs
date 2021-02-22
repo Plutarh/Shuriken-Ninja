@@ -280,7 +280,7 @@ public class PlayerController : Pawn
 
         transform.rotation = Quaternion.Slerp(transform.rotation
               , Quaternion.LookRotation(targetPos, Vector3.up)
-              , Time.deltaTime * 1);
+              , Time.deltaTime * 3);
     }
 
     void FindClosestEnemy()
@@ -297,7 +297,7 @@ public class PlayerController : Pawn
         {
             if (enemy == null) continue;
             float dist = (enemy.transform.position - transform.position).sqrMagnitude;
-            if (closestEnemy == null || dist < closestDist)
+            if (closestEnemy == null || dist < closestDist || closestEnemy.dead)
             {
                 closestDist = dist;
                 closestEnemy = enemy;

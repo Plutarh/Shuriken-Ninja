@@ -2745,6 +2745,7 @@ MonoBehaviour:
   deathParticle: {fileID: 19800000, guid: 83cd9cc9f9c88824ba18dc59b05ae328, type: 3}
   distanceToTarget: 0
   aiState: 0
+  weapon: {fileID: 3819917907083745527}
 --- !u!114 &4014323919445584458
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2835,7 +2836,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae31eeba109408147bf2ae4089b36962, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 0
+  heathPoint: 0
 --- !u!1 &7772267175095044635
 GameObject:
   m_ObjectHideFlags: 0
@@ -3225,6 +3226,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d44f072607d893145b2f6d39c8229bef, type: 3}
+--- !u!114 &3819917907083745527 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9169488180876118802, guid: d44f072607d893145b2f6d39c8229bef,
+    type: 3}
+  m_PrefabInstance: {fileID: 5351265858249479141}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0419480d06dd6834982ceb9f7b0e29cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &5351265858249592757 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 416848, guid: d44f072607d893145b2f6d39c8229bef,

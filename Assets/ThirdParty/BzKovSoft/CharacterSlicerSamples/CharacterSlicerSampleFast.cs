@@ -34,6 +34,13 @@ namespace BzKovSoft.CharacterSlicerSamples
 		public bool sliced;
 
 		public event Action OnSlicedFinish;
+		public ESliceSide sliceSide;
+		public enum ESliceSide
+        {
+			NotSliced,
+			Positive,
+			Negative
+        }
 
 		public bool IsDead { get; private set; }
 
@@ -113,6 +120,9 @@ namespace BzKovSoft.CharacterSlicerSamples
 
 			resultNeg.sliced = true;
 			resultPos.sliced = true;
+
+			resultNeg.sliceSide = ESliceSide.Negative;
+			resultPos.sliceSide = ESliceSide.Positive;
 
 			--_maxSliceCount;
 			resultNeg._maxSliceCount = _maxSliceCount;

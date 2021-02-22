@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 416848}
   - component: {fileID: 3313112}
   - component: {fileID: 2352660}
+  - component: {fileID: 9169488180876118802}
   m_Layer: 0
   m_Name: SM_Wep_Odachi_01
   m_TagString: Untagged
@@ -54,6 +55,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -78,3 +80,23 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!114 &9169488180876118802
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 184202}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0419480d06dd6834982ceb9f7b0e29cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weaponName: 
+  ID: 0
+  damage: 0
+  durability: 0
+  weaponType: 0
+  owner: {fileID: 0}
+  hitImpact: {fileID: 0}
+  bloodImpact: {fileID: 0}

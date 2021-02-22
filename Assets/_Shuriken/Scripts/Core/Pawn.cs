@@ -49,7 +49,7 @@ public class Pawn : MonoBehaviour , IDamageable
         if (!adderSliceable) adderSliceable = GetComponent<AdderSliceableAsync>();
     }
 
-    public void Death()
+    public virtual void Death()
     {
         
     }
