@@ -132,7 +132,7 @@ public class PlayerController : Pawn
                 animator.ResetTrigger("ThrowR");
                 animator.ResetTrigger("ThrowL");
                 animator.SetBool("Run", false);
-                animator.CrossFade("Idle", 0.2f);
+                animator.CrossFade("Idle", 0.1f);
                 break;
             case EPlayerState.Death:
                 navMeshAgent.isStopped = true;
@@ -148,7 +148,7 @@ public class PlayerController : Pawn
         runPoint = point;
         navMeshAgent.SetDestination(runPoint.position);
         animator.SetBool("Run", true);
-        animator.CrossFade("Run", 0.2f);
+        animator.CrossFade("Run", 0.1f);
         ChangeState(EPlayerState.MoveToPoint);
     }
 

@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 412904}
   - component: {fileID: 3387334}
   - component: {fileID: 2376330}
-  - component: {fileID: 6823533915270025688}
   - component: {fileID: 7784011337639044667}
+  - component: {fileID: 4041101059209659676}
   m_Layer: 0
   m_Name: SM_Bld_Tower_01
   m_TagString: Untagged
@@ -81,19 +81,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!65 &6823533915270025688
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 101212}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 5.421875, y: 4.6267614, z: 5.668045}
-  m_Center: {x: 0, y: 2.3133807, z: 0}
 --- !u!54 &7784011337639044667
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -110,3 +97,17 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!64 &4041101059209659676
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 101212}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4300000, guid: 2081b08373843c14da8a35250942cea3, type: 3}

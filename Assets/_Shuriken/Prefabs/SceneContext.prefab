@@ -92,7 +92,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startPoint: {fileID: 0}
-  playerPrefab: {fileID: 2492285177935386639, guid: 3bf38c98317fa9e44a31031edebf9a34,
+  playerPrefab: {fileID: 6269933341146692786, guid: 645acef6b7a94f148a0415495fc7ae67,
     type: 3}
   playerInstance: {fileID: 0}
   runPoint: {fileID: 0}

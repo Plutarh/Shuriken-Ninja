@@ -16,7 +16,8 @@ public class LocationInstaller : MonoInstaller
     {
         if (this != null && startPoint == null)
         {
-            startPoint = GameObject.Find("StartPoint").transform;
+            var fo = GameObject.Find("StartPoint");
+            if (fo) startPoint = fo.transform;
         }
     }
     public override void InstallBindings()
