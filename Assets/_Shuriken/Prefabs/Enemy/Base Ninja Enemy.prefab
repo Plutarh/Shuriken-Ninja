@@ -2739,6 +2739,7 @@ MonoBehaviour:
   characterSlicer: {fileID: 4014323919445584458}
   adderSliceable: {fileID: 4014323919445584457}
   dead: 0
+  pawnType: 1
   player: {fileID: 0}
   rootObj: {fileID: 4789252360816085713}
   deathParticle: {fileID: 19800000, guid: 83cd9cc9f9c88824ba18dc59b05ae328, type: 3}

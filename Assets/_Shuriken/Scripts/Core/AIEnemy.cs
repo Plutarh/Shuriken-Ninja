@@ -22,7 +22,8 @@ public class AIEnemy : Pawn
     {
         Chaise,
         Attack,
-        Idle
+        Idle,
+        Win
     }
 
     [Inject]
@@ -70,6 +71,8 @@ public class AIEnemy : Pawn
             case EAIState.Idle:
                 animator.Play("Idle");
                 break;
+            case EAIState.Win:
+                break;
         }
 
     }
@@ -88,6 +91,8 @@ public class AIEnemy : Pawn
                 break;
             case EAIState.Idle:
                 animator.CrossFade("Idle", 0.2f);
+                break;
+            case EAIState.Win:
                 break;
         }
     }

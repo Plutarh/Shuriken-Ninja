@@ -18,6 +18,13 @@ public class Pawn : MonoBehaviour , IDamageable
     public AdderSliceableAsync adderSliceable;
 
     public bool dead;
+    public EPawnType pawnType;
+    public enum EPawnType
+    {
+        Player,
+        Enemy
+    }
+
     void Awake()
     {
 
@@ -47,7 +54,7 @@ public class Pawn : MonoBehaviour , IDamageable
         
     }
 
-    public void TakeDamage(float dmg)
+    public virtual void TakeDamage(float dmg)
     {
         
     }

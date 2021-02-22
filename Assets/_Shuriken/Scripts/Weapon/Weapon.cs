@@ -7,6 +7,9 @@ public class Weapon : MonoBehaviour
     public float damage;
     public float durability;
     public EWeaponType weaponType;
+
+    public Pawn owner;
+
     public enum EWeaponType
     {
         Melee,

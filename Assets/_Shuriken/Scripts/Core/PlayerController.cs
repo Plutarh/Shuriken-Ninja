@@ -30,7 +30,8 @@ public class PlayerController : Pawn
     public enum EPlayerState
     {
         MoveToPoint,
-        Stand
+        Stand,
+        Death
     }
 
     bool shotLeft;
@@ -101,13 +102,15 @@ public class PlayerController : Pawn
             case EPlayerState.MoveToPoint:
                 break;
             case EPlayerState.Stand:
-             
+
                 FindClosestEnemy();
                 RotateToClosestTarget();
                 break;
+            case EPlayerState.Death:
+                break;
         }
 
-       
+
     }
 
     public void ChangeState(EPlayerState newState)
@@ -121,7 +124,7 @@ public class PlayerController : Pawn
             case EPlayerState.MoveToPoint:
                 navMeshAgent.isStopped = false;
                 navMeshAgent.speed = 4;
-              
+
                 break;
             case EPlayerState.Stand:
                 navMeshAgent.isStopped = true;
@@ -130,6 +133,11 @@ public class PlayerController : Pawn
                 animator.ResetTrigger("ThrowL");
                 animator.SetBool("Run", false);
                 animator.CrossFade("Idle", 0.2f);
+                break;
+            case EPlayerState.Death:
+                navMeshAgent.isStopped = true;
+                animator.CrossFade("Death", 0.2f);
+                dead = true;
                 break;
         }
     }
@@ -306,5 +314,17 @@ public class PlayerController : Pawn
             _inputService.OnNonColliderClick -= GetThrowDirection;
         }
       
+    }
+
+    public override void TakeDamage(float dmg)
+    {
+        if (health.heathPoint <= 0) return;
+
+        health.heathPoint -= dmg;
+
+        if (health.heathPoint <= 0)
+        {
+            ChangeState(EPlayerState.Death);
+        }
     }
 }
