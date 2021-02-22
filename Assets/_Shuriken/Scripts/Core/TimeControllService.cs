@@ -6,7 +6,14 @@ public class TimeControllService : MonoBehaviour
 {
 
     Coroutine timeCoro;
-    
+
+    public float enemyHeadSlowMotionTime;
+
+    private void Awake()
+    {
+        EventService.OnHitEnemyHead += OnHitEnemyHead;
+    }
+
     void Start()
     {
         
@@ -16,6 +23,11 @@ public class TimeControllService : MonoBehaviour
     void Update()
     {
         
+    }
+
+    void OnHitEnemyHead()
+    {
+        SlowMotion(enemyHeadSlowMotionTime, 0.5f);
     }
 
     public void SlowMotion(float duration,float timeScale)
@@ -37,5 +49,10 @@ public class TimeControllService : MonoBehaviour
         }
         Time.timeScale = 1;
         timeCoro = null;
+    }
+
+    private void OnDestroy()
+    {
+        EventService.OnHitEnemyHead -= OnHitEnemyHead;
     }
 }

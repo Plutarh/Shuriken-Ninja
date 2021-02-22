@@ -183,9 +183,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponName: Kunai
   ID: 1
-  damage: 0
+  damage: 1
   durability: 0
   weaponType: 1
+  owner: {fileID: 0}
   hitImpact: {fileID: 533855767826384600}
   bloodImpact: {fileID: 0}
   slicer: {fileID: 7772649374175621836}
@@ -311,6 +312,7 @@ MonoBehaviour:
   _direction: {x: 0, y: 1, z: 0}
   durability: 0
   sliceable: 0
+  weapon: {fileID: 5813450618199375845}
 --- !u!1 &8466494171876615901
 GameObject:
   m_ObjectHideFlags: 0

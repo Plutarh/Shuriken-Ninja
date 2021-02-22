@@ -6,7 +6,7 @@ using Zenject;
 public class BootstrapInstaller : MonoInstaller
 {
 
-    public EventService eventServiceInstance;
+    //public EventService eventServiceInstance;
     public Core coreInstance;
     public InputService inputServiceInstace;
     public TimeControllService timeControllInstance;
@@ -14,20 +14,21 @@ public class BootstrapInstaller : MonoInstaller
 
     public override void InstallBindings()
     {
-        BindEventService();
+        //BindEventService();
         BindCoreInstance();
         BindInputService();
         BindTimeControllService();
         BindWeaponManager();
     }
 
+    /*
     private void BindEventService()
     {
         Container
             .Bind<EventService>()
             .FromInstance(eventServiceInstance)
             .AsSingle();
-    }
+    }*/
 
     private void BindCoreInstance()
     {

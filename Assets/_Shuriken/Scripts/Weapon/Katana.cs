@@ -19,6 +19,7 @@ public class Katana : Weapon
     private void OnTriggerEnter(Collider other)
     {
         if (other == null) return;
+        if (owner == null) return;
 
         var otherPawn = other.GetComponent<Pawn>();
         if(otherPawn != null)

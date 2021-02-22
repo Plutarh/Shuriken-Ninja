@@ -20,12 +20,14 @@ public class AIEnemy : Pawn
     public EAIState aiState;
 
     public Weapon weapon;
+   
     public enum EAIState
     {
         Chaise,
         Attack,
         Idle,
-        Win
+        Win,
+        Death
     }
 
     [Inject]
@@ -40,11 +42,12 @@ public class AIEnemy : Pawn
     }
     private void Awake()
     {
-        if(characterSlicer.sliceSide == CharacterSlicerSampleFast.ESliceSide.NotSliced)
+        if (characterSlicer.sliceSide == CharacterSlicerSampleFast.ESliceSide.NotSliced)
         {
             adderSliceable.SetupSliceableParts(this);
             characterSlicer.OnSlicedFinish += Death;
             ChangeState(EAIState.Chaise);
+            EventService.OnPlayerDead += () => ChangeState(EAIState.Win);
         }
     }
 
@@ -61,6 +64,7 @@ public class AIEnemy : Pawn
 
     public void ChangeState(EAIState newState)
     {
+        if (dead) return;
         if (aiState == newState) return;
         aiState = newState;
 
@@ -69,14 +73,18 @@ public class AIEnemy : Pawn
             case EAIState.Chaise:
                 break;
             case EAIState.Attack:
-                if(navMeshAgent != null) navMeshAgent.isStopped = true;
+                if (navMeshAgent != null) navMeshAgent.isStopped = true;
+                if (animator != null) animator.CrossFade("Melee Attack", 0.2f);
 
-                animator.CrossFade("Melee Attack", 0.2f);
                 break;
             case EAIState.Idle:
-                animator.Play("Idle");
+               
                 break;
             case EAIState.Win:
+                if (navMeshAgent != null) navMeshAgent.isStopped = true;
+                animator.CrossFade("Idle", 0.2f);
+                break;
+            case EAIState.Death:
                 break;
         }
 
@@ -95,10 +103,23 @@ public class AIEnemy : Pawn
                 RotateToTarget();
                 break;
             case EAIState.Idle:
-                animator.CrossFade("Idle", 0.2f);
+                //animator.CrossFade("Idle", 0.2f);
                 break;
             case EAIState.Win:
                 break;
+            case EAIState.Death:
+                break;
+        }
+
+        if(characterSlicer.sliced)
+        {
+            if (navMeshAgent != null)
+            {
+                if (!navMeshAgent.isStopped)
+                {
+                    Death();
+                }
+            }
         }
     }
 
@@ -129,16 +150,7 @@ public class AIEnemy : Pawn
         {
             navMeshAgent.SetDestination(player.transform.position);
         }
-        else
-        {
-            if (navMeshAgent != null)
-            {
-                if (!navMeshAgent.isStopped)
-                {
-                    Death();
-                }
-            }
-        }
+     
     }
 
     public override void Death()
@@ -150,12 +162,46 @@ public class AIEnemy : Pawn
         {
             weapon.gameObject.AddComponent<Rigidbody>();
             weapon.transform.SetParent(null);
+            Destroy(weapon.gameObject, 3f);
         }
+        navMeshAgent.avoidancePriority = 50;
         navMeshAgent.isStopped = true;
         OnDeath?.Invoke(this);
         ClearComponents();
         dead = true;
+        //ChangeState(EAIState.Death);
         StartCoroutine(IEWaitToDestroy());
+    }
+
+    public override void TakeDamage(float dmg)
+    {
+        if (!dead)
+            StartCoroutine(IEHitCoro(1.5f));
+        health.heathPoint -= dmg;
+        if(health.heathPoint <= 0)
+        {
+            // =(
+        }
+    }
+
+    IEnumerator IEHitCoro(float duration)
+    {
+        
+        EAIState oldState = aiState;
+        ChangeState(EAIState.Idle);
+        animator.CrossFade("Hit", 0.1f);
+
+        if (navMeshAgent != null) navMeshAgent.isStopped = true;
+     
+        var dur = duration;
+        while(dur > 0)
+        {
+            dur -= Time.deltaTime;
+            yield return new WaitForEndOfFrame();
+        }
+        ChangeState(oldState);
+        if(navMeshAgent != null) navMeshAgent.isStopped = false;
+       
     }
 
     IEnumerator IEWaitToDestroy()
@@ -180,5 +226,6 @@ public class AIEnemy : Pawn
     private void OnDestroy()
     {
         characterSlicer.OnSlicedFinish -= Death;
+        EventService.OnPlayerDead -= () => ChangeState(EAIState.Win);
     }
 }

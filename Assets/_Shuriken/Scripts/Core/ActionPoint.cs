@@ -85,12 +85,16 @@ public class ActionPoint : MonoBehaviour
         pointState = newState;
     }
 
+    int priorityIndex = 0;
+
     void AddEnemy(AIEnemy pawn)
     {
         if (!actionPointEnemies.Contains(pawn))
         {
+            pawn.navMeshAgent.avoidancePriority = priorityIndex;
             actionPointEnemies.Add(pawn);
             pawn.OnDeath += RemoveEnemy;
+            priorityIndex++;
         }
             
     }

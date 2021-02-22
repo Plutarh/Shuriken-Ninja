@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BzKovSoft.CharacterSlicerSamples;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -25,6 +26,8 @@ namespace BzKovSoft.ObjectSlicerSamples
 		public int durability;
 
 		public bool sliceable;
+
+		public Weapon weapon;
 
         private void Awake()
         {
@@ -61,26 +64,71 @@ namespace BzKovSoft.ObjectSlicerSamples
         {
 			OnStopSlice?.Invoke();
 			GetComponent<Collider>().enabled = false;
-			Debug.LogError("Stop slice");
 		}
 
         private void OnTriggerEnter(Collider other)
         {
 			if (other == null) return;
 
-            if (sliceable)
-            {
-				var ksa = other.gameObject.GetComponent<KnifeSliceableAsync>();
-				if(ksa != null)
-                {
+
+			var ksa = other.gameObject.GetComponent<KnifeSliceableAsync>();
+			if (ksa != null)
+			{
+
+				if (sliceable)
+				{
+					if (ksa.bodyPart == KnifeSliceableAsync.EBodyPart.Head)
+					{
+						EventService.OnHitEnemyHead?.Invoke();
+					}
 					ksa.BeginSlice(this);
-                }
+				}
+				else
+				{
+					StopSlice();
+
+					
+					weapon.transform.root.SetParent(ksa.transform);
+					weapon.transform.position = ksa.GetComponent<Collider>().bounds.center;
+					weapon.transform.rotation.SetLookRotation(MoveDirection.normalized);
+
+					if (ksa.owner != null)
+                    {
+						if (ksa.bodyPart == KnifeSliceableAsync.EBodyPart.Head)
+						{
+							ksa.owner.TakeDamage(weapon.damage * 3);
+							EventService.OnHitEnemyHead?.Invoke();
+						}
+						else ksa.owner.TakeDamage(weapon.damage);
+
+						if (ksa.owner.health.heathPoint <= 0)
+						{
+							ksa.GetComponentInParent<CharacterSlicerSampleFast>().ConvertToRagdollSimple(this.MoveDirection.normalized * 2, Vector3.zero);
+						}
+					}
+				}
 			}
             else
             {
+				var weapon = other.GetComponent<Weapon>();
+				if(weapon != null)
+                {
+					weapon.owner = null;
+					weapon.gameObject.AddComponent<Rigidbody>();
+					weapon.transform.SetParent(null);
+					Destroy(weapon.gameObject, 3f);
+				}
+
+				if (sliceable)
+				{
+					
+					
+				}
 				StopSlice();
 				transform.root.SetParent(other.transform);
 			}
+
+		
 		
 
 		

@@ -3,8 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EventService : MonoBehaviour
+public static class EventService
 {
 
-   
+    public static Action OnHitEnemyHead;
+    public static Action OnPlayerDead;
 }

@@ -88,7 +88,7 @@ public class PlayerController : Pawn
     void CheckDistanceToCurrentRunPoint()
     {
         if (runPoint == null) return;
-        if (Vector3.Distance(transform.position, runPoint.position) < 0.2f)
+        if (Vector3.Distance(transform.position, runPoint.position) < 0.5f)
         {
             ChangeState(EPlayerState.Stand);
         }
@@ -136,7 +136,8 @@ public class PlayerController : Pawn
                 break;
             case EPlayerState.Death:
                 navMeshAgent.isStopped = true;
-                animator.CrossFade("Death", 0.2f);
+                animator.CrossFade("Death", 0.1f);
+                EventService.OnPlayerDead?.Invoke();
                 dead = true;
                 break;
         }

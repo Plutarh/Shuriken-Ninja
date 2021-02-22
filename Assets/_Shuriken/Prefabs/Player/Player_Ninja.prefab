@@ -1550,7 +1550,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae31eeba109408147bf2ae4089b36962, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  heathPoint: 0
+  heathPoint: 1
 --- !u!114 &6269933341146692799
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1571,7 +1571,7 @@ MonoBehaviour:
   adderSliceable: {fileID: 0}
   dead: 0
   pawnType: 0
-  shurikenOffset: {x: 0, y: 2, z: 0}
+  shurikenOffset: {x: 0, y: 1.5, z: 0}
   R_shurikenSpawnPos: {fileID: 6271893078290008796}
   L_shurikenSpawnPos: {fileID: 6272078633069578156}
   throwDirection: {x: 0, y: 0, z: 0}
@@ -1583,7 +1583,7 @@ MonoBehaviour:
   closestDist: 0
   weaponPrefab: {fileID: 5813450618199375845, guid: 15de583868f358147942997fe5f48e9d,
     type: 3}
-  heightMultiply: 3
+  heightMultiply: 2.3
 --- !u!195 &6269933341146692784
 NavMeshAgent:
   m_ObjectHideFlags: 0
