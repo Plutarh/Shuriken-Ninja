@@ -7,5 +7,6 @@ public static class EventService
 {
 
     public static Action OnHitEnemyHead;
+    public static Action OnEnemyHit;
     public static Action OnPlayerDead;
 }

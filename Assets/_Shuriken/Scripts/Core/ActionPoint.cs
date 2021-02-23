@@ -108,7 +108,7 @@ public class ActionPoint : MonoBehaviour
             livePawns--;
         }
 
-        if(livePawns <= 0)
+        if(livePawns <= 0 && spawnCount <= 0)
         {
             ChangeState(EActionPointState.Done);
             _levelSessionService.ActionPointDone(this);

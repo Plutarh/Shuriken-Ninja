@@ -20,7 +20,9 @@ public class AIEnemy : Pawn
     public EAIState aiState;
 
     public Weapon weapon;
-   
+
+ 
+
     public enum EAIState
     {
         Chaise,
@@ -48,6 +50,10 @@ public class AIEnemy : Pawn
             characterSlicer.OnSlicedFinish += Death;
             ChangeState(EAIState.Chaise);
             EventService.OnPlayerDead += () => ChangeState(EAIState.Win);
+        }
+        else
+        {
+            Destroy(gameObject, 2f);
         }
     }
 
@@ -160,27 +166,32 @@ public class AIEnemy : Pawn
         
         if(weapon != null)
         {
-            weapon.gameObject.AddComponent<Rigidbody>();
+            var weaponRB = weapon.gameObject.GetComponent<Rigidbody>();
+            if(weaponRB != null)
+            {
+                weaponRB.useGravity = true;
+                weaponRB.isKinematic = false;
+            }
+         
             weapon.transform.SetParent(null);
             Destroy(weapon.gameObject, 3f);
         }
         navMeshAgent.avoidancePriority = 50;
         navMeshAgent.isStopped = true;
         OnDeath?.Invoke(this);
-        ClearComponents();
         dead = true;
-        //ChangeState(EAIState.Death);
+        ClearComponents();
         StartCoroutine(IEWaitToDestroy());
     }
 
     public override void TakeDamage(float dmg)
     {
         if (!dead)
-            StartCoroutine(IEHitCoro(1.5f));
+            StartCoroutine(IEHitCoro(1f));
         health.heathPoint -= dmg;
         if(health.heathPoint <= 0)
         {
-            // =(
+            Death();
         }
     }
 

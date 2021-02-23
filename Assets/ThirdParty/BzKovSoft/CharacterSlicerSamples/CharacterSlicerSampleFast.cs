@@ -85,7 +85,7 @@ namespace BzKovSoft.CharacterSlicerSamples
 		{
 			if (!result.sliced)
             {
-				UnityEngine.Debug.LogError("Sliced error");
+				UnityEngine.Debug.LogError("Sliced error ");
 				return;
 			}
 				
@@ -255,7 +255,7 @@ namespace BzKovSoft.CharacterSlicerSamples
 
 		public void ConvertToRagdollSimple(Vector3 velocityContinue,Vector3 angluarVelocity)
         {
-			OnSlicedFinish?.Invoke();
+			//OnSlicedFinish?.Invoke();
 			sliced = true;
 			ConvertToRagdoll(gameObject, velocityContinue,angluarVelocity);
 

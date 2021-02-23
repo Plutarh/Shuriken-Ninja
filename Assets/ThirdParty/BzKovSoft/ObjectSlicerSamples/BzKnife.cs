@@ -81,7 +81,12 @@ namespace BzKovSoft.ObjectSlicerSamples
 					{
 						EventService.OnHitEnemyHead?.Invoke();
 					}
+                    else
+                    {
+						EventService.OnEnemyHit?.Invoke();
+					}
 					ksa.BeginSlice(this);
+					SliceID++;
 				}
 				else
 				{
@@ -99,7 +104,11 @@ namespace BzKovSoft.ObjectSlicerSamples
 							ksa.owner.TakeDamage(weapon.damage * 3);
 							EventService.OnHitEnemyHead?.Invoke();
 						}
-						else ksa.owner.TakeDamage(weapon.damage);
+						else
+						{ 
+							ksa.owner.TakeDamage(weapon.damage);
+							EventService.OnEnemyHit?.Invoke();
+						}
 
 						if (ksa.owner.health.heathPoint <= 0)
 						{
@@ -110,19 +119,24 @@ namespace BzKovSoft.ObjectSlicerSamples
 			}
             else
             {
-				var weapon = other.GetComponent<Weapon>();
-				if(weapon != null)
-                {
-					weapon.owner = null;
-					weapon.gameObject.AddComponent<Rigidbody>();
-					weapon.transform.SetParent(null);
-					Destroy(weapon.gameObject, 3f);
-				}
+			
 
 				if (sliceable)
 				{
 					
 					
+				}
+                else
+                {
+					var weapon = other.GetComponent<Weapon>();
+					if (weapon != null)
+					{
+						weapon.owner = null;
+						weapon.gameObject.GetComponent<Rigidbody>().isKinematic = false;
+						weapon.gameObject.GetComponent<Rigidbody>().useGravity = true;
+						weapon.transform.SetParent(null);
+						Destroy(weapon.gameObject, 3f);
+					}
 				}
 				StopSlice();
 				transform.root.SetParent(other.transform);

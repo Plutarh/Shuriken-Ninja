@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
@@ -22,10 +23,13 @@ public class PlayerController : Pawn
     public float closestDist;
 
 
-    public Weapon weaponPrefab;
+    public Weapon baseWeaponPrefab;
+    public Weapon greatWeaponPrefab;
     IThrowable throwableObject;
 
     public float heightMultiply;
+
+    public int powerThrow;
 
     public enum EPlayerState
     {
@@ -35,6 +39,7 @@ public class PlayerController : Pawn
     }
 
     bool shotLeft;
+    bool shotMega;
     bool blockShot;
     GameObject throwTarget;
     Collider targetCol;
@@ -64,6 +69,38 @@ public class PlayerController : Pawn
     void Awake()
     {
         animator = GetComponent<Animator>();
+        EventService.OnEnemyHit += OnEnemyHit;
+        EventService.OnHitEnemyHead += OnHitEnemyHead;
+    }
+
+    private void OnEnemyHit()
+    {
+        Debug.LogError("Enemy HIT");
+        if (powerThrow < 5)
+        {
+            powerThrow++;
+            if (powerThrow >= 5)
+            {
+                powerThrow = 5;
+                shotMega = true;
+            }
+        }
+        
+    }
+
+    private void OnHitEnemyHead()
+    {
+        Debug.LogError("HEAD HIT");
+        if (powerThrow < 5)
+        {
+            powerThrow += 3;
+            if (powerThrow >= 5)
+            {
+                powerThrow = 5;
+                shotMega = true;
+            }
+        }
+
     }
 
     void Start()
@@ -131,6 +168,7 @@ public class PlayerController : Pawn
                 blockShot = false;
                 animator.ResetTrigger("ThrowR");
                 animator.ResetTrigger("ThrowL");
+                animator.ResetTrigger("ThrowR");
                 animator.SetBool("Run", false);
                 animator.CrossFade("Idle", 0.1f);
                 break;
@@ -164,29 +202,7 @@ public class PlayerController : Pawn
         Debug.DrawLine(R_shurikenSpawnPos.position, throwPoint, Color.white, 3f);
         Debug.DrawLine(L_shurikenSpawnPos.position, throwPoint, Color.white, 3f);
 
-        if (shotLeft)
-        {
-            if (!blockShot)
-            {
-                animator.SetTrigger("ThrowR");
-                blockShot = true;
-                targetCol = null;
-            }
-
-
-        }
-        else
-        {
-            if (!blockShot)
-            {
-                animator.SetTrigger("ThrowL");
-                blockShot = true;
-                targetCol = null;
-            }
-
-        }
-
-
+        ThrowAnimation(false);
     }
 
     
@@ -202,50 +218,80 @@ public class PlayerController : Pawn
         relPoint = R_shurikenSpawnPos.InverseTransformPoint(point);
 
         Debug.DrawLine(R_shurikenSpawnPos.position, point, Color.blue, 3f);
-        //animator.SetTrigger("ThrowR");
 
-        if (shotLeft)
+
+        ThrowAnimation();
+    }
+
+    void ThrowAnimation(bool nullTarget = false)
+    {
+        if(shotMega)
         {
             if (!blockShot)
             {
-                animator.SetTrigger("ThrowR");
+                animator.SetTrigger("ThrowM");
                 blockShot = true;
             }
-               
-
         }
         else
         {
-            if (!blockShot)
+            if (shotLeft)
             {
-                animator.SetTrigger("ThrowL");
-                blockShot = true;
+                if (!blockShot)
+                {
+                    animator.SetTrigger("ThrowR");
+                    blockShot = true;
+                    if(nullTarget)
+                        targetCol = null;
+                }
+
+
             }
-                
+            else
+            {
+                if (!blockShot)
+                {
+                    animator.SetTrigger("ThrowL");
+                    blockShot = true;
+                    if(nullTarget)
+                        targetCol = null;
+                }
+
+            }
         }
     }
 
     public void ThrowShurikenByAnimator()
     {
         
-        ThrowShuriken(relPoint);
+        CreateThrowableWeapon(relPoint);
         //Debug.DrawLine(R_shurikenSpawnPos.transform.position, relPoint, Color.cyan, 2);
     }
 
-    void ThrowShuriken(Vector3 relPoint)
+    void CreateThrowableWeapon(Vector3 relPoint)
     {
-        if (shotLeft)
+        if (shotMega)
         {
-            throwableObject = Instantiate(weaponPrefab, R_shurikenSpawnPos.position, Quaternion.identity) as Shuriken;
+            throwableObject = Instantiate(greatWeaponPrefab, R_shurikenSpawnPos.position, Quaternion.identity) as IThrowable;
+            shotMega = false;
+            powerThrow = 0;
         }
         else
         {
-           
-            throwableObject = Instantiate(weaponPrefab, L_shurikenSpawnPos.position, Quaternion.identity) as Shuriken;
-        }
-        shotLeft = !shotLeft;
-        blockShot = false;
+            if (shotLeft)
+            {
+                throwableObject = Instantiate(baseWeaponPrefab, R_shurikenSpawnPos.position, Quaternion.identity) as IThrowable;
+            }
+            else
+            {
 
+                throwableObject = Instantiate(baseWeaponPrefab, L_shurikenSpawnPos.position, Quaternion.identity) as IThrowable;
+            }
+            shotLeft = !shotLeft;
+        }
+     
+        blockShot = false;
+      
 
         if (throwableObject.IsSlicer())
         {
@@ -264,11 +310,7 @@ public class PlayerController : Pawn
             }
         }
 
-       
-
         throwableObject.SetTargetPosition(throwPoint);
-        //throwableObject.SetMoveDirection(throwPoint);
-
         targetCol = null;
     }
 
@@ -314,7 +356,8 @@ public class PlayerController : Pawn
             _inputService.OnColliderClick -= GetThrowDirection;
             _inputService.OnNonColliderClick -= GetThrowDirection;
         }
-      
+        EventService.OnEnemyHit -= OnEnemyHit;
+        EventService.OnHitEnemyHead -= OnHitEnemyHead;
     }
 
     public override void TakeDamage(float dmg)

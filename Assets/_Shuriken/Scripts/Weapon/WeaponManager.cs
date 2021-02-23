@@ -30,10 +30,11 @@ public class WeaponManager : MonoBehaviour
     {
         if (playerInstance == null) return;
 
+        /*
         if(playerInstance.weaponPrefab.weaponName == "Kunai")
             playerInstance.weaponPrefab = GetWeaponByName("Shuriken");
         else
-            playerInstance.weaponPrefab = GetWeaponByName("Kunai");
+            playerInstance.weaponPrefab = GetWeaponByName("Kunai");*/
     }
     
 }
