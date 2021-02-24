@@ -7,7 +7,7 @@ public class SceneLoader : MonoBehaviour
 {
 
     public int sceneIndex;
-
+    Coroutine loadRoutine;
     void Start()
     {
         
@@ -21,7 +21,7 @@ public class SceneLoader : MonoBehaviour
 
     public void RestartLevel()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        LoadSceneByName(SceneManager.GetActiveScene().name);
     }
 
     public void LoadNextLevel()
@@ -29,8 +29,7 @@ public class SceneLoader : MonoBehaviour
         sceneIndex = SceneManager.GetActiveScene().buildIndex;
         if (sceneIndex  > SceneManager.sceneCount  + 1) return;
         sceneIndex++;
-        SceneManager.LoadScene(sceneIndex);
-        
+        LoadSceneByIndex(sceneIndex);
     }
 
     public void LoadPrevLevel()
@@ -38,6 +37,46 @@ public class SceneLoader : MonoBehaviour
         sceneIndex = SceneManager.GetActiveScene().buildIndex;
         if (sceneIndex - 1 < 0) return;
         sceneIndex--;
-        SceneManager.LoadScene(sceneIndex);
+        LoadSceneByIndex(sceneIndex);
+    }
+
+    void LoadSceneByName(string sceneName)
+    {
+        StartCoroutine(IELoadSceneRoutine(sceneName));
+    }
+
+    void LoadSceneByIndex(int sceneIndex)
+    {
+        StartCoroutine(IELoadSceneRoutine(null, sceneIndex));
+    }
+
+
+    IEnumerator IELoadSceneRoutine(string sceneName = null,int sceneIndex = -1)
+    {
+        AsyncOperation async = null;
+        if (sceneName != null)
+        {
+            async = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Single);
+        }
+        else if(sceneIndex != -1)
+        {
+            async = SceneManager.LoadSceneAsync(sceneIndex, LoadSceneMode.Single);
+        }
+    
+        async.allowSceneActivation = false;
+        if (async == null)
+        {
+            Debug.LogError("Cannot Load scene !!!");
+            yield break;
+        }
+
+        while (async.isDone)
+        {
+            yield return null;
+        }
+
+       
+        async.allowSceneActivation = true;
+        EventService.OnNewSceneLoaded?.Invoke();
     }
 }

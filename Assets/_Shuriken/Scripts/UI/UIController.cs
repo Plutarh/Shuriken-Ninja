@@ -7,12 +7,13 @@ public class UIController : MonoBehaviour
 {
     public static UIController Get;
 
-
+    public UIPanel tapToPlayPanel;
     public Image playerThrowPower;
 
     private void Awake()
     {
         Get = this;
+        EventService.OnNewSceneLoaded += OnNewSceneLoaded;
     }
 
     void Start()
@@ -26,8 +27,18 @@ public class UIController : MonoBehaviour
         
     }
 
+    void OnNewSceneLoaded()
+    {
+        tapToPlayPanel.Show(true);
+    }
+
     public void SetPlayerThrowPoint(int points)
     {
         playerThrowPower.fillAmount = (float)points / 5;
+    }
+
+    private void OnDestroy()
+    {
+        EventService.OnNewSceneLoaded -= OnNewSceneLoaded;
     }
 }

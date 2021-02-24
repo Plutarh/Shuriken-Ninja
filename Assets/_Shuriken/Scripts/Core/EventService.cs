@@ -10,4 +10,5 @@ public static class EventService
     public static Action OnEnemyHit;
     public static Action OnPlayerDead;
     public static Action OnTapToPlay;
+    public static Action OnNewSceneLoaded;
 }
