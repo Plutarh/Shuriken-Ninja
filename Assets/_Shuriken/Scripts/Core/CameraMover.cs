@@ -7,6 +7,8 @@ public class CameraMover : MonoBehaviour
 {
     public PlayerController targetToFollow;
 
+    [SerializeField] Vector3 idleOffset;
+
     [SerializeField] Vector3 followOffset;
     [SerializeField] Vector3 followRotationOffset;
 
@@ -23,7 +25,8 @@ public class CameraMover : MonoBehaviour
     public enum ECameraState
     {
         Follow,
-        Stand
+        Stand,
+        Idle
     }
 
 
@@ -70,6 +73,8 @@ public class CameraMover : MonoBehaviour
             case PlayerController.EPlayerState.Stand:
                 ChangeState(ECameraState.Stand);
                 break;
+            case PlayerController.EPlayerState.Death:
+                break;
         }
     }
 
@@ -89,14 +94,16 @@ public class CameraMover : MonoBehaviour
             case ECameraState.Stand:
                 StandNearTarget();
                 break;
+            case ECameraState.Idle:
+                break;
         }
     }
 
     void InitCamera()
     {
         transform.rotation = Quaternion.LookRotation(targetToFollow.transform.forward + followRotationOffset, Vector3.up);
-        Vector3 targetPos = targetToFollow.transform.position - targetMoveDir;
-        transform.position = transform.position + targetPos;
+        Vector3 targetPos = targetToFollow.transform.position + followOffset;
+        transform.position = targetToFollow.transform.position + idleOffset;
                 
     }
 
@@ -140,12 +147,13 @@ public class CameraMover : MonoBehaviour
         }
         else
         {
+            /*
             Vector3 targetPos = targetToFollow.transform.position - targetMoveDir * standDistToTarget;
             targetPos += standOffset;
             transform.position = Vector3.Lerp(transform.position
                 ,targetPos
                 ,Time.deltaTime * followSpeed);
-           
+           */
         }
         
         transform.rotation = Quaternion.Slerp(transform.rotation
@@ -153,5 +161,5 @@ public class CameraMover : MonoBehaviour
             ,Time.deltaTime * standRotateSpeed);
     }
 
-   
+
 }

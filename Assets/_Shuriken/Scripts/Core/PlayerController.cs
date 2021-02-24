@@ -146,6 +146,7 @@ public class PlayerController : Pawn
  
     void StateMachine()
     {
+        if (levelSession.levelState == LevelSessionService.ELevelState.NotStarted) return;
         // Every frame call
         switch (playerState)
         {
@@ -238,7 +239,9 @@ public class PlayerController : Pawn
 
     void ThrowAnimation(bool nullTarget = false)
     {
-        if(shotMega)
+        if (levelSession.levelState == LevelSessionService.ELevelState.NotStarted) return;
+
+        if (shotMega)
         {
             if (!blockShot)
             {

@@ -16,6 +16,14 @@ public class LevelSessionService : MonoBehaviour
     public int curActionPointIndex;
 
     public float delayToStartNextPoint;
+    public ELevelState levelState;
+
+    public enum ELevelState
+    {
+        NotStarted,
+        Proccess,
+        Finish
+    }
 
     [Inject]
     void Constuct(PlayerController playerC)
@@ -35,13 +43,22 @@ public class LevelSessionService : MonoBehaviour
 
     private void Awake()
     {
+        levelState = ELevelState.NotStarted;
         var sortedPoints = actionPoints.OrderBy(p => p.name);
         actionPoints = sortedPoints.ToList();
         SetCurrentActionPoint();
+
+        EventService.OnTapToPlay += StartGame;
     }
 
     void Start()
     {
+        //SetPlayerNextMovePoint();
+    }
+
+    void StartGame()
+    {
+        levelState = ELevelState.Proccess;
         SetPlayerNextMovePoint();
     }
 
@@ -79,5 +96,10 @@ public class LevelSessionService : MonoBehaviour
         curActionPointIndex++;
         SetCurrentActionPoint();
         SetPlayerNextMovePoint();
+    }
+
+    private void OnDestroy()
+    {
+        EventService.OnTapToPlay -= StartGame;
     }
 }

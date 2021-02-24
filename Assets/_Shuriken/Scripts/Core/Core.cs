@@ -15,4 +15,9 @@ public class Core : MonoBehaviour
     {
         
     }
+
+    public void TapToPlay()
+    {
+        EventService.OnTapToPlay?.Invoke();
+    }
 }

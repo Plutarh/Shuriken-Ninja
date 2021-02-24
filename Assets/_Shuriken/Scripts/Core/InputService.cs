@@ -40,7 +40,7 @@ public class InputService : MonoBehaviour, IInputService
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out raycastHit, raycastLenght, layerMask))
             {
-                Debug.Log($"<color=green> {raycastHit.transform.root.name}- { raycastHit.point} raycast </color>");
+                Debug.Log($"<color=green> {raycastHit.transform.root.name}- {raycastHit.transform} - { raycastHit.point} raycast </color>");
                 OnColliderClick?.Invoke(raycastHit.point,raycastHit.collider);
             }
             else
