@@ -18,6 +18,9 @@ public class ActionPoint : MonoBehaviour
 
     float spawnTimer;
 
+    public ParticleSystem auraFX;
+    public ParticleSystem spawnFX;
+
     public enum EActionPointState
     {
         Wait,
@@ -39,7 +42,7 @@ public class ActionPoint : MonoBehaviour
         if(pawnSpawner != null)
         {
             pawnSpawner.OnPawnSpawn += AddEnemy;
-
+            auraFX.gameObject.SetActive(false);
         }
       
     }
@@ -67,6 +70,7 @@ public class ActionPoint : MonoBehaviour
                     spawnTimer += Time.deltaTime;
                     if (spawnTimer > spawnDelay)
                     {
+                        if (!spawnFX.isPlaying) spawnFX.Play();
                         pawnSpawner.SpawnPawn();
                         spawnTimer = 0;
                         spawnCount--;
@@ -75,6 +79,7 @@ public class ActionPoint : MonoBehaviour
                 }
                 break;
             case EActionPointState.Done:
+              
                 break;
         }
     }
@@ -83,6 +88,19 @@ public class ActionPoint : MonoBehaviour
     {
         if (newState == pointState) return;
         pointState = newState;
+
+        switch (pointState)
+        {
+            case EActionPointState.Wait:
+                break;
+            case EActionPointState.Action:
+                auraFX.gameObject.SetActive(true);
+                if (!auraFX.isPlaying) auraFX.Play();
+                break;
+            case EActionPointState.Done:
+                if (auraFX.isPlaying) auraFX.Stop();
+                break;
+        }
     }
 
     int priorityIndex = 0;

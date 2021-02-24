@@ -73,6 +73,29 @@ public class PlayerController : Pawn
         EventService.OnHitEnemyHead += OnHitEnemyHead;
     }
 
+    
+
+  
+
+    void Start()
+    {
+        UIController.Get.SetPlayerThrowPoint(powerThrow);
+    }
+
+   
+    // Update is called once per frame
+    void Update()
+    {
+        StateMachine();
+        CheckDistanceToCurrentRunPoint();
+
+    }
+
+    private void FixedUpdate()
+    {
+        
+    }
+
     private void OnEnemyHit()
     {
         if (powerThrow < 5)
@@ -110,25 +133,6 @@ public class PlayerController : Pawn
             shotMega = true;
         }
         UIController.Get.SetPlayerThrowPoint(powerThrow);
-    }
-
-    void Start()
-    {
-        //MoveToPoint(runPoint);
-    }
-
-   
-    // Update is called once per frame
-    void Update()
-    {
-        StateMachine();
-        CheckDistanceToCurrentRunPoint();
-
-    }
-
-    private void FixedUpdate()
-    {
-        
     }
 
     void CheckDistanceToCurrentRunPoint()

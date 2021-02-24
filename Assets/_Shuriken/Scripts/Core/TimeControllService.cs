@@ -8,10 +8,15 @@ public class TimeControllService : MonoBehaviour
     Coroutine timeCoro;
 
     public float enemyHeadSlowMotionTime;
+    public bool cooldown;
+    public float timeSlowCooldown;
+    float _timeSlowCooldown;
 
     private void Awake()
     {
         EventService.OnHitEnemyHead += OnHitEnemyHead;
+
+        
     }
 
     void Start()
@@ -22,7 +27,19 @@ public class TimeControllService : MonoBehaviour
    
     void Update()
     {
-        
+        CheckSlowmotionCooldown();
+    }
+
+    void CheckSlowmotionCooldown()
+    {
+        if(_timeSlowCooldown > 0)
+        {
+            _timeSlowCooldown -= Time.deltaTime;
+            if(_timeSlowCooldown <= 0)
+            {
+                cooldown = false;
+            }
+        }
     }
 
     void OnHitEnemyHead()
@@ -32,14 +49,15 @@ public class TimeControllService : MonoBehaviour
 
     public void SlowMotion(float duration,float timeScale)
     {
-        if(timeCoro == null)
+        if(timeCoro == null && !cooldown)
             timeCoro = StartCoroutine(IESlowMotion(duration, timeScale));
     }
 
     IEnumerator IESlowMotion(float duration, float timeScale)
     {
         Time.timeScale = timeScale;
-
+        _timeSlowCooldown = timeSlowCooldown;
+        cooldown = true;
         yield return new WaitForSecondsRealtime(duration);
 
         while (Time.timeScale < 1)
