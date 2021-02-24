@@ -21,7 +21,7 @@ public class AIEnemy : Pawn
 
     public Weapon weapon;
 
- 
+    public bool dummy;
 
     public enum EAIState
     {
@@ -35,6 +35,7 @@ public class AIEnemy : Pawn
     [Inject]
     void Construct(PlayerController playerInstance)
     {
+        if (dummy) return;
         player = playerInstance;
     }
 
@@ -44,6 +45,11 @@ public class AIEnemy : Pawn
     }
     private void Awake()
     {
+        if (dummy)
+        {
+            Destroy(navMeshAgent);
+            return;
+        }
         if (characterSlicer.sliceSide == CharacterSlicerSampleFast.ESliceSide.NotSliced)
         {
             adderSliceable.SetupSliceableParts(this);
@@ -59,7 +65,7 @@ public class AIEnemy : Pawn
 
     void Start()
     {
-       
+        if (dummy) ChangeState(EAIState.Win);
     }
 
     // Update is called once per frame
@@ -87,7 +93,7 @@ public class AIEnemy : Pawn
                
                 break;
             case EAIState.Win:
-                if (navMeshAgent != null) navMeshAgent.isStopped = true;
+                if (navMeshAgent != null && !dummy) navMeshAgent.isStopped = true;
                 animator.CrossFade("Idle", 0.2f);
                 break;
             case EAIState.Death:
@@ -142,6 +148,7 @@ public class AIEnemy : Pawn
 
     void Chase()
     {
+        if (dummy) return;
         if (dead) return;
         if(player != null)
         {

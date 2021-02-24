@@ -29,10 +29,12 @@ namespace BzKovSoft.ObjectSlicerSamples
 
 		public Weapon weapon;
 
+		public List<Pawn> hittedPawns = new List<Pawn>();
+
         private void Awake()
         {
 			//sliceable = false;
-
+			SliceID = UnityEngine.Random.Range(1, 10000);
 		}
 
         private void Update()
@@ -66,27 +68,32 @@ namespace BzKovSoft.ObjectSlicerSamples
 			GetComponent<Collider>().enabled = false;
 		}
 
+
+
         private void OnTriggerEnter(Collider other)
         {
 			if (other == null) return;
 
 
 			var ksa = other.gameObject.GetComponent<KnifeSliceableAsync>();
-			if (ksa != null)
+			if (ksa != null && ksa.owner != null)
 			{
-
+				if (hittedPawns.Contains(ksa.owner)) return;
+				hittedPawns.Add(ksa.owner);
 				if (sliceable)
 				{
 					if (ksa.bodyPart == KnifeSliceableAsync.EBodyPart.Head)
 					{
 						EventService.OnHitEnemyHead?.Invoke();
+						Debug.LogError("HEAD", ksa);
 					}
                     else
                     {
 						EventService.OnEnemyHit?.Invoke();
+						Debug.LogError("HIT", ksa);
 					}
 					ksa.BeginSlice(this);
-					SliceID++;
+					
 				}
 				else
 				{
@@ -140,6 +147,7 @@ namespace BzKovSoft.ObjectSlicerSamples
 				}
 				StopSlice();
 				transform.root.SetParent(other.transform);
+				GetComponent<Collider>().enabled = false;
 			}
 
 		

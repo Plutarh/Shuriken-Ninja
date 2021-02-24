@@ -54,7 +54,7 @@ public partial class Shuriken : Weapon , IThrowable
         bezieMove = true;
         SetRandomYaw();
 
-        slicer.SliceID = Random.Range(-100, 100);
+        //slicer.SliceID = Random.Range(-100, 100);
     }
 
     

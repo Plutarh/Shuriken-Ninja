@@ -75,7 +75,6 @@ public class PlayerController : Pawn
 
     private void OnEnemyHit()
     {
-        Debug.LogError("Enemy HIT");
         if (powerThrow < 5)
         {
             powerThrow++;
@@ -85,12 +84,17 @@ public class PlayerController : Pawn
                 shotMega = true;
             }
         }
-        
+        else
+        {
+            powerThrow = 5;
+            shotMega = true;
+        }
+
+        UIController.Get.SetPlayerThrowPoint(powerThrow);
     }
 
     private void OnHitEnemyHead()
     {
-        Debug.LogError("HEAD HIT");
         if (powerThrow < 5)
         {
             powerThrow += 3;
@@ -100,7 +104,12 @@ public class PlayerController : Pawn
                 shotMega = true;
             }
         }
-
+        else
+        {
+            powerThrow = 5;
+            shotMega = true;
+        }
+        UIController.Get.SetPlayerThrowPoint(powerThrow);
     }
 
     void Start()
@@ -231,6 +240,9 @@ public class PlayerController : Pawn
             {
                 animator.SetTrigger("ThrowM");
                 blockShot = true;
+               
+                powerThrow = 0;
+                UIController.Get.SetPlayerThrowPoint(powerThrow);
             }
         }
         else
@@ -274,7 +286,6 @@ public class PlayerController : Pawn
         {
             throwableObject = Instantiate(greatWeaponPrefab, R_shurikenSpawnPos.position, Quaternion.identity) as IThrowable;
             shotMega = false;
-            powerThrow = 0;
         }
         else
         {
