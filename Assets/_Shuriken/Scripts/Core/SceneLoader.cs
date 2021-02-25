@@ -27,7 +27,11 @@ public class SceneLoader : MonoBehaviour
     public void LoadNextLevel()
     {
         sceneIndex = SceneManager.GetActiveScene().buildIndex;
-        if (sceneIndex  > SceneManager.sceneCount  + 1) return;
+        if (sceneIndex > SceneManager.sceneCount + 1)
+        {
+            sceneIndex = 0;
+            return;
+        }
         sceneIndex++;
         LoadSceneByIndex(sceneIndex);
     }
@@ -63,6 +67,7 @@ public class SceneLoader : MonoBehaviour
             async = SceneManager.LoadSceneAsync(sceneIndex, LoadSceneMode.Single);
         }
     
+
         async.allowSceneActivation = false;
         if (async == null)
         {

@@ -49,6 +49,7 @@ public class LevelSessionService : MonoBehaviour
         SetCurrentActionPoint();
 
         EventService.OnTapToPlay += StartGame;
+        EventService.OnPlayerDead += OnPlayerDead;
     }
 
     void Start()
@@ -56,10 +57,20 @@ public class LevelSessionService : MonoBehaviour
         //SetPlayerNextMovePoint();
     }
 
+    void Update()
+    {
+
+    }
+
     void StartGame()
     {
         levelState = ELevelState.Proccess;
         SetPlayerNextMovePoint();
+    }
+
+    void OnPlayerDead()
+    {
+        EventService.OnGameOver?.Invoke(EventService.EGameState.Loose);
     }
 
     private void SetPlayerNextMovePoint()
@@ -76,18 +87,18 @@ public class LevelSessionService : MonoBehaviour
         player.MoveToPoint(currentActionPoint.playerActionPosition);
     }
 
-    void Update()
-    {
-        
-    }
-
+  
     void SetCurrentActionPoint()
     {
         if (actionPoints.Count > 0 && curActionPointIndex < actionPoints.Count)
         {
             currentActionPoint = actionPoints[curActionPointIndex];
         }
-        else Debug.LogError("Нету такого Action Point",this);
+        else
+        { 
+            Debug.LogError("Нету такого Action Point", this);
+            EventService.OnGameOver?.Invoke(EventService.EGameState.Win);
+        }
            
     }
 
@@ -101,5 +112,6 @@ public class LevelSessionService : MonoBehaviour
     private void OnDestroy()
     {
         EventService.OnTapToPlay -= StartGame;
+        EventService.OnPlayerDead -= OnPlayerDead;
     }
 }
