@@ -80,7 +80,7 @@ namespace BzKovSoft.ObjectSlicerSamples
 			{
 				if (hittedPawns.Contains(ksa.owner)) return;
 				hittedPawns.Add(ksa.owner);
-				if (sliceable)
+				if (sliceable && weapon.durability > 0)
 				{
 					if (ksa.bodyPart == KnifeSliceableAsync.EBodyPart.Head)
 					{
@@ -93,7 +93,7 @@ namespace BzKovSoft.ObjectSlicerSamples
 						Debug.LogError("HIT", ksa);
 					}
 					ksa.BeginSlice(this);
-					
+					weapon.durability--;
 				}
 				else
 				{

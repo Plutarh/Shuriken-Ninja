@@ -70,13 +70,17 @@ public class SceneLoader : MonoBehaviour
             yield break;
         }
 
-        while (async.isDone)
+        while (!async.isDone)
         {
+            if (async.progress >= 0.9f || async.isDone)
+            {
+
+                Debug.LogError("Loaded scene !!!");
+                async.allowSceneActivation = true;
+                EventService.OnNewSceneLoaded?.Invoke();
+            }
             yield return null;
         }
 
-       
-        async.allowSceneActivation = true;
-        EventService.OnNewSceneLoaded?.Invoke();
     }
 }
