@@ -97,9 +97,15 @@ public class LevelSessionService : MonoBehaviour
         else
         { 
             Debug.LogError("Нету такого Action Point", this);
-            EventService.OnGameOver?.Invoke(EventService.EGameState.Win);
+            StartCoroutine(IEWaitToWin());
         }
            
+    }
+
+    IEnumerator IEWaitToWin()
+    {
+        yield return new WaitForSecondsRealtime(2);
+        EventService.OnGameOver?.Invoke(EventService.EGameState.Win);
     }
 
     public void ActionPointDone(ActionPoint actionPoint)

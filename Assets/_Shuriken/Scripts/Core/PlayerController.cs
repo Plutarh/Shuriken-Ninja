@@ -346,7 +346,7 @@ public class PlayerController : Pawn
     {
         if (shotMega)
         {
-            throwableObject = Instantiate(greatWeaponPrefab, R_shurikenSpawnPos.position, Quaternion.identity) as IThrowable;
+            throwableObject = Instantiate(greatWeaponPrefab, R_shurikenSpawnPos.position + shurikenOffset, Quaternion.identity) as IThrowable;
             shotMega = false;
         }
         else
