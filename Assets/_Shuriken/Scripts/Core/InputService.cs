@@ -38,16 +38,17 @@ public class InputService : MonoBehaviour, IInputService
             RaycastHit raycastHit;
           
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out raycastHit, raycastLenght, layerMask))
+            if (Physics.Raycast(ray, out raycastHit, raycastLenght, layerMask, QueryTriggerInteraction.Collide))
             {
-                //Debug.Log($"<color=green> {raycastHit.transform.root.name}- {raycastHit.transform} - { raycastHit.point} raycast </color>");
+                Debug.Log($"<color=green> {raycastHit.transform.root.name}- {raycastHit.transform.name} - { raycastHit.point} raycast </color>",raycastHit.transform);
                 OnColliderClick?.Invoke(raycastHit.point,raycastHit.collider);
+               
             }
             else
             {
                 Vector3 direction = ray.origin + ray.direction;
                 OnNonColliderClick?.Invoke(ray.direction.normalized);
-                //Debug.Log($"<color=red>{ray.direction.normalized * 10} dir </color>");
+                Debug.Log($"<color=red>{ray.direction.normalized * 10} dir </color>");
             }
 
         }

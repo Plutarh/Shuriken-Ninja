@@ -276,7 +276,7 @@ public class PlayerController : Pawn
             throwPoint += Vector3.up;
           
         }*/
-        
+     
 
         Debug.DrawLine(R_shurikenSpawnPos.position, throwPoint, Color.white, 3f);
         Debug.DrawLine(L_shurikenSpawnPos.position, throwPoint, Color.white, 3f);
@@ -290,7 +290,11 @@ public class PlayerController : Pawn
         //if (playerState != EPlayerState.Stand) return;
         targetCol = goCollider;
 
-        if (targetCol.transform.root.GetComponent<Pawn>().dead) targetCol = null;
+        var pawnCol = targetCol.transform.root.GetComponent<Pawn>();
+
+        if(pawnCol != null && pawnCol.dead) targetCol = null;
+       
+       
 
         throwPoint = point;
 
@@ -298,7 +302,7 @@ public class PlayerController : Pawn
 
         Debug.DrawLine(R_shurikenSpawnPos.position, point, Color.blue, 3f);
 
-
+      
         ThrowAnimation();
     }
 
@@ -374,8 +378,10 @@ public class PlayerController : Pawn
         }
      
         blockShot = false;
-      
-        
+
+        (throwableObject as Weapon).owner = this;
+
+
         if (throwableObject.IsSlicer())
         {
             throwableObject.SetMoveType(Shuriken.EMoveType.Free);
@@ -447,7 +453,7 @@ public class PlayerController : Pawn
         EventService.OnGameOver -= OnGameOver;
     }
 
-    public override void TakeDamage(float dmg)
+    public override void TakeDamage(float dmg, Vector3 dir, EDamageType damageType)
     {
         if (health.heathPoint <= 0) return;
 

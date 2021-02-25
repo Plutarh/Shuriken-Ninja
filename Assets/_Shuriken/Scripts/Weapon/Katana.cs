@@ -26,7 +26,7 @@ public class Katana : Weapon
         {
             if(otherPawn.pawnType != owner.pawnType)
             {
-                otherPawn.TakeDamage(damage);
+                otherPawn.TakeDamage(damage, Vector3.zero, EDamageType.Hit);
             }
         }
     }

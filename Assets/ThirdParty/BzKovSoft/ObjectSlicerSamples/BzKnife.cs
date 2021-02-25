@@ -110,18 +110,13 @@ namespace BzKovSoft.ObjectSlicerSamples
                     {
 						if (ksa.bodyPart == KnifeSliceableAsync.EBodyPart.Head)
 						{
-							ksa.owner.TakeDamage(weapon.damage * 3);
+							ksa.owner.TakeDamage(weapon.damage * 3, MoveDirection, EDamageType.Hit);
 							EventService.OnHitEnemyHead?.Invoke();
 						}
 						else
 						{ 
-							ksa.owner.TakeDamage(weapon.damage);
+							ksa.owner.TakeDamage(weapon.damage, MoveDirection, EDamageType.Hit);
 							EventService.OnEnemyHit?.Invoke();
-						}
-
-						if (ksa.owner.health.heathPoint <= 0)
-						{
-							ksa.GetComponentInParent<CharacterSlicerSampleFast>().ConvertToRagdollSimple(this.MoveDirection.normalized * 2, Vector3.zero);
 						}
 					}
 				}
