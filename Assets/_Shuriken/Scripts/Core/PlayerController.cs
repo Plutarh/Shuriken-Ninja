@@ -310,7 +310,7 @@ public class PlayerController : Pawn
      
         blockShot = false;
       
-
+        
         if (throwableObject.IsSlicer())
         {
             throwableObject.SetMoveType(Shuriken.EMoveType.Free);
@@ -327,6 +327,9 @@ public class PlayerController : Pawn
                 throwableObject.SetMoveType(Shuriken.EMoveType.Free);
             }
         }
+
+
+
 
         throwableObject.SetTargetPosition(throwPoint);
         targetCol = null;

@@ -25,7 +25,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4123873375720630053}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0.295}
+  m_LocalPosition: {x: 0, y: 0, z: -0.385}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5037801673334431351}
@@ -231,7 +231,7 @@ Transform:
   m_GameObject: {fileID: 7772649374175621827}
   m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 3.5, y: 3.5, z: 3.5}
+  m_LocalScale: {x: 5, y: 5, z: 5}
   m_Children: []
   m_Father: {fileID: 5037801673334431351}
   m_RootOrder: 0
@@ -313,6 +313,8 @@ MonoBehaviour:
   durability: 0
   sliceable: 0
   weapon: {fileID: 5813450618199375845}
+  hittedPawns: []
+  triggerCount: 0
 --- !u!1 &8466494171876615901
 GameObject:
   m_ObjectHideFlags: 0
@@ -371,7 +373,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: f06e78284f831ae469c74624ab5d513b, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 0.115
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: f06e78284f831ae469c74624ab5d513b, type: 3}
       propertyPath: m_LocalRotation.x

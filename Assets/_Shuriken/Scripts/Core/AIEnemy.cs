@@ -59,6 +59,7 @@ public class AIEnemy : Pawn
         }
         else
         {
+            Debug.LogError("Sliced comp");
             Destroy(gameObject, 2f);
         }
     }
@@ -207,7 +208,8 @@ public class AIEnemy : Pawn
         
         EAIState oldState = aiState;
         ChangeState(EAIState.Idle);
-        animator.CrossFade("Hit", 0.1f);
+        if(animator != null)
+            animator.CrossFade("Hit", 0.1f);
 
         if (navMeshAgent != null) navMeshAgent.isStopped = true;
      

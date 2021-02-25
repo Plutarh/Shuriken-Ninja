@@ -30,6 +30,7 @@ namespace BzKovSoft.ObjectSlicerSamples
 		public Weapon weapon;
 
 		public List<Pawn> hittedPawns = new List<Pawn>();
+		public int triggerCount;
 
         private void Awake()
         {
@@ -78,19 +79,20 @@ namespace BzKovSoft.ObjectSlicerSamples
 			var ksa = other.gameObject.GetComponent<KnifeSliceableAsync>();
 			if (ksa != null && ksa.owner != null)
 			{
-				if (hittedPawns.Contains(ksa.owner)) return;
+				if (hittedPawns.Contains(ksa.owner) || ksa.owner.characterSlicer.sliced) return;
 				hittedPawns.Add(ksa.owner);
+				triggerCount++;
 				if (sliceable && weapon.durability > 0)
 				{
 					if (ksa.bodyPart == KnifeSliceableAsync.EBodyPart.Head)
 					{
 						EventService.OnHitEnemyHead?.Invoke();
-						Debug.LogError("HEAD", ksa);
+						//Debug.LogError($"HEAD {ksa.owner}", ksa);
 					}
                     else
                     {
 						EventService.OnEnemyHit?.Invoke();
-						Debug.LogError("HIT", ksa);
+						//Debug.LogError($"HIT {ksa.owner}", ksa);
 					}
 					ksa.BeginSlice(this);
 					weapon.durability--;
