@@ -23,15 +23,16 @@ public class PawnSpawner : MonoBehaviour
         }
     }
 
-    public void SpawnPawn()
+    public void SpawnPawn(Transform spawPos)
     {
-        AIEnemy createdEnemy = _enemyFactory.Create(pawnPrefab, transform.position) as AIEnemy;
+        AIEnemy createdEnemy = _enemyFactory.Create(pawnPrefab, spawPos.position) as AIEnemy;
         OnPawnSpawn?.Invoke(createdEnemy);
     }
 
     private void OnDrawGizmos()
     {
+        /*
         Gizmos.color = Color.red;
-        Gizmos.DrawSphere(transform.position, 0.5f);
+        Gizmos.DrawSphere(transform.position, 0.5f);*/
     }
 }

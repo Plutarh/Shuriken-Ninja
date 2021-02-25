@@ -56,7 +56,8 @@ public class AIEnemy : Pawn
         }
         if (characterSlicer.sliceSide == CharacterSlicerSampleFast.ESliceSide.NotSliced)
         {
-            adderSliceable.SetupSliceableParts(this);
+            if(adderSliceable != null)
+                adderSliceable.SetupSliceableParts(this);
             characterSlicer.OnSlicedFinish += Death;
             ChangeState(EAIState.Chaise);
             EventService.OnPlayerDead += () => ChangeState(EAIState.Win);
@@ -99,7 +100,7 @@ public class AIEnemy : Pawn
                 break;
             case EAIState.Win:
                 if (navMeshAgent != null && !dummy) navMeshAgent.isStopped = true;
-                if(animator != null) animator.CrossFade("Idle", 0.2f);
+                if(animator != null) animator.CrossFade("Win", 0.2f);
                 break;
             case EAIState.Death:
                 break;
@@ -196,14 +197,30 @@ public class AIEnemy : Pawn
         StartCoroutine(IEWaitToDestroy());
     }
 
-    public override void TakeDamage(float dmg)
+    public override void TakeDamage(float dmg,Vector3 dir, EDamageType damageType)
     {
-        if (!dead)
-            StartCoroutine(IEHitCoro(1f));
+       
         health.heathPoint -= dmg;
         if(health.heathPoint <= 0)
         {
             Death();
+
+            switch (damageType)
+            {
+                case EDamageType.Hit:
+                    characterSlicer.ConvertToRagdollSimple(dir * 2, Vector3.up);
+                    break;
+                case EDamageType.Explosion:
+                    characterSlicer.ConvertToRagdollSimple(Vector3.up * 5 + dir.normalized, Vector3.up);
+                    break;
+            }
+
+           
+        }
+        else
+        {
+            if (!dead)
+                StartCoroutine(IEHitCoro(1f));
         }
     }
 

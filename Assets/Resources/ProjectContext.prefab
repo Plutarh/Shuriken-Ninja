@@ -1363,7 +1363,7 @@ GameObject:
   - component: {fileID: 3266559395445894357}
   - component: {fileID: 2119470527868603417}
   - component: {fileID: 6782824960766662760}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Input Service
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1396,11 +1396,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45c9e83f306400d42865b93c7478c52b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  raycastLenght: 300
-  farMultiplier: 10
+  raycastLenght: 500
+  farMultiplier: 20
   layerMask:
     serializedVersion: 2
-    m_Bits: 1024
+    m_Bits: 5120
 --- !u!114 &2119470527868603417
 MonoBehaviour:
   m_ObjectHideFlags: 0

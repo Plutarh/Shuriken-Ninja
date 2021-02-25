@@ -41,6 +41,10 @@ public partial class Shuriken : Weapon , IThrowable
     public EMoveType moveType;
 
     public GameObject target;
+    Vector3 targetPoint;
+    Collider targetCollider;
+
+    bool trapFly;
 
     void Awake()
     {
@@ -131,9 +135,18 @@ public partial class Shuriken : Weapon , IThrowable
     }
 
 
+   
+
     public void SetTargetCollider(Collider tCol)
     {
         target = tCol.gameObject;
+
+        if (tCol.GetComponent<Trap>() != null)
+        {
+            trapFly = true;
+            targetPoint = tCol.bounds.center;
+            targetCollider = tCol;
+        }
     }
 
     void Movement()
@@ -174,10 +187,25 @@ public partial class Shuriken : Weapon , IThrowable
     void MoveToTarget()
     {
         if (target == null) return;
-        Vector3 moveDirToTarget = target.transform.position - transform.position;
+       
+        Vector3 moveDirToTarget;
+        if (trapFly)
+        {
+            targetPoint = targetCollider.bounds.center;
+            moveDirToTarget = targetPoint - transform.position;
+        }
+        else
+        {
+            moveDirToTarget = target.transform.position - transform.position;
+        }
+       
+        // просто позиция обьекта
+        //
+       
         //moveDir =
         moveDirToTarget.Normalize();
         transform.Translate(moveDirToTarget * moveSpeed * Time.deltaTime);
+      
     }
 
     void Rotation()

@@ -136,29 +136,56 @@ public class CameraMover : MonoBehaviour
 
         if(targetToFollow.closestEnemy != null)
         {
-          
             Vector3 targetPos = targetToFollow.closestEnemy.transform.position - targetToFollow.transform.position;
             Vector3 dir = targetToFollow.closestEnemy.transform.position - targetToFollow.transform.position;
             Vector3 relativePos = targetToFollow.transform.position + (-dir.normalized) * standDistToTarget;
 
             transform.position = Vector3.Lerp(transform.position
-                ,relativePos + standOffset
-                ,Time.deltaTime * followSpeed * 2);
+              , relativePos + standOffset
+              , Time.deltaTime * followSpeed * 2);
+
+            if (Vector3.Distance(targetToFollow.closestEnemy.transform.position, targetToFollow.transform.position) <= 5)
+            {
+                transform.rotation = Quaternion.Slerp(transform.rotation
+                 , Quaternion.LookRotation(targetToFollow.transform.forward + standRotationOffset, Vector3.up)
+                 , Time.deltaTime * standRotateSpeed);
+            }
+            else
+            {
+                transform.rotation = Quaternion.Slerp(transform.rotation
+               , Quaternion.LookRotation(targetToFollow.transform.forward + standRotationOffset, Vector3.up)
+               , Time.deltaTime * standRotateSpeed / 2);
+            }
         }
         else
         {
             /*
-            Vector3 targetPos = targetToFollow.transform.position - targetMoveDir * standDistToTarget;
-            targetPos += standOffset;
+            targetMoveDir = targetToFollow.transform.position - targetPrevPos;
+            Vector3 targetPos = targetToFollow.transform.position - transform.position * standDistToTarget + transform.forward;
+            targetPos = standOffset;
             transform.position = Vector3.Lerp(transform.position
                 ,targetPos
                 ,Time.deltaTime * followSpeed);
-           */
+            targetMoveDir = targetToFollow.transform.position - targetPrevPos;
+            targetMoveDir.Normalize();
+            Vector3 targetPos = targetToFollow.transform.position - targetMoveDir * followDistToTarget;
+            targetPos += followOffset;
+
+            transform.position = Vector3.Lerp(transform.position
+                , targetPos
+                , Time.deltaTime * followSpeed / 2);
+
+            targetPrevPos = targetToFollow.transform.position;*/
+
+            transform.rotation = Quaternion.Slerp(transform.rotation
+             , Quaternion.LookRotation(targetToFollow.transform.forward + standRotationOffset, Vector3.up)
+             , Time.deltaTime * standRotateSpeed);
+
         }
-        
-        transform.rotation = Quaternion.Slerp(transform.rotation
-            ,Quaternion.LookRotation(targetToFollow.transform.forward + standRotationOffset, Vector3.up)
-            ,Time.deltaTime * standRotateSpeed);
+
+       
+
+      
     }
 
 

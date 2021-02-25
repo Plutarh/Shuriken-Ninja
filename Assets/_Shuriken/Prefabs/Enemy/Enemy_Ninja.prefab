@@ -132,7 +132,7 @@ GameObject:
   - component: {fileID: 7496983780470736019}
   - component: {fileID: 1404838137157779145}
   m_Layer: 12
-  m_Name: Head
+  m_Name: Head_Coll
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -146,7 +146,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5515155731881919645}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.549, z: 0}
+  m_LocalPosition: {x: -0, y: 1.589, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7007000777042373582}
@@ -163,7 +163,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.38
+  m_Radius: 0.4
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8133940171011209714
 GameObject:

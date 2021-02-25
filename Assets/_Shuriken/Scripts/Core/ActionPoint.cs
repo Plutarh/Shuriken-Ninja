@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 
@@ -7,7 +6,7 @@ public class ActionPoint : MonoBehaviour
 {
     public PawnSpawner pawnSpawner;
     public Transform playerActionPosition;
-
+    public List<Transform> spawnPositions = new List<Transform>();
     public EActionPointState pointState;
 
     public List<AIEnemy> actionPointEnemies = new List<AIEnemy>();
@@ -18,8 +17,16 @@ public class ActionPoint : MonoBehaviour
 
     float spawnTimer;
 
+    public int spawnPosIndex;
+
+    public Transform spawnPointsParent;
+
+    [Header("FX")]
     public ParticleSystem auraFX;
     public ParticleSystem spawnFX;
+
+    public List<ParticleSystem> spawnPosAuraParcticles = new List<ParticleSystem>();
+    public List<ParticleSystem> spawnPosSpawnParcticles = new List<ParticleSystem>();
 
     public enum EActionPointState
     {
@@ -37,17 +44,39 @@ public class ActionPoint : MonoBehaviour
         _levelSessionService.actionPoints.Add(this);
     }
 
+    private void OnValidate()
+    {
+        foreach (Transform sp in spawnPointsParent)
+        {
+            if (!spawnPositions.Contains(sp)) spawnPositions.Add(sp);
+        }
+
+        for (int i = 0; i < spawnPositions.Count; i++)
+        {
+            if (spawnPositions[i] == null) spawnPositions.Remove(spawnPositions[i]);
+        }
+    }
+
     private void Awake()
     {
         if(pawnSpawner != null)
         {
             pawnSpawner.OnPawnSpawn += AddEnemy;
-            auraFX.gameObject.SetActive(false);
+          
         }
 
         EventService.OnPlayerWakedUp += DestroyLiveEnemies;
 
-
+        foreach (var sp in spawnPositions)
+        {
+            var createdAuraFX = Instantiate(auraFX, sp);
+            var createdSpawnFX = Instantiate(spawnFX, sp);
+            createdSpawnFX.gameObject.SetActive(false);
+            spawnPosAuraParcticles.Add(createdAuraFX);
+            spawnPosSpawnParcticles.Add(createdSpawnFX);
+        }
+        EnableSpawnAuraPacticle(false);
+       
     }
 
     void Start()
@@ -81,17 +110,50 @@ public class ActionPoint : MonoBehaviour
                     spawnTimer += Time.deltaTime;
                     if (spawnTimer > spawnDelay)
                     {
-                        if (!spawnFX.isPlaying) spawnFX.Play();
-                        pawnSpawner.SpawnPawn();
+                        if (spawnPosIndex > spawnPositions.Count - 1) spawnPosIndex = 0;
+                        
+                        pawnSpawner.SpawnPawn(spawnPositions[spawnPosIndex]);
+                        ShowSpawnPartciles(spawnPosIndex);
                         spawnTimer = 0;
                         spawnCount--;
                         livePawns++;
+                        spawnPosIndex++;
                     }
                 }
                 break;
             case EActionPointState.Done:
               
                 break;
+        }
+    }
+
+    void ShowSpawnPartciles(int index)
+    {
+        if (!spawnPosSpawnParcticles[index].gameObject.activeSelf) spawnPosSpawnParcticles[index].gameObject.SetActive(true);
+        if (!spawnPosSpawnParcticles[index].isPlaying) spawnPosSpawnParcticles[index].Play();
+    }
+
+    void EnableSpawnAuraPacticle(bool enabled)
+    {
+        foreach (var spap in spawnPosAuraParcticles)
+        {
+            spap.gameObject.SetActive(enabled);
+            if (enabled)
+            {
+                if (!spap.isPlaying) spap.Play();
+            }
+            else
+            {
+                if (spap.isPlaying) spap.Stop();
+            }
+        }
+    }
+
+    void DeactivateSpawnAuraPacticle()
+    {
+        foreach (var spap in spawnPosAuraParcticles)
+        {
+            if (spap.isPlaying) spap.Stop();
         }
     }
 
@@ -103,13 +165,14 @@ public class ActionPoint : MonoBehaviour
         switch (pointState)
         {
             case EActionPointState.Wait:
+                EnableSpawnAuraPacticle(false);
                 break;
             case EActionPointState.Action:
-                auraFX.gameObject.SetActive(true);
-                if (!auraFX.isPlaying) auraFX.Play();
+                spawnTimer = spawnDelay;
+                EnableSpawnAuraPacticle(true);
                 break;
             case EActionPointState.Done:
-                if (auraFX.isPlaying) auraFX.Stop();
+                DeactivateSpawnAuraPacticle();
                 break;
         }
     }
@@ -157,5 +220,13 @@ public class ActionPoint : MonoBehaviour
         Gizmos.color = Color.blue;
 
         Gizmos.DrawCube(playerActionPosition.position, Vector3.one);
+
+        Gizmos.color = Color.yellow;
+
+        foreach (var sp in spawnPositions)
+        {
+            Gizmos.DrawSphere(sp.position, 1);
+        }
+
     }
 }

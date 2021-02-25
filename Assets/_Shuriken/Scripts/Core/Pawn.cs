@@ -54,8 +54,9 @@ public class Pawn : MonoBehaviour , IDamageable
         
     }
 
-    public virtual void TakeDamage(float dmg)
+    public virtual void TakeDamage(float dmg, Vector3 dir, EDamageType damageType)
     {
         
     }
+    
 }
