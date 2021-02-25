@@ -21,6 +21,8 @@ public class UIController : MonoBehaviour
         Get = this;
         EventService.OnNewSceneLoaded += OnNewSceneLoaded;
         EventService.OnGameOver += OnGameOver;
+
+        OnNewSceneLoaded();
     }
 
     void Start()
@@ -58,6 +60,9 @@ public class UIController : MonoBehaviour
             case EventService.EGameState.Loose:
                 loosePanel.Show();
                 break;
+            case EventService.EGameState.Continue:
+                loosePanel.Hide();
+                break;
         }
     }
 
@@ -67,5 +72,5 @@ public class UIController : MonoBehaviour
         EventService.OnGameOver -= OnGameOver;
     }
 
-   
+
 }

@@ -13,13 +13,17 @@ public class AIEnemy : Pawn
     public event Action<AIEnemy> OnDeath;
 
     public Transform rootObj;
-    public ParticleSystem deathParticle;
+  
 
     public float distanceToTarget;
 
     public EAIState aiState;
 
     public Weapon weapon;
+
+    [Header("FX")]
+    public ParticleSystem deathParticle;
+    public ParticleSystem disappearParticle;
 
     public bool dummy;
 
@@ -95,7 +99,7 @@ public class AIEnemy : Pawn
                 break;
             case EAIState.Win:
                 if (navMeshAgent != null && !dummy) navMeshAgent.isStopped = true;
-                animator.CrossFade("Idle", 0.2f);
+                if(animator != null) animator.CrossFade("Idle", 0.2f);
                 break;
             case EAIState.Death:
                 break;
@@ -241,6 +245,14 @@ public class AIEnemy : Pawn
         animator = null;
         adderSliceable = null;
        
+    }
+
+    public void Disappear()
+    {
+        var particle = Instantiate(disappearParticle, transform.position + Vector3.up, Quaternion.identity);
+        particle.transform.SetParent(null);
+        Destroy(gameObject);
+        Destroy(particle.gameObject, 3f);
     }
 
     private void OnDestroy()
