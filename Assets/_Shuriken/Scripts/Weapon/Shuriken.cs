@@ -178,6 +178,7 @@ public partial class Shuriken : Weapon , IThrowable
         //moveDir =
         moveDirToTarget.Normalize();
         transform.Translate(moveDirToTarget * moveSpeed * Time.deltaTime);
+      
     }
 
     void Rotation()

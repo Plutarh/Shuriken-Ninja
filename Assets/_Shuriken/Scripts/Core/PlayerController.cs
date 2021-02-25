@@ -267,6 +267,16 @@ public class PlayerController : Pawn
         throwTarget = null;
         throwPoint = transform.position + (point * 10) + (Vector3.up * heightMultiply);
 
+        /*
+        Debug.LogError("MEWO " + Vector3.Distance(transform.position, throwPoint));
+
+        if (Vector3.Distance(transform.position,throwPoint) < 9)
+        {
+            Debug.DrawLine(R_shurikenSpawnPos.position, throwPoint + Vector3.up, Color.red, 5f);
+            throwPoint += Vector3.up;
+          
+        }*/
+        
 
         Debug.DrawLine(R_shurikenSpawnPos.position, throwPoint, Color.white, 3f);
         Debug.DrawLine(L_shurikenSpawnPos.position, throwPoint, Color.white, 3f);
@@ -383,7 +393,7 @@ public class PlayerController : Pawn
             }
         }
 
-
+      
 
 
         throwableObject.SetTargetPosition(throwPoint);

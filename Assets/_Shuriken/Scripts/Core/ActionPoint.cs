@@ -71,8 +71,9 @@ public class ActionPoint : MonoBehaviour
         {
             var createdAuraFX = Instantiate(auraFX, sp);
             var createdSpawnFX = Instantiate(spawnFX, sp);
+            createdSpawnFX.gameObject.SetActive(false);
             spawnPosAuraParcticles.Add(createdAuraFX);
-            spawnPosSpawnParcticles.Add(createdAuraFX);
+            spawnPosSpawnParcticles.Add(createdSpawnFX);
         }
         EnableSpawnAuraPacticle(false);
        
@@ -128,6 +129,7 @@ public class ActionPoint : MonoBehaviour
 
     void ShowSpawnPartciles(int index)
     {
+        if (!spawnPosSpawnParcticles[index].gameObject.activeSelf) spawnPosSpawnParcticles[index].gameObject.SetActive(true);
         if (!spawnPosSpawnParcticles[index].isPlaying) spawnPosSpawnParcticles[index].Play();
     }
 
