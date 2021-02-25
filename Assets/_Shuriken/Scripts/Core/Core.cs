@@ -4,7 +4,15 @@ using UnityEngine;
 
 public class Core : MonoBehaviour
 {
-    // Start is called before the first frame update
+    public static Core Get;
+
+
+    [SerializeField] SceneLoader sceneLoader;
+
+    private void Awake()
+    {
+        Get = this;
+    }
     void Start()
     {
         
@@ -19,5 +27,20 @@ public class Core : MonoBehaviour
     public void TapToPlay()
     {
         EventService.OnTapToPlay?.Invoke();
+    }
+
+    public void RestartLevel()
+    {
+        sceneLoader.RestartLevel();
+    }
+
+    public void ContinueLevel()
+    {
+        EventService.OnGameOver?.Invoke(EventService.EGameState.Continue);
+    }
+
+    public void NextLevel()
+    {
+        sceneLoader.LoadNextLevel();
     }
 }

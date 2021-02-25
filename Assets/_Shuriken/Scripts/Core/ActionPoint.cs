@@ -44,7 +44,10 @@ public class ActionPoint : MonoBehaviour
             pawnSpawner.OnPawnSpawn += AddEnemy;
             auraFX.gameObject.SetActive(false);
         }
-      
+
+        EventService.OnPlayerWakedUp += DestroyLiveEnemies;
+
+
     }
 
     void Start()
@@ -57,6 +60,14 @@ public class ActionPoint : MonoBehaviour
         StateLogic();
     }
 
+    void DestroyLiveEnemies()
+    {
+        actionPointEnemies.ForEach(ape => ape.Disappear());
+        actionPointEnemies.Clear();
+        livePawns = 0;
+        spawnCount = 2;
+        spawnTimer = spawnDelay;
+    }
     void StateLogic()
     {
         switch (pointState)
@@ -137,6 +148,8 @@ public class ActionPoint : MonoBehaviour
     {
         if(pawnSpawner != null)
             pawnSpawner.OnPawnSpawn -= AddEnemy;
+
+        EventService.OnPlayerWakedUp -= DestroyLiveEnemies;
     }
 
     private void OnDrawGizmos()

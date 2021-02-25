@@ -31,11 +31,15 @@ public class PlayerController : Pawn
 
     public int powerThrow;
 
+    [Header("FX")]
+    [SerializeField] ParticleSystem wakeUpParticle;
+
     public enum EPlayerState
     {
         MoveToPoint,
         Stand,
-        Death
+        Death,
+        WakeUp
     }
 
     bool shotLeft;
@@ -71,6 +75,7 @@ public class PlayerController : Pawn
         animator = GetComponent<Animator>();
         EventService.OnEnemyHit += OnEnemyHit;
         EventService.OnHitEnemyHead += OnHitEnemyHead;
+        EventService.OnGameOver += OnGameOver;
     }
 
     
@@ -94,6 +99,20 @@ public class PlayerController : Pawn
     private void FixedUpdate()
     {
         
+    }
+
+    void OnGameOver(EventService.EGameState gameState)
+    {
+        switch (gameState)
+        {
+            case EventService.EGameState.Win:
+                break;
+            case EventService.EGameState.Loose:
+                break;
+            case EventService.EGameState.Continue:
+                ChangeState(EPlayerState.WakeUp);
+                break;
+        }
     }
 
     private void OnEnemyHit()
@@ -137,6 +156,7 @@ public class PlayerController : Pawn
 
     void CheckDistanceToCurrentRunPoint()
     {
+        if (dead) return;
         if (runPoint == null) return;
         if (Vector3.Distance(transform.position, runPoint.position) < 0.5f)
         {
@@ -159,6 +179,8 @@ public class PlayerController : Pawn
                 break;
             case EPlayerState.Death:
                 break;
+            case EPlayerState.WakeUp:
+                break;
         }
 
 
@@ -180,9 +202,7 @@ public class PlayerController : Pawn
             case EPlayerState.Stand:
                 navMeshAgent.isStopped = true;
                 blockShot = false;
-                animator.ResetTrigger("ThrowR");
-                animator.ResetTrigger("ThrowL");
-                animator.ResetTrigger("ThrowR");
+                ResetAttackTriggers();
                 animator.SetBool("Run", false);
                 animator.CrossFade("Idle", 0.1f);
                 break;
@@ -191,8 +211,43 @@ public class PlayerController : Pawn
                 animator.CrossFade("Death", 0.1f);
                 EventService.OnPlayerDead?.Invoke();
                 dead = true;
+                ResetAttackTriggers();
+                break;
+            case EPlayerState.WakeUp:
+
+                StartCoroutine(IEWakeUp());
                 break;
         }
+    }
+
+    IEnumerator IEWakeUp()
+    {
+        ResetAttackTriggers();
+        Debug.LogError("WAKE UP");
+        animator.CrossFade("Wake Up", 0.2f);
+        float delay = 1.6f;
+        while(delay > 0)
+        {
+            delay -= Time.deltaTime;
+            yield return new WaitForEndOfFrame();
+        }
+       
+
+    }
+
+    public void WakeUpEffect()
+    {
+        if (!wakeUpParticle.isPlaying) wakeUpParticle.Play();
+        EventService.OnPlayerWakedUp?.Invoke();
+        dead = false;
+        health.heathPoint = 1;
+    }
+
+    void ResetAttackTriggers()
+    {
+        animator.ResetTrigger("ThrowR");
+        animator.ResetTrigger("ThrowL");
+        animator.ResetTrigger("ThrowR");
     }
 
     public void MoveToPoint(Transform point)
@@ -379,6 +434,7 @@ public class PlayerController : Pawn
         }
         EventService.OnEnemyHit -= OnEnemyHit;
         EventService.OnHitEnemyHead -= OnHitEnemyHead;
+        EventService.OnGameOver -= OnGameOver;
     }
 
     public override void TakeDamage(float dmg)
