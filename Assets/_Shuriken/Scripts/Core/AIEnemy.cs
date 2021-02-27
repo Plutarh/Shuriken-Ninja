@@ -203,19 +203,21 @@ public class AIEnemy : Pawn
         health.heathPoint -= dmg;
         if(health.heathPoint <= 0)
         {
-            Death();
 
+         
             switch (damageType)
             {
                 case EDamageType.Hit:
-                    characterSlicer.ConvertToRagdollSimple(dir * 2, Vector3.up);
+                    
+                    characterSlicer.ConvertToRagdollSimple(dir.normalized + Vector3.up, Vector3.zero);
                     break;
                 case EDamageType.Explosion:
-                    characterSlicer.ConvertToRagdollSimple(Vector3.up * 5 + dir.normalized, Vector3.up);
+                    characterSlicer.ConvertToRagdollSimple(Vector3.up  * 5 + dir.normalized, Vector3.zero);
                     break;
             }
+            Death();
+            Debug.LogError(dir.normalized + " MOVE DIR");
 
-           
         }
         else
         {
