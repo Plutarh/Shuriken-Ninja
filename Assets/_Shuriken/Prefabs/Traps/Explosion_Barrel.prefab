@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 598345514456879192}
   - component: {fileID: 5665821029680402645}
   - component: {fileID: 4347961705173916221}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Explosion_Barrel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -95,7 +95,7 @@ NavMeshObstacle:
   m_Enabled: 1
   serializedVersion: 3
   m_Shape: 1
-  m_Extents: {x: 0.5, y: 0.5, z: 0.5}
+  m_Extents: {x: 0.35, y: 0.5, z: 0.365}
   m_MoveThreshold: 0.1
   m_Carve: 1
   m_CarveOnlyStationary: 1
@@ -111,6 +111,10 @@ PrefabInstance:
     - target: {fileID: 159512, guid: 7429754a23785f040b4ff31abd19014e, type: 3}
       propertyPath: m_Name
       value: SM_Prop_Pot_01
+      objectReference: {fileID: 0}
+    - target: {fileID: 159512, guid: 7429754a23785f040b4ff31abd19014e, type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 459904, guid: 7429754a23785f040b4ff31abd19014e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -168,6 +172,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 2335138, guid: 7429754a23785f040b4ff31abd19014e, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: f7ecceeca71a5554db203849d421a43b, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7429754a23785f040b4ff31abd19014e, type: 3}
 --- !u!4 &2179175489130459916 stripped
@@ -186,6 +194,10 @@ PrefabInstance:
     - target: {fileID: 181096, guid: 0f166e67f8aed0a41bacf95a90101914, type: 3}
       propertyPath: m_Name
       value: SM_Prop_Bowl_01
+      objectReference: {fileID: 0}
+    - target: {fileID: 181096, guid: 0f166e67f8aed0a41bacf95a90101914, type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 431828, guid: 0f166e67f8aed0a41bacf95a90101914, type: 3}
       propertyPath: m_LocalPosition.x

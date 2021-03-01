@@ -14,6 +14,7 @@ public class ActionPoint : MonoBehaviour
     public float livePawns;
     public float spawnCount;
     public float spawnDelay;
+    float _spawnCount;
 
     float spawnTimer;
 
@@ -59,7 +60,8 @@ public class ActionPoint : MonoBehaviour
 
     private void Awake()
     {
-        if(pawnSpawner != null)
+        _spawnCount = spawnCount;
+        if (pawnSpawner != null)
         {
             pawnSpawner.OnPawnSpawn += AddEnemy;
           
@@ -94,7 +96,7 @@ public class ActionPoint : MonoBehaviour
         actionPointEnemies.ForEach(ape => ape.Disappear());
         actionPointEnemies.Clear();
         livePawns = 0;
-        spawnCount = 2;
+        spawnCount = _spawnCount;
         spawnTimer = spawnDelay;
     }
     void StateLogic()

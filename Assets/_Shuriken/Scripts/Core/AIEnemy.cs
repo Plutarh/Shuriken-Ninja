@@ -99,7 +99,7 @@ public class AIEnemy : Pawn
                
                 break;
             case EAIState.Win:
-                if (navMeshAgent != null && !dummy) navMeshAgent.isStopped = true;
+                if (navMeshAgent != null) navMeshAgent.isStopped = true;
                 if(animator != null) animator.CrossFade("Win", 0.2f);
                 break;
             case EAIState.Death:
@@ -129,6 +129,7 @@ public class AIEnemy : Pawn
                 break;
         }
 
+      
         if(characterSlicer.sliced)
         {
             if (navMeshAgent != null)
@@ -203,21 +204,26 @@ public class AIEnemy : Pawn
         health.heathPoint -= dmg;
         if(health.heathPoint <= 0)
         {
-
-         
+          
+            if (dir.y < 0) dir.y = 1;
+            if(navMeshAgent != null)
+            {
+                navMeshAgent.isStopped = true;
+                
+            }
             switch (damageType)
             {
                 case EDamageType.Hit:
                     
-                    characterSlicer.ConvertToRagdollSimple(dir.normalized + Vector3.up, Vector3.zero);
+                    characterSlicer.ConvertToRagdollSimple(dir.normalized * 2 + Vector3.up, Vector3.zero);
                     break;
                 case EDamageType.Explosion:
-                    characterSlicer.ConvertToRagdollSimple(Vector3.up  * 5 + dir.normalized, Vector3.zero);
+                    characterSlicer.ConvertToRagdollSimple(Vector3.up  * 5 + dir.normalized * 5, Vector3.zero);
                     break;
             }
-            Death();
-            Debug.LogError(dir.normalized + " MOVE DIR");
 
+            //Debug.LogError(dir.normalized + " MOVE DIR");
+            Death();
         }
         else
         {
