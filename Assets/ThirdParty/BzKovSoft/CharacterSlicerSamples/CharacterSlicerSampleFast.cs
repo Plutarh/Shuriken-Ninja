@@ -49,7 +49,7 @@ namespace BzKovSoft.CharacterSlicerSamples
 			if (_maxSliceCount == 0)
 				return null;
 
-
+			
 			// remember some date. Later we could use it after the slice is done.
 			// here I add Stopwatch object to see how much time it takes
 			ResultData addData = new ResultData();
@@ -127,6 +127,8 @@ namespace BzKovSoft.CharacterSlicerSamples
 			--_maxSliceCount;
 			resultNeg._maxSliceCount = _maxSliceCount;
 			resultPos._maxSliceCount = _maxSliceCount;
+
+		
 
 			OnSlicedFinish?.Invoke();
 		}
@@ -257,7 +259,39 @@ namespace BzKovSoft.CharacterSlicerSamples
         {
 			//OnSlicedFinish?.Invoke();
 			sliced = true;
-			ConvertToRagdoll(gameObject, velocityContinue,angluarVelocity);
+			//ConvertToRagdoll(gameObject, velocityContinue,angluarVelocity);
+			
+
+			Animator animator = GetComponent<Animator>();
+			Collider triggerCollider = GetComponent<Collider>();
+
+			UnityEngine.Object.Destroy(animator);
+			UnityEngine.Object.Destroy(triggerCollider);
+
+			//StartCoroutine(SmoothDepenetration(go, velocityContinue, angularVelocityContinue));
+
+			var collidersArr = GetComponentsInChildren<Collider>();
+			for (int i = 0; i < collidersArr.Length; i++)
+			{
+				var collider = collidersArr[i];
+				if (collider == triggerCollider)
+					continue;
+
+				collider.isTrigger = false;
+			}
+
+			//transform.position += new Vector3(0, 0.5f, 0);
+
+			// set rigid bodies as non kinematic
+			var rigidsArr = GetComponentsInChildren<Rigidbody>();
+			for (int i = 0; i < rigidsArr.Length; i++)
+			{
+				var rigid = rigidsArr[i];
+				rigid.velocity = Vector3.zero;
+				rigid.isKinematic = false;
+				rigid.velocity = velocityContinue;
+				//rigid.AddForce(Vector3.up * 5, ForceMode.Impulse);
+			}
 
 		}
 

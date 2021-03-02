@@ -118,6 +118,8 @@ namespace BzKovSoft.ObjectSlicerSamples
 							ksa.owner.TakeDamage(weapon.damage, MoveDirection, EDamageType.Hit);
 							EventService.OnEnemyHit?.Invoke();
 						}
+
+					
 					}
 				}
 			}
