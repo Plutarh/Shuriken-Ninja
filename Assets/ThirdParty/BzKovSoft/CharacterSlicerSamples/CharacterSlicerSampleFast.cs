@@ -85,7 +85,7 @@ namespace BzKovSoft.CharacterSlicerSamples
 		{
 			if (!result.sliced)
             {
-				UnityEngine.Debug.LogError("Sliced error ");
+				UnityEngine.Debug.LogError("Sliced error ",this);
 				return;
 			}
 				

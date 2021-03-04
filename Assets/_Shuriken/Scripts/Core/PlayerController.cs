@@ -428,6 +428,12 @@ public class PlayerController : Pawn
 
         //closestEnemy = null;
 
+        if(levelSession.currentActionPoint.actionPointEnemies.Count == 0)
+        {
+            closestEnemy = null;
+            return;
+        }
+
         foreach (var enemy in levelSession.currentActionPoint.actionPointEnemies)
         {
             if (enemy == null) continue;

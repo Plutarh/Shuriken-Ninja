@@ -134,10 +134,12 @@ public class AIEnemy : Pawn
         {
             if (navMeshAgent != null)
             {
+              /*
                 if (!navMeshAgent.isStopped)
                 {
-                    Death();
-                }
+                  
+                }*/
+                Death();
             }
         }
     }

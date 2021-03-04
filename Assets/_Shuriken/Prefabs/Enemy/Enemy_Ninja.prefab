@@ -137,6 +137,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!65 &5270211776781672033
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5201779341943477512}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.07746124, y: 1.0602474, z: 0.14269212}
+  m_Center: {x: -0.00000056087555, y: 0.2903116, z: -0.008759321}
 --- !u!114 &1038485295821850690
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -157,19 +170,6 @@ MonoBehaviour:
   owner: {fileID: 8135661348205653355}
   hitImpact: {fileID: 0}
   bloodImpact: {fileID: 0}
---- !u!65 &5270211776781672033
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5201779341943477512}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.07746124, y: 1.0602474, z: 0.14269212}
-  m_Center: {x: -0.00000056087555, y: 0.2903116, z: -0.008759321}
 --- !u!1 &5515155731881919645
 GameObject:
   m_ObjectHideFlags: 0
@@ -2537,7 +2537,7 @@ MonoBehaviour:
   rootObj: {fileID: 8138921376802257740}
   distanceToTarget: 0
   aiState: 0
-  weapon: {fileID: 5267510470574709935}
+  weapon: {fileID: 1038485295821850690}
   deathParticle: {fileID: 19800000, guid: 83cd9cc9f9c88824ba18dc59b05ae328, type: 3}
   disappearParticle: {fileID: 19800004, guid: 7867af58a6ec48846ae807eb4022fbaa, type: 3}
   dummy: 0

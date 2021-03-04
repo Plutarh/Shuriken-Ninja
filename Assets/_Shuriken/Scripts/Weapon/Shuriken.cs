@@ -48,9 +48,12 @@ public partial class Shuriken : Weapon , IThrowable
 
     void Awake()
     {
-        
-        slicer.OnSliceBegin += BeginSlice;
-        slicer.OnStopSlice += StopSlice;
+        if(slicer != null)
+        {
+            slicer.OnSliceBegin += BeginSlice;
+            slicer.OnStopSlice += StopSlice;
+        }
+       
     }
     
     void Start()
@@ -228,8 +231,11 @@ public partial class Shuriken : Weapon , IThrowable
 
     void OnDestroy()
     {
-        slicer.OnSliceBegin -= BeginSlice;
-        slicer.OnStopSlice -= StopSlice;
+        if (slicer != null)
+        {
+            slicer.OnSliceBegin -= BeginSlice;
+            slicer.OnStopSlice -= StopSlice;
+        }
     }
 
   
