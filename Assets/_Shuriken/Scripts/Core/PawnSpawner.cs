@@ -23,10 +23,11 @@ public class PawnSpawner : MonoBehaviour
         }
     }
 
-    public void SpawnPawn(Transform spawPos)
+    public AIEnemy SpawnPawn(Transform spawPos)
     {
         AIEnemy createdEnemy = _enemyFactory.Create(pawnPrefab, spawPos.position) as AIEnemy;
         OnPawnSpawn?.Invoke(createdEnemy);
+        return createdEnemy;
     }
 
     private void OnDrawGizmos()

@@ -27,8 +27,11 @@ public class AIEnemy : Pawn
 
     public bool dummy;
 
+    public bool spawnedByPoint;
+
     public enum EAIState
     {
+        Null,
         Chaise,
         Attack,
         Idle,
@@ -49,6 +52,8 @@ public class AIEnemy : Pawn
     }
     private void Awake()
     {
+       
+
         if (dummy)
         {
             Destroy(navMeshAgent);
@@ -59,7 +64,7 @@ public class AIEnemy : Pawn
             if(adderSliceable != null)
                 adderSliceable.SetupSliceableParts(this);
             characterSlicer.OnSlicedFinish += Death;
-            ChangeState(EAIState.Chaise);
+          
             EventService.OnPlayerDead += () => ChangeState(EAIState.Win);
         }
         else
@@ -71,6 +76,8 @@ public class AIEnemy : Pawn
 
     void Start()
     {
+        if (spawnedByPoint) ChangeState(EAIState.Chaise);
+        else ChangeState(EAIState.Idle);
         if (dummy) ChangeState(EAIState.Win);
     }
 
@@ -89,6 +96,7 @@ public class AIEnemy : Pawn
         switch (aiState)
         {
             case EAIState.Chaise:
+                if (animator != null) animator.CrossFade("Chaise",0.2f);
                 break;
             case EAIState.Attack:
                 if (navMeshAgent != null) navMeshAgent.isStopped = true;
@@ -96,7 +104,7 @@ public class AIEnemy : Pawn
 
                 break;
             case EAIState.Idle:
-               
+                if (animator != null) animator.CrossFade("Idle", 0.1f);
                 break;
             case EAIState.Win:
                 if (navMeshAgent != null) navMeshAgent.isStopped = true;
@@ -170,7 +178,12 @@ public class AIEnemy : Pawn
 
         if (!characterSlicer.sliced)
         {
-            navMeshAgent.SetDestination(player.transform.position);
+            if(navMeshAgent.isActiveAndEnabled && navMeshAgent.isOnNavMesh)
+                navMeshAgent.SetDestination(player.transform.position);
+            else
+            {
+                Debug.LogError("Nav mesh Fuck");
+            }
         }
      
     }

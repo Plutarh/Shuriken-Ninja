@@ -8,13 +8,22 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/_Shuriken/Scenes/Test.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
-  - enabled: 1
+  - enabled: 0
     path: Assets/_Shuriken/Scenes/Level_1.unity
     guid: b41bbc36bf4425441a327b7594a1d943
-  - enabled: 1
+  - enabled: 0
     path: Assets/_Shuriken/Scenes/Level_2.unity
     guid: 85fb8385a2b365a4bbd55ca6dcb90b85
-  - enabled: 1
+  - enabled: 0
     path: Assets/_Shuriken/Scenes/Level_3.unity
     guid: 619fab99af67d2d48ba0c85333b4542a
+  - enabled: 1
+    path: Assets/_Shuriken/Scenes/Lvl_1.unity
+    guid: 2c397a6bf237ff442b874251f660d1c2
+  - enabled: 1
+    path: Assets/_Shuriken/Scenes/Lvl_2.unity
+    guid: 7dce5945329a3ee4fafc0c5d7344d976
+  - enabled: 1
+    path: Assets/_Shuriken/Scenes/Lvl_3.unity
+    guid: 08b0bcad46fe23f4db6614745ba68096
   m_configObjects: {}

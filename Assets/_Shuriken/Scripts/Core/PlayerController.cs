@@ -161,6 +161,7 @@ public class PlayerController : Pawn
         if (Vector3.Distance(transform.position, runPoint.position) < 0.5f)
         {
             ChangeState(EPlayerState.Stand);
+           
         }
     }
  
@@ -200,9 +201,10 @@ public class PlayerController : Pawn
 
                 break;
             case EPlayerState.Stand:
+                EventService.OnPlayerRanActionPoint?.Invoke();
+                ResetAttackTriggers();
                 navMeshAgent.isStopped = true;
                 blockShot = false;
-                ResetAttackTriggers();
                 animator.SetBool("Run", false);
                 animator.CrossFade("Idle", 0.1f);
                 break;
@@ -254,7 +256,9 @@ public class PlayerController : Pawn
     {
         //return;
         runPoint = point;
-        navMeshAgent.SetDestination(runPoint.position);
+        if(navMeshAgent.isActiveAndEnabled && navMeshAgent.isOnNavMesh) 
+            navMeshAgent.SetDestination(runPoint.position);
+
         animator.SetBool("Run", true);
         animator.CrossFade("Run", 0.1f);
         ChangeState(EPlayerState.MoveToPoint);

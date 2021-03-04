@@ -26,7 +26,7 @@ public class LevelSessionService : MonoBehaviour
     }
 
     [Inject]
-    void Constuct(PlayerController playerC)
+    void Construct(PlayerController playerC)
     {
         player = playerC;
         player.SetLevelSessionService(this);
@@ -34,22 +34,18 @@ public class LevelSessionService : MonoBehaviour
 
     private void OnValidate()
     {
-        /*
-        if(actionPoints.Count == 0)
-        {
-            actionPoints = FindObjectsOfType<ActionPoint>().ToList();
-        }*/
+       
     }
 
     private void Awake()
     {
         levelState = ELevelState.NotStarted;
-        var sortedPoints = actionPoints.OrderBy(p => p.name);
-        actionPoints = sortedPoints.ToList();
+       
         SetCurrentActionPoint();
 
         EventService.OnTapToPlay += StartGame;
         EventService.OnPlayerDead += OnPlayerDead;
+        EventService.OnPlayerRanActionPoint += InvokeActionPoint;
     }
 
     void Start()
@@ -78,12 +74,18 @@ public class LevelSessionService : MonoBehaviour
         StartCoroutine(IESetPlayerNextMovePoint());
     }
 
+    void InvokeActionPoint()
+    {
+        Debug.Log($"Invoke {currentActionPoint.name}");
+        currentActionPoint.ChangeState(ActionPoint.EActionPointState.Action);
+    }
+
     IEnumerator IESetPlayerNextMovePoint()
     {
         float delay = delayToStartNextPoint;
         if (curActionPointIndex == 0) delay = 0;
         yield return new WaitForSecondsRealtime(delay);
-        currentActionPoint.ChangeState(ActionPoint.EActionPointState.Action);
+      
         player.MoveToPoint(currentActionPoint.playerActionPosition);
     }
 
@@ -119,5 +121,44 @@ public class LevelSessionService : MonoBehaviour
     {
         EventService.OnTapToPlay -= StartGame;
         EventService.OnPlayerDead -= OnPlayerDead;
+        EventService.OnPlayerRanActionPoint -= InvokeActionPoint;
+    }
+
+    public void FindAllActionPoints()
+    {
+        actionPoints.Clear();
+        actionPoints = FindObjectsOfType<ActionPoint>().ToList();
+        var sortedPoints = actionPoints.OrderBy(p => p.name);
+        actionPoints = sortedPoints.ToList();
+    }
+
+    public void FindActionPointEnemies()
+    {
+        foreach (var ap in actionPoints)
+        {
+            ap.stayedEnemies.Clear();
+            ap.stayedEnemies = ap.transform.GetComponentsInChildren<AIEnemy>().ToList();
+            ap.FindSpawnPoints();
+        }
     }
 }
+
+
+#if UNITY_EDITOR
+[UnityEditor.CustomEditor(typeof(LevelSessionService))]
+public class LevelSessionServiceEditor : UnityEditor.Editor
+{
+    public override void OnInspectorGUI()
+    {
+        DrawDefaultInspector();
+
+        LevelSessionService myScript = (LevelSessionService)target;
+        if (GUILayout.Button("Setup all action points"))
+        {
+            myScript.FindAllActionPoints();
+            myScript.FindActionPointEnemies();
+        }
+    }
+}
+
+#endif

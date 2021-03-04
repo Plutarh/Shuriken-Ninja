@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Zenject;
 
@@ -9,7 +10,9 @@ public class ActionPoint : MonoBehaviour
     public List<Transform> spawnPositions = new List<Transform>();
     public EActionPointState pointState;
 
+    
     public List<AIEnemy> actionPointEnemies = new List<AIEnemy>();
+    public List<AIEnemy> stayedEnemies = new List<AIEnemy>();
 
     public float livePawns;
     public float spawnCount;
@@ -42,20 +45,12 @@ public class ActionPoint : MonoBehaviour
     void Construct(LevelSessionService levelSessionService)
     {
         _levelSessionService = levelSessionService;
-        _levelSessionService.actionPoints.Add(this);
+        //_levelSessionService.actionPoints.Add(this);
     }
 
     private void OnValidate()
     {
-        foreach (Transform sp in spawnPointsParent)
-        {
-            if (!spawnPositions.Contains(sp)) spawnPositions.Add(sp);
-        }
-
-        for (int i = 0; i < spawnPositions.Count; i++)
-        {
-            if (spawnPositions[i] == null) spawnPositions.Remove(spawnPositions[i]);
-        }
+        
     }
 
     private void Awake()
@@ -64,21 +59,13 @@ public class ActionPoint : MonoBehaviour
         if (pawnSpawner != null)
         {
             pawnSpawner.OnPawnSpawn += AddEnemy;
-          
         }
 
         EventService.OnPlayerWakedUp += DestroyLiveEnemies;
 
-        foreach (var sp in spawnPositions)
-        {
-            var createdAuraFX = Instantiate(auraFX, sp);
-            var createdSpawnFX = Instantiate(spawnFX, sp);
-            createdSpawnFX.gameObject.SetActive(false);
-            spawnPosAuraParcticles.Add(createdAuraFX);
-            spawnPosSpawnParcticles.Add(createdSpawnFX);
-        }
-        EnableSpawnAuraPacticle(false);
-       
+        CreateSpawnerParctiles();
+        //EnableSpawnAuraPacticle(false);
+        CheckStayedEnemies();
     }
 
     void Start()
@@ -89,6 +76,42 @@ public class ActionPoint : MonoBehaviour
     void Update()
     {
         StateLogic();
+    }
+
+    void CheckStayedEnemies()
+    {
+        if (stayedEnemies.Count == 0) return;
+
+        foreach (var se in stayedEnemies)
+        {
+            AddEnemy(se);
+            livePawns++;
+            //se.OnDeath += RemoveEnemy;
+        }
+        stayedEnemies.Clear();
+
+
+    }
+    
+    public void FindSpawnPoints()
+    {
+        spawnPositions.Clear();
+        foreach (Transform sp in spawnPointsParent)
+        {
+            if (!spawnPositions.Contains(sp)) spawnPositions.Add(sp);
+        }
+    }
+
+    void CreateSpawnerParctiles()
+    {
+        foreach (var sp in spawnPositions)
+        {
+            var createdAuraFX = Instantiate(auraFX, sp);
+            var createdSpawnFX = Instantiate(spawnFX, sp);
+            createdSpawnFX.gameObject.SetActive(false);
+            spawnPosAuraParcticles.Add(createdAuraFX);
+            spawnPosSpawnParcticles.Add(createdSpawnFX);
+        }
     }
 
     void DestroyLiveEnemies()
@@ -114,12 +137,14 @@ public class ActionPoint : MonoBehaviour
                     {
                         if (spawnPosIndex > spawnPositions.Count - 1) spawnPosIndex = 0;
                         
-                        pawnSpawner.SpawnPawn(spawnPositions[spawnPosIndex]);
+                        AIEnemy spawnedEnemy = pawnSpawner.SpawnPawn(spawnPositions[spawnPosIndex]);
                         ShowSpawnPartciles(spawnPosIndex);
                         spawnTimer = 0;
                         spawnCount--;
                         livePawns++;
                         spawnPosIndex++;
+                        spawnedEnemy.spawnedByPoint = true;
+                        //spawnedEnemy.ChangeState(AIEnemy.EAIState.Chaise);
                     }
                 }
                 break;
@@ -137,6 +162,12 @@ public class ActionPoint : MonoBehaviour
 
     void EnableSpawnAuraPacticle(bool enabled)
     {
+        if(spawnPosAuraParcticles.Count == 0)
+        {
+            Debug.LogError("Spawn FX 0 count",this);
+            return;
+        }
+
         foreach (var spap in spawnPosAuraParcticles)
         {
             spap.gameObject.SetActive(enabled);
@@ -172,6 +203,12 @@ public class ActionPoint : MonoBehaviour
             case EActionPointState.Action:
                 spawnTimer = spawnDelay;
                 EnableSpawnAuraPacticle(true);
+
+                // Отправляем в бой врагов,которые были не заспавлены, а уже стояли на месте
+                actionPointEnemies.Where(ape => !ape.spawnedByPoint)
+                    .ToList()
+                    .ForEach(enemy => enemy.ChangeState(AIEnemy.EAIState.Chaise));
+
                 break;
             case EActionPointState.Done:
                 DeactivateSpawnAuraPacticle();
@@ -199,6 +236,12 @@ public class ActionPoint : MonoBehaviour
         {
             enemy.OnDeath -= RemoveEnemy;
             actionPointEnemies.Remove(enemy);
+            livePawns--;
+        }
+        else if (stayedEnemies.Contains(enemy))
+        {
+            enemy.OnDeath -= RemoveEnemy;
+            stayedEnemies.Remove(enemy);
             livePawns--;
         }
 
