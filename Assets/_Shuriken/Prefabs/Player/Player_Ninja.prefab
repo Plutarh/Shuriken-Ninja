@@ -1507,7 +1507,7 @@ MonoBehaviour:
   closestDist: 0
   baseWeaponPrefab: {fileID: 4670019942767820573, guid: 1b1b67282f0a9224884d2d35e62db2e3,
     type: 3}
-  greatWeaponPrefab: {fileID: 6434553436743500334, guid: 8474633d53dc6814f955c82dc1527da0,
+  greatWeaponPrefab: {fileID: 5585749202447271327, guid: 3ca01b3cff34385469060ab187bb2386,
     type: 3}
   heightMultiply: 2.5
   powerThrow: 0

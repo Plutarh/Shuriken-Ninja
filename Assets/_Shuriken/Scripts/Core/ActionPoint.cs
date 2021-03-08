@@ -86,6 +86,7 @@ public class ActionPoint : MonoBehaviour
         {
             AddEnemy(se);
             livePawns++;
+            se.transform.SetParent(null);
             //se.OnDeath += RemoveEnemy;
         }
         stayedEnemies.Clear();
@@ -138,6 +139,7 @@ public class ActionPoint : MonoBehaviour
                         if (spawnPosIndex > spawnPositions.Count - 1) spawnPosIndex = 0;
                         
                         AIEnemy spawnedEnemy = pawnSpawner.SpawnPawn(spawnPositions[spawnPosIndex]);
+                        spawnedEnemy.transform.LookAt(_levelSessionService.player.transform);
                         ShowSpawnPartciles(spawnPosIndex);
                         spawnTimer = 0;
                         spawnCount--;
@@ -227,7 +229,6 @@ public class ActionPoint : MonoBehaviour
             pawn.OnDeath += RemoveEnemy;
             priorityIndex++;
         }
-            
     }
 
     void RemoveEnemy(AIEnemy enemy)

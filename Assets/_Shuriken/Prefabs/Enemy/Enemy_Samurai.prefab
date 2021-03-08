@@ -2728,6 +2728,9 @@ MonoBehaviour:
   deathParticle: {fileID: 19800000, guid: 83cd9cc9f9c88824ba18dc59b05ae328, type: 3}
   disappearParticle: {fileID: 19800004, guid: 7867af58a6ec48846ae807eb4022fbaa, type: 3}
   dummy: 0
+  spawnedByPoint: 0
+  skinnedMesh: {fileID: 4679901550575729104}
+  myMat: {fileID: 0}
 --- !u!54 &4692718714552560750
 Rigidbody:
   m_ObjectHideFlags: 0

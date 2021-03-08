@@ -192,7 +192,6 @@ public class Bomb : Weapon, IThrowable
 
     void Explosion()
     {
-        Debug.LogError("BOOM!");   
         if (hitImpact != null)
         {
             var explosion = Instantiate(hitImpact, transform);
@@ -214,12 +213,19 @@ public class Bomb : Weapon, IThrowable
 
         foreach (var pawn in hittedPawns)
         {
-            pawn.TakeDamage(damage, Vector3.zero, EDamageType.Explosion);
-
-            if(statusEffect != null)
+            switch (bombType)
             {
-                pawn.gameObject.AddComponent<StatusEffect>();
+                case EBombType.Explosion:
+                    pawn.TakeDamage(damage, Vector3.zero, EDamageType.Explosion);
+                    break;
+                case EBombType.Ice:
+                    pawn.TakeStatus(EStatusEffect.Freeze);
+                    break;
+                case EBombType.Poison:
+                    pawn.TakeStatus(EStatusEffect.Poison);
+                    break;
             }
+
         }
         Destroy(gameObject);
     }
@@ -234,7 +240,6 @@ public class Bomb : Weapon, IThrowable
 
         if(pawnKsa != null && pawnKsa.owner != null && pawnKsa.owner.pawnType != Pawn.EPawnType.Player)
         {
-            Debug.LogError("BOOM! TRIG");
             Explosion();
             exploited = true;
         }

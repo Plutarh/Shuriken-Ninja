@@ -7,7 +7,7 @@ using BzKovSoft.CharacterSlicer;
 using BzKovSoft.ObjectSlicerSamples;
 
 [RequireComponent(typeof(Health))]
-public class Pawn : MonoBehaviour , IDamageable
+public class Pawn : MonoBehaviour , IDamageable , IStatusable
 {
 
     public Animator animator;
@@ -58,5 +58,9 @@ public class Pawn : MonoBehaviour , IDamageable
     {
         
     }
-    
+
+    public virtual void TakeStatus(EStatusEffect statusEffect)
+    {
+        
+    }
 }

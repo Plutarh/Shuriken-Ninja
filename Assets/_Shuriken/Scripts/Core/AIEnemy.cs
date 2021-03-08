@@ -1,4 +1,5 @@
 ﻿using BzKovSoft.CharacterSlicerSamples;
+using DG.Tweening;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -39,6 +40,11 @@ public class AIEnemy : Pawn
         Death
     }
 
+    List<Coroutine> allActivesCoroutines = new List<Coroutine>();
+
+    public SkinnedMeshRenderer skinnedMesh;
+    public Material myMat;
+
     [Inject]
     void Construct(PlayerController playerInstance)
     {
@@ -72,6 +78,9 @@ public class AIEnemy : Pawn
             Debug.LogError("Sliced comp");
             Destroy(gameObject, 2f);
         }
+
+        //skinnedMesh = GetComponent<SkinnedMeshRenderer>();
+        myMat = skinnedMesh.material;
     }
 
     void Start()
@@ -213,6 +222,67 @@ public class AIEnemy : Pawn
         StartCoroutine(IEWaitToDestroy());
     }
 
+    #region STATUS_EFFECT
+
+    Coroutine freezeStatus;
+    public override void TakeStatus(EStatusEffect statusEffect)
+    {
+       
+        if (dead) return;
+
+        switch (statusEffect)
+        {
+            case EStatusEffect.Freeze:
+               
+                if(freezeStatus == null)
+                {
+                    freezeStatus = StartCoroutine(IEFreezeStatus());
+                    allActivesCoroutines.Add(freezeStatus);
+                }
+             
+                break;
+            case EStatusEffect.Poison:
+                break;
+        }
+    }
+
+    IEnumerator IEFreezeStatus()
+    {
+        float navMeshSpeed = navMeshAgent.speed;
+        float animatorSpeed = animator.speed;
+        float fullFreezeTime = 2;
+
+        navMeshAgent.speed = 0;
+        animator.speed = 0;
+
+        myMat.DOColor(Color.blue, "_BaseColor", 0.3f);
+      
+        //myMat.EnableKeyword("_EMISSION");
+        //myMat.SetColor("_EmissionColor", Color.blue * 1f);
+
+        while (fullFreezeTime > 0)
+        {
+            fullFreezeTime -= Time.deltaTime;
+            yield return new WaitForEndOfFrame();
+        }
+
+        //myMat.DisableKeyword("_EMISSION");
+        myMat.DOColor(Color.white,"_BaseColor",0.3f);
+        DOTween.To(()=> navMeshAgent.speed, x=> navMeshAgent.speed = x, navMeshSpeed,0.3f);
+        DOTween.To(() => animator.speed, x => animator.speed = x, animatorSpeed, 0.3f);
+        //animator.speed = animatorSpeed;
+
+        freezeStatus = null;
+        yield return null;
+    }
+
+
+    #endregion
+
+    #region DAMAGE
+
+    Coroutine hitImpact;
+
     public override void TakeDamage(float dmg,Vector3 dir, EDamageType damageType)
     {
        
@@ -242,8 +312,12 @@ public class AIEnemy : Pawn
         }
         else
         {
-            if (!dead)
-                StartCoroutine(IEHitCoro(1f));
+            if (!dead && hitImpact == null)
+            {
+                hitImpact = StartCoroutine(IEHitCoro(1f));
+                allActivesCoroutines.Add(hitImpact);
+            }
+               
         }
     }
 
@@ -265,8 +339,10 @@ public class AIEnemy : Pawn
         }
         ChangeState(oldState);
         if(navMeshAgent != null) navMeshAgent.isStopped = false;
-       
+        hitImpact = null;
     }
+
+    #endregion
 
     IEnumerator IEWaitToDestroy()
     {
@@ -280,6 +356,13 @@ public class AIEnemy : Pawn
     void ClearComponents()
     {
         Destroy(navMeshAgent);
+
+        foreach (var activeCoro in allActivesCoroutines)
+        {
+            if (activeCoro != null) StopCoroutine(activeCoro);
+        }
+        allActivesCoroutines.Clear();
+
         navMeshAgent = null;
         body = null;
         animator = null;
