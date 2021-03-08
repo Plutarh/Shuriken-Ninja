@@ -28391,14 +28391,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Env_DirtPath_01 (23)
       objectReference: {fileID: 0}
-    - target: {fileID: 157814, guid: 8776e403def3e7041878fb7252302fe0, type: 3}
-      propertyPath: m_Layer
-      value: 11
-      objectReference: {fileID: 0}
-    - target: {fileID: 157814, guid: 8776e403def3e7041878fb7252302fe0, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 4294967295
-      objectReference: {fileID: 0}
     - target: {fileID: 418718, guid: 8776e403def3e7041878fb7252302fe0, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.22999999
@@ -28442,18 +28434,6 @@ PrefabInstance:
     - target: {fileID: 418718, guid: 8776e403def3e7041878fb7252302fe0, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 418718, guid: 8776e403def3e7041878fb7252302fe0, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 4.2424
-      objectReference: {fileID: 0}
-    - target: {fileID: 418718, guid: 8776e403def3e7041878fb7252302fe0, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.3518948
-      objectReference: {fileID: 0}
-    - target: {fileID: 418718, guid: 8776e403def3e7041878fb7252302fe0, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 4.2424
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8776e403def3e7041878fb7252302fe0, type: 3}

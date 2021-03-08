@@ -10,6 +10,7 @@ public class ActionPoint : MonoBehaviour
     public List<Transform> spawnPositions = new List<Transform>();
     public EActionPointState pointState;
 
+    public List<Vector3> stayedPawnStartPos = new List<Vector3>();
     
     public List<AIEnemy> actionPointEnemies = new List<AIEnemy>();
     public List<AIEnemy> stayedEnemies = new List<AIEnemy>();
@@ -82,11 +83,14 @@ public class ActionPoint : MonoBehaviour
     {
         if (stayedEnemies.Count == 0) return;
 
+        stayedPawnStartPos.Clear();
+
         foreach (var se in stayedEnemies)
         {
             AddEnemy(se);
             livePawns++;
             se.transform.SetParent(null);
+            stayedPawnStartPos.Add(se.transform.position);
             //se.OnDeath += RemoveEnemy;
         }
         stayedEnemies.Clear();
@@ -117,11 +121,29 @@ public class ActionPoint : MonoBehaviour
 
     void DestroyLiveEnemies()
     {
+        foreach (var lp in actionPointEnemies)
+        {
+            lp.navMeshAgent.ResetPath();
+        }
+
+        if (_levelSessionService.currentActionPoint != this) return;
+
         actionPointEnemies.ForEach(ape => ape.Disappear());
         actionPointEnemies.Clear();
         livePawns = 0;
         spawnCount = _spawnCount;
         spawnTimer = spawnDelay;
+
+        // Спавним врагов,которые стояли у точки
+        foreach (var spsp in stayedPawnStartPos)
+        {
+            AIEnemy spawnedEnemy = pawnSpawner.SpawnPawn(spsp);
+            spawnedEnemy.transform.LookAt(_levelSessionService.player.transform);
+            livePawns++;
+            ShowSpawnPartciles(spawnPosIndex, spawnedEnemy.transform);
+            spawnedEnemy.spawnedByPoint = true;
+        }
+
     }
     void StateLogic()
     {
@@ -138,7 +160,7 @@ public class ActionPoint : MonoBehaviour
                     {
                         if (spawnPosIndex > spawnPositions.Count - 1) spawnPosIndex = 0;
                         
-                        AIEnemy spawnedEnemy = pawnSpawner.SpawnPawn(spawnPositions[spawnPosIndex]);
+                        AIEnemy spawnedEnemy = pawnSpawner.SpawnPawn(spawnPositions[spawnPosIndex].position);
                         spawnedEnemy.transform.LookAt(_levelSessionService.player.transform);
                         ShowSpawnPartciles(spawnPosIndex);
                         spawnTimer = 0;
@@ -156,10 +178,16 @@ public class ActionPoint : MonoBehaviour
         }
     }
 
-    void ShowSpawnPartciles(int index)
+    void ShowSpawnPartciles(int index, Transform particlePos = null)
     {
         if (!spawnPosSpawnParcticles[index].gameObject.activeSelf) spawnPosSpawnParcticles[index].gameObject.SetActive(true);
         if (!spawnPosSpawnParcticles[index].isPlaying) spawnPosSpawnParcticles[index].Play();
+
+        if(particlePos != null)
+        {
+            var spawnParticle = Instantiate(spawnPosSpawnParcticles[0], particlePos);
+            Destroy(spawnParticle, 2f);
+        }
     }
 
     void EnableSpawnAuraPacticle(bool enabled)

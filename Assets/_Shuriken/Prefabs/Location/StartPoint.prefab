@@ -44,3 +44,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   size: {x: 1, y: 1, z: 1}
+  charMesh: {fileID: 4300038, guid: 1d561ab794bc05b44aa243d39691c790, type: 3}

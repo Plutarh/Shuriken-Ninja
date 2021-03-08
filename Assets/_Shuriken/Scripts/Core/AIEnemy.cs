@@ -3,6 +3,7 @@ using DG.Tweening;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Zenject;
 
@@ -56,9 +57,9 @@ public class AIEnemy : Pawn
     {
         base.Init();
     }
-    private void Awake()
+    public override void Awake()
     {
-       
+        base.Awake();
 
         if (dummy)
         {
@@ -81,6 +82,8 @@ public class AIEnemy : Pawn
 
         //skinnedMesh = GetComponent<SkinnedMeshRenderer>();
         myMat = skinnedMesh.material;
+
+        //weapon = GetComponentsInChildren<Weapon>().ToList().FirstOrDefault(w => w.isActiveAndEnabled);
     }
 
     void Start()
@@ -188,7 +191,10 @@ public class AIEnemy : Pawn
         if (!characterSlicer.sliced)
         {
             if(navMeshAgent.isActiveAndEnabled && navMeshAgent.isOnNavMesh)
+            {
                 navMeshAgent.SetDestination(player.transform.position);
+            }
+              
             else
             {
                 Debug.LogError("Nav mesh Fuck");
@@ -233,29 +239,36 @@ public class AIEnemy : Pawn
         switch (statusEffect)
         {
             case EStatusEffect.Freeze:
-               
-                if(freezeStatus == null)
+
+                if (freezeStatus == null)
                 {
                     freezeStatus = StartCoroutine(IEFreezeStatus());
                     allActivesCoroutines.Add(freezeStatus);
                 }
-             
+                else
+                {
+                    fullFreezeTime = 2;
+                }
+
+
                 break;
             case EStatusEffect.Poison:
                 break;
         }
     }
 
+    public Color freezeColor;
+    float fullFreezeTime = 0;
     IEnumerator IEFreezeStatus()
     {
         float navMeshSpeed = navMeshAgent.speed;
         float animatorSpeed = animator.speed;
-        float fullFreezeTime = 2;
+        fullFreezeTime = 2;
 
         navMeshAgent.speed = 0;
         animator.speed = 0;
 
-        myMat.DOColor(Color.blue, "_BaseColor", 0.3f);
+        myMat.DOColor(freezeColor, "_BaseColor", 0.3f);
       
         //myMat.EnableKeyword("_EMISSION");
         //myMat.SetColor("_EmissionColor", Color.blue * 1f);
@@ -267,9 +280,9 @@ public class AIEnemy : Pawn
         }
 
         //myMat.DisableKeyword("_EMISSION");
-        myMat.DOColor(Color.white,"_BaseColor",0.3f);
-        DOTween.To(()=> navMeshAgent.speed, x=> navMeshAgent.speed = x, navMeshSpeed,0.3f);
-        DOTween.To(() => animator.speed, x => animator.speed = x, animatorSpeed, 0.3f);
+        myMat.DOColor(Color.white,"_BaseColor",1);
+        DOTween.To(()=> navMeshAgent.speed, x=> navMeshAgent.speed = x, navMeshSpeed,1);
+        DOTween.To(() => animator.speed, x => animator.speed = x, animatorSpeed, 1);
         //animator.speed = animatorSpeed;
 
         freezeStatus = null;
@@ -303,7 +316,7 @@ public class AIEnemy : Pawn
                     characterSlicer.ConvertToRagdollSimple(dir.normalized * 2 + Vector3.up, Vector3.zero);
                     break;
                 case EDamageType.Explosion:
-                    characterSlicer.ConvertToRagdollSimple(Vector3.up  * 5 + dir.normalized * 5, Vector3.zero);
+                    characterSlicer.ConvertToRagdollSimple(Vector3.up  * 2 + dir.normalized * 5, Vector3.zero);
                     break;
             }
 

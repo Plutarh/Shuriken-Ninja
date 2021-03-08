@@ -65,9 +65,14 @@ public class Bomb : Weapon, IThrowable
 
     bool exploited;
 
+    void Awake()
+    {
+       
+    }
     void Start()
     {
         
+        //Physics.IgnoreLayerCollision(gameObject.layer, owner.gameObject.layer);
     }
 
     
@@ -190,7 +195,7 @@ public class Bomb : Weapon, IThrowable
         }
     }
 
-    void Explosion()
+    void Explosion(bool enemy)
     {
         if (hitImpact != null)
         {
@@ -199,6 +204,13 @@ public class Bomb : Weapon, IThrowable
             explosion.transform.position = this.transform.position;
             Destroy(explosion, 3);
         }
+
+        if (!enemy)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, explosionRadius, layerMask);
 
 
@@ -216,7 +228,7 @@ public class Bomb : Weapon, IThrowable
             switch (bombType)
             {
                 case EBombType.Explosion:
-                    pawn.TakeDamage(damage, Vector3.zero, EDamageType.Explosion);
+                    pawn.TakeDamage(damage, pawn.transform.position - transform.position, EDamageType.Explosion);
                     break;
                 case EBombType.Ice:
                     pawn.TakeStatus(EStatusEffect.Freeze);
@@ -240,9 +252,12 @@ public class Bomb : Weapon, IThrowable
 
         if(pawnKsa != null && pawnKsa.owner != null && pawnKsa.owner.pawnType != Pawn.EPawnType.Player)
         {
-            Explosion();
+            Explosion(true);
             exploited = true;
         }
+       
+
+     
     }
 
     private void OnDrawGizmos()

@@ -66,12 +66,12 @@ MonoBehaviour:
   statusEffect: {fileID: 0}
   moveType: 0
   moveDir: {x: 0, y: 0, z: 0}
-  moveSpeed: 10
-  mainRotateDir: {x: 0, y: 0, z: -1}
-  secondaryRotateDir: {x: 0, y: 0, z: -1}
+  moveSpeed: 20
+  mainRotateDir: {x: 0, y: 0, z: -29.6}
+  secondaryRotateDir: {x: 0, y: 0, z: -52.6}
   mainRotateSpeed: 5
   secondRotateSpeed: 5
-  mainRotateObject: {fileID: 2269008004696030951}
+  mainRotateObject: {fileID: 6263411036030819320}
   secondaryRotateObject: {fileID: 6263411036030819320}
   vectorLength: 0
   trail: {fileID: 2145223006447201563}
@@ -132,7 +132,7 @@ Transform:
   m_GameObject: {fileID: 6263411036030819320}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6675444848408518621}
   m_RootOrder: 0
@@ -144,7 +144,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6263411036030819320}
-  m_Mesh: {fileID: 4300000, guid: 04208439fd8ef8043af0e13251a109fa, type: 3}
+  m_Mesh: {fileID: 289301614986012343, guid: 2f968159ec68ae24d9b4c98b0e5a5a70, type: 3}
 --- !u!23 &6263411036028772278
 MeshRenderer:
   m_ObjectHideFlags: 0

@@ -6,7 +6,7 @@ public class StartPointMarker : MonoBehaviour
 {
 
     public Vector3 size;
-   
+    public Mesh charMesh;
 
     void Start()
     {
@@ -23,6 +23,8 @@ public class StartPointMarker : MonoBehaviour
     {
         Gizmos.color = Color.green;
         Gizmos.DrawCube(transform.position, size);
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawMesh(charMesh, transform.position, transform.rotation);
         Gizmos.color = Color.white;
     }
 }

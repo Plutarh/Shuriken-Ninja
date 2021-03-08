@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using BzKovSoft.CharacterSlicer;
 using BzKovSoft.ObjectSlicerSamples;
+using System.Linq;
 
 [RequireComponent(typeof(Health))]
 public class Pawn : MonoBehaviour , IDamageable , IStatusable
@@ -17,6 +18,8 @@ public class Pawn : MonoBehaviour , IDamageable , IStatusable
     public CharacterSlicerSampleFast characterSlicer;
     public AdderSliceableAsync adderSliceable;
 
+    public List<Collider> allColliders;
+
     public bool dead;
     public EPawnType pawnType;
     public enum EPawnType
@@ -25,9 +28,9 @@ public class Pawn : MonoBehaviour , IDamageable , IStatusable
         Enemy
     }
 
-    void Awake()
+    public virtual void Awake()
     {
-
+        allColliders = GetComponentsInChildren<Collider>().ToList();
     }
     void Start()
     {

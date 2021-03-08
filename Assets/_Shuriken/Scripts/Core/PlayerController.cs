@@ -70,8 +70,9 @@ public class PlayerController : Pawn
         base.Init();
     }
 
-    void Awake()
+    public override void Awake()
     {
+        base.Awake();
         animator = GetComponent<Animator>();
         EventService.OnEnemyHit += OnEnemyHit;
         EventService.OnHitEnemyHead += OnHitEnemyHead;
@@ -365,6 +366,7 @@ public class PlayerController : Pawn
         if (shotMega)
         {
             throwableObject = Instantiate(greatWeaponPrefab, R_shurikenSpawnPos.position + shurikenOffset, Quaternion.identity) as IThrowable;
+          
             shotMega = false;
         }
         else
@@ -383,7 +385,11 @@ public class PlayerController : Pawn
      
         blockShot = false;
 
-        (throwableObject as Weapon).owner = this;
+        if (throwableObject as Weapon)
+        {
+            (throwableObject as Weapon).owner = this;
+        }
+
 
 
         if (throwableObject.IsSlicer())

@@ -2544,6 +2544,7 @@ MonoBehaviour:
   spawnedByPoint: 0
   skinnedMesh: {fileID: 8145348717978482902}
   myMat: {fileID: 0}
+  freezeColor: {r: 0, g: 0.84923625, b: 1, a: 1}
 --- !u!54 &8135661348205653352
 Rigidbody:
   m_ObjectHideFlags: 0

@@ -23,9 +23,9 @@ public class PawnSpawner : MonoBehaviour
         }
     }
 
-    public AIEnemy SpawnPawn(Transform spawPos)
+    public AIEnemy SpawnPawn(Vector3 spawPos)
     {
-        AIEnemy createdEnemy = _enemyFactory.Create(pawnPrefab, spawPos.position) as AIEnemy;
+        AIEnemy createdEnemy = _enemyFactory.Create(pawnPrefab, spawPos) as AIEnemy;
         OnPawnSpawn?.Invoke(createdEnemy);
         return createdEnemy;
     }
