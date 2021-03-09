@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Zenject;
 
 public class PawnSpawner : MonoBehaviour
 {
-    public AIEnemy pawnPrefab;
+    public List<AIEnemy> pawnPrefabs = new List<AIEnemy>();
     
     IEnemyFactory _enemyFactory;
 
@@ -23,9 +24,10 @@ public class PawnSpawner : MonoBehaviour
         }
     }
 
-    public AIEnemy SpawnPawn(Vector3 spawPos)
+    public AIEnemy SpawnPawn(int index ,Vector3 spawPos)
     {
-        AIEnemy createdEnemy = _enemyFactory.Create(pawnPrefab, spawPos) as AIEnemy;
+        var foundedEnemyVariant = pawnPrefabs.FirstOrDefault(pp => pp.enemyTypeIndex == index);
+        AIEnemy createdEnemy = _enemyFactory.Create(foundedEnemyVariant, spawPos) as AIEnemy;
         OnPawnSpawn?.Invoke(createdEnemy);
         return createdEnemy;
     }

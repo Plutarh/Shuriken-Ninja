@@ -10,10 +10,12 @@ public class ActionPoint : MonoBehaviour
     public List<Transform> spawnPositions = new List<Transform>();
     public EActionPointState pointState;
 
-    public List<Vector3> stayedPawnStartPos = new List<Vector3>();
-    
+    //public List<Vector3> stayedPawnStartPos = new List<Vector3>();
+    public List<StayedEnemyInfo> stayedEnemyInfos = new List<StayedEnemyInfo>();
+
     public List<AIEnemy> actionPointEnemies = new List<AIEnemy>();
     public List<AIEnemy> stayedEnemies = new List<AIEnemy>();
+    public List<AIEnemy> enemiesVariant = new List<AIEnemy>();
 
     public float livePawns;
     public float spawnCount;
@@ -41,6 +43,19 @@ public class ActionPoint : MonoBehaviour
     }
 
     LevelSessionService _levelSessionService;
+
+    [System.Serializable]
+    public class StayedEnemyInfo
+    {
+        public int enemyVariantIndex;
+        public Vector3 startPosition;
+
+        public StayedEnemyInfo(int index,Vector3 sPos)
+        {
+            enemyVariantIndex = index;
+            startPosition = sPos;
+        }
+    }
 
     [Inject]
     void Construct(LevelSessionService levelSessionService)
@@ -83,14 +98,16 @@ public class ActionPoint : MonoBehaviour
     {
         if (stayedEnemies.Count == 0) return;
 
-        stayedPawnStartPos.Clear();
+        stayedEnemyInfos.Clear();
+        //stayedPawnStartPos.Clear();
 
         foreach (var se in stayedEnemies)
         {
             AddEnemy(se);
             livePawns++;
             se.transform.SetParent(null);
-            stayedPawnStartPos.Add(se.transform.position);
+            //stayedPawnStartPos.Add(se.transform.position);
+            stayedEnemyInfos.Add(new StayedEnemyInfo(se.enemyTypeIndex, se.transform.position));
             //se.OnDeath += RemoveEnemy;
         }
         stayedEnemies.Clear();
@@ -128,23 +145,56 @@ public class ActionPoint : MonoBehaviour
 
         if (_levelSessionService.currentActionPoint != this) return;
 
-        actionPointEnemies.ForEach(ape => ape.Disappear());
+       
+        foreach (var ape in actionPointEnemies)
+        {
+            ape.OnDeath -= RemoveEnemy;
+            ape.Disappear();
+        }
+
         actionPointEnemies.Clear();
         livePawns = 0;
         spawnCount = _spawnCount;
         spawnTimer = spawnDelay;
 
         // Спавним врагов,которые стояли у точки
-        foreach (var spsp in stayedPawnStartPos)
+        foreach (var spsp in stayedEnemyInfos)
         {
-            AIEnemy spawnedEnemy = pawnSpawner.SpawnPawn(spsp);
+            AIEnemy spawnedEnemy = pawnSpawner.SpawnPawn(spsp.enemyVariantIndex,spsp.startPosition);
             spawnedEnemy.transform.LookAt(_levelSessionService.player.transform);
             livePawns++;
-            ShowSpawnPartciles(spawnPosIndex, spawnedEnemy.transform);
+            ShowSpawnPartciles(0, spawnedEnemy.transform);
             spawnedEnemy.spawnedByPoint = true;
         }
 
     }
+
+    public void ChangeState(EActionPointState newState)
+    {
+        if (newState == pointState) return;
+        pointState = newState;
+
+        switch (pointState)
+        {
+            case EActionPointState.Wait:
+                EnableSpawnAuraPacticle(false);
+                break;
+            case EActionPointState.Action:
+                spawnTimer = spawnDelay;
+                EnableSpawnAuraPacticle(true);
+
+                // Отправляем в бой врагов,которые были не заспавлены, а уже стояли на месте
+                actionPointEnemies.Where(ape => !ape.spawnedByPoint)
+                    .ToList()
+                    .ForEach(enemy => enemy.ChangeState(AIEnemy.EAIState.Chaise));
+
+                break;
+            case EActionPointState.Done:
+                DeactivateSpawnAuraPacticle();
+                break;
+        }
+    }
+
     void StateLogic()
     {
         switch (pointState)
@@ -160,7 +210,8 @@ public class ActionPoint : MonoBehaviour
                     {
                         if (spawnPosIndex > spawnPositions.Count - 1) spawnPosIndex = 0;
                         
-                        AIEnemy spawnedEnemy = pawnSpawner.SpawnPawn(spawnPositions[spawnPosIndex].position);
+                        // Пока грубо
+                        AIEnemy spawnedEnemy = pawnSpawner.SpawnPawn(1,spawnPositions[spawnPosIndex].position);
                         spawnedEnemy.transform.LookAt(_levelSessionService.player.transform);
                         ShowSpawnPartciles(spawnPosIndex);
                         spawnTimer = 0;
@@ -180,13 +231,15 @@ public class ActionPoint : MonoBehaviour
 
     void ShowSpawnPartciles(int index, Transform particlePos = null)
     {
-        if (!spawnPosSpawnParcticles[index].gameObject.activeSelf) spawnPosSpawnParcticles[index].gameObject.SetActive(true);
-        if (!spawnPosSpawnParcticles[index].isPlaying) spawnPosSpawnParcticles[index].Play();
-
         if(particlePos != null)
         {
             var spawnParticle = Instantiate(spawnPosSpawnParcticles[0], particlePos);
             Destroy(spawnParticle, 2f);
+        }
+        else
+        {
+            if (!spawnPosSpawnParcticles[index].gameObject.activeSelf) spawnPosSpawnParcticles[index].gameObject.SetActive(true);
+            if (!spawnPosSpawnParcticles[index].isPlaying) spawnPosSpawnParcticles[index].Play();
         }
     }
 
@@ -216,35 +269,11 @@ public class ActionPoint : MonoBehaviour
     {
         foreach (var spap in spawnPosAuraParcticles)
         {
-            if (spap.isPlaying) spap.Stop();
+            if (spap != null && spap.isPlaying) spap.Stop();
         }
     }
 
-    public void ChangeState(EActionPointState newState)
-    {
-        if (newState == pointState) return;
-        pointState = newState;
-
-        switch (pointState)
-        {
-            case EActionPointState.Wait:
-                EnableSpawnAuraPacticle(false);
-                break;
-            case EActionPointState.Action:
-                spawnTimer = spawnDelay;
-                EnableSpawnAuraPacticle(true);
-
-                // Отправляем в бой врагов,которые были не заспавлены, а уже стояли на месте
-                actionPointEnemies.Where(ape => !ape.spawnedByPoint)
-                    .ToList()
-                    .ForEach(enemy => enemy.ChangeState(AIEnemy.EAIState.Chaise));
-
-                break;
-            case EActionPointState.Done:
-                DeactivateSpawnAuraPacticle();
-                break;
-        }
-    }
+   
 
     int priorityIndex = 0;
 
@@ -270,6 +299,8 @@ public class ActionPoint : MonoBehaviour
         else if (stayedEnemies.Contains(enemy))
         {
             enemy.OnDeath -= RemoveEnemy;
+          
+
             stayedEnemies.Remove(enemy);
             livePawns--;
         }

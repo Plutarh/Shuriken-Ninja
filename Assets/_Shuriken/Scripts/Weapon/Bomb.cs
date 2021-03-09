@@ -256,7 +256,11 @@ public class Bomb : Weapon, IThrowable
             exploited = true;
         }
        
-
+        if(other.GetComponent<PlayerController>() == null)
+        {
+            Explosion(true);
+            exploited = true;
+        }
      
     }
 

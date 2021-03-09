@@ -234,6 +234,11 @@ PrefabInstance:
       propertyPath: freezeColor.a
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8135661348205653355, guid: 1e121a0e0a9b6234091d492c1b8e9f18,
+        type: 3}
+      propertyPath: enemyTypeIndex
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8135661348205653356, guid: 1e121a0e0a9b6234091d492c1b8e9f18,
         type: 3}
       propertyPath: m_Name

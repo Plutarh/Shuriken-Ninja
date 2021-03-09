@@ -16,7 +16,7 @@ public class OptimizationService : MonoBehaviour
         urpAsset.renderScale = 1;
 
 #elif UNITY_ANDROID && !UNITY_EDITOR
-        urpAsset.renderScale = 0.7f;
+        urpAsset.renderScale = 1f;
 #endif
     }
 

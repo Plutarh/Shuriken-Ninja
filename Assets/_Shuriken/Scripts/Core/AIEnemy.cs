@@ -28,7 +28,7 @@ public class AIEnemy : Pawn
     public ParticleSystem disappearParticle;
 
     public bool dummy;
-
+    public int enemyTypeIndex;
     public bool spawnedByPoint;
 
     public enum EAIState
@@ -83,7 +83,9 @@ public class AIEnemy : Pawn
         //skinnedMesh = GetComponent<SkinnedMeshRenderer>();
         myMat = skinnedMesh.material;
 
-        //weapon = GetComponentsInChildren<Weapon>().ToList().FirstOrDefault(w => w.isActiveAndEnabled);
+        weapon = GetComponentsInChildren<Weapon>().ToList().FirstOrDefault(w => w.gameObject.activeSelf);
+        if(weapon)
+            weapon.SetOwner(this);
     }
 
     void Start()
@@ -313,7 +315,7 @@ public class AIEnemy : Pawn
             {
                 case EDamageType.Hit:
                     
-                    characterSlicer.ConvertToRagdollSimple(dir.normalized * 2 + Vector3.up, Vector3.zero);
+                    characterSlicer.ConvertToRagdollSimple(dir * 2 + Vector3.up, Vector3.zero);
                     break;
                 case EDamageType.Explosion:
                     characterSlicer.ConvertToRagdollSimple(Vector3.up  * 2 + dir.normalized * 5, Vector3.zero);
