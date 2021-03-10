@@ -1506,9 +1506,9 @@ MonoBehaviour:
   playerState: 0
   closestEnemy: {fileID: 0}
   closestDist: 0
-  baseWeaponPrefab: {fileID: 4670019942767820573, guid: 1b1b67282f0a9224884d2d35e62db2e3,
+  baseWeaponPrefab: {fileID: 5813450618199375845, guid: 15de583868f358147942997fe5f48e9d,
     type: 3}
-  greatWeaponPrefab: {fileID: 3700523591496561105, guid: c4bb1e4fbf40eec4491a2d54d096589f,
+  greatWeaponPrefab: {fileID: 6493969969497903890, guid: 58b3aa915c88d4c4a89bcaf7b5f4a5de,
     type: 3}
   heightMultiply: 2.5
   powerThrow: 0

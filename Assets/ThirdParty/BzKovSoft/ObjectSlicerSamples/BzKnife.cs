@@ -32,6 +32,10 @@ namespace BzKovSoft.ObjectSlicerSamples
 		public List<Pawn> hittedPawns = new List<Pawn>();
 		public int triggerCount;
 
+		public Transform stopPos;
+
+		public Vector3 hitRotation;
+
         private void Awake()
         {
 			//sliceable = false;
@@ -76,6 +80,8 @@ namespace BzKovSoft.ObjectSlicerSamples
 			if (other == null) return;
 
 
+			
+
 			var ksa = other.gameObject.GetComponent<KnifeSliceableAsync>();
 			if (ksa != null && ksa.owner != null)
 			{
@@ -100,11 +106,18 @@ namespace BzKovSoft.ObjectSlicerSamples
 				else
 				{
 					StopSlice();
-
 					
 					weapon.transform.root.SetParent(ksa.transform);
 					weapon.transform.position = ksa.GetComponent<Collider>().bounds.center;
 					weapon.transform.rotation.SetLookRotation(MoveDirection.normalized);
+					weapon.transform.position = stopPos.position;
+
+					if(hitRotation != Vector3.zero)
+                    {
+						(weapon as Shuriken).secondaryRotateObject.transform.rotation = Quaternion.identity;
+						weapon.transform.rotation = Quaternion.Euler(hitRotation);
+
+					}
 
 					if (ksa.owner != null)
                     {
@@ -118,15 +131,11 @@ namespace BzKovSoft.ObjectSlicerSamples
 							ksa.owner.TakeDamage(weapon.damage, MoveDirection, EDamageType.Hit);
 							EventService.OnEnemyHit?.Invoke();
 						}
-
-					
 					}
 				}
 			}
             else
             {
-			
-
 				if (sliceable)
 				{
 					
@@ -140,18 +149,20 @@ namespace BzKovSoft.ObjectSlicerSamples
 						weapon.owner = null;
 						weapon.gameObject.GetComponent<Rigidbody>().isKinematic = false;
 						weapon.gameObject.GetComponent<Rigidbody>().useGravity = true;
-						weapon.transform.SetParent(null);
+						//weapon.transform.SetParent(null);
+						
+
+						weapon.transform.root.SetParent(ksa.transform);
+						weapon.transform.position = ksa.GetComponent<Collider>().bounds.center;
+						weapon.transform.rotation.SetLookRotation(MoveDirection.normalized);
+						weapon.transform.position = stopPos.position;
 						Destroy(weapon.gameObject, 3f);
 					}
 				}
 				StopSlice();
-				transform.root.SetParent(other.transform);
+				
 				GetComponent<Collider>().enabled = false;
 			}
-
-		
-		
-
 		
 		}
 

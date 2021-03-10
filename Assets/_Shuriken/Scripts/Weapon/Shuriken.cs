@@ -213,7 +213,7 @@ public partial class Shuriken : Weapon , IThrowable
 
     void Rotation()
     {
-        if (!slicer.sliceable) return;
+        //if (!slicer.sliceable) return;
         /*
         Quaternion yaw = Quaternion.Euler(mainRotateDir * Time.deltaTime * mainRotateSpeed);
         mainRotateObject.transform.localRotation = yaw * mainRotateObject.transform.localRotation;

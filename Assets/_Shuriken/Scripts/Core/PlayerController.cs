@@ -226,7 +226,7 @@ public class PlayerController : Pawn
     IEnumerator IEWakeUp()
     {
         ResetAttackTriggers();
-        Debug.LogError("WAKE UP");
+        
         animator.CrossFade("Wake Up", 0.2f);
         float delay = 1.6f;
         while(delay > 0)
@@ -387,7 +387,7 @@ public class PlayerController : Pawn
 
         if (throwableObject as Weapon)
         {
-            (throwableObject as Weapon).owner = this;
+            (throwableObject as Weapon).SetOwner(this);
         }
 
 

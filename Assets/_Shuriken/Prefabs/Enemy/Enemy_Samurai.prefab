@@ -2718,6 +2718,7 @@ MonoBehaviour:
   health: {fileID: 4692718714552560748}
   characterSlicer: {fileID: 4692718714552560751}
   adderSliceable: {fileID: 4692718714552560744}
+  allColliders: []
   dead: 0
   pawnType: 1
   player: {fileID: 0}
@@ -2728,9 +2729,11 @@ MonoBehaviour:
   deathParticle: {fileID: 19800000, guid: 83cd9cc9f9c88824ba18dc59b05ae328, type: 3}
   disappearParticle: {fileID: 19800004, guid: 7867af58a6ec48846ae807eb4022fbaa, type: 3}
   dummy: 0
+  enemyTypeIndex: 2
   spawnedByPoint: 0
   skinnedMesh: {fileID: 4679901550575729104}
   myMat: {fileID: 0}
+  freezeColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!54 &4692718714552560750
 Rigidbody:
   m_ObjectHideFlags: 0

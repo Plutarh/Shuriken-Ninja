@@ -81,7 +81,10 @@ MonoBehaviour:
   spawnPositions:
   - {fileID: 7123869138329341786}
   pointState: 0
+  stayedEnemyInfos: []
   actionPointEnemies: []
+  stayedEnemies: []
+  enemiesVariant: []
   livePawns: 0
   spawnCount: 2
   spawnDelay: 2
@@ -103,8 +106,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a694b276f5ebd840aa7967cc2644b2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pawnPrefab: {fileID: 8135661348205653355, guid: 1e121a0e0a9b6234091d492c1b8e9f18,
-    type: 3}
+  pawnPrefabs:
+  - {fileID: 400588981530403450, guid: 3dbb5f733092e0042b66dc6e077f2737, type: 3}
+  - {fileID: 8135661348205653355, guid: 1e121a0e0a9b6234091d492c1b8e9f18, type: 3}
+  - {fileID: 4692718714552560749, guid: 924baa924a1e93f4696f44aba828fcba, type: 3}
 --- !u!1 &7123869138329341787
 GameObject:
   m_ObjectHideFlags: 0

@@ -124,12 +124,15 @@ public class LevelSessionService : MonoBehaviour
         EventService.OnPlayerRanActionPoint -= InvokeActionPoint;
     }
 
+#if UNITY_EDITOR
     public void FindAllActionPoints()
     {
         actionPoints.Clear();
-        actionPoints = FindObjectsOfType<ActionPoint>().ToList();
-        var sortedPoints = actionPoints.OrderBy(p => p.name);
-        actionPoints = sortedPoints.ToList();
+        var foundedActionPoints = FindObjectsOfType<ActionPoint>().ToList();
+        var sortedPoints = foundedActionPoints.OrderBy(p => p.name);
+
+        
+        sortedPoints.ToList().ForEach(sp => actionPoints.Add(sp));
     }
 
     public void FindActionPointEnemies()
@@ -139,8 +142,10 @@ public class LevelSessionService : MonoBehaviour
             ap.stayedEnemies.Clear();
             ap.stayedEnemies = ap.transform.GetComponentsInChildren<AIEnemy>().ToList();
             ap.FindSpawnPoints();
+            UnityEditor.EditorUtility.SetDirty(ap);
         }
     }
+#endif
 }
 
 
@@ -157,6 +162,9 @@ public class LevelSessionServiceEditor : UnityEditor.Editor
         {
             myScript.FindAllActionPoints();
             myScript.FindActionPointEnemies();
+
+            UnityEditor.EditorUtility.SetDirty(myScript);
+            //UnityEditor.EditorSceneManager.MarkSceneDirty(myScript.gameObject.scene);
         }
     }
 }

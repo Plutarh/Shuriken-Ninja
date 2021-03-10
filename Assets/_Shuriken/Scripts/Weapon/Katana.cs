@@ -27,16 +27,13 @@ public class Katana : Weapon
         if (other == null) return;
         if (owner == null) return;
 
-        Debug.LogError("Trigger OK");
 
         var otherPawn = other.GetComponent<Pawn>();
         if(otherPawn != null)
         {
-            Debug.LogError("PAWN OK");
             if (otherPawn.pawnType != owner.pawnType)
             {
                 otherPawn.TakeDamage(damage, Vector3.zero, EDamageType.Hit);
-                Debug.LogError("DMG OK");
             }
         }
     }
