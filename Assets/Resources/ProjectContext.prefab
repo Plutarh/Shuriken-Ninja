@@ -1401,7 +1401,7 @@ MonoBehaviour:
   farMultiplier: 20
   layerMask:
     serializedVersion: 2
-    m_Bits: 5120
+    m_Bits: 21504
 --- !u!114 &2119470527868603417
 MonoBehaviour:
   m_ObjectHideFlags: 0
