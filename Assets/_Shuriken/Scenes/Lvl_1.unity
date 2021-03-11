@@ -318,7 +318,7 @@ Light:
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 2
+    m_Type: 0
     m_Resolution: -1
     m_CustomResolution: -1
     m_Strength: 1
@@ -20405,11 +20405,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 745498263, guid: df95d92495360fb418a347b58272bbbe, type: 3}
-      propertyPath: sharedProfile
-      value: 
-      objectReference: {fileID: 11400000, guid: 63ccc6d9c96c06249916e3afea10c4f1,
-        type: 2}
     - target: {fileID: 2061432453, guid: df95d92495360fb418a347b58272bbbe, type: 3}
       propertyPath: actionPoints.Array.size
       value: 3
