@@ -20,6 +20,7 @@ public class Weapon : MonoBehaviour
     [Header("FX")]
     public ParticleSystem hitImpact;
     public ParticleSystem bloodImpact;
+    
 
     public void SetOwner(Pawn _owner)
     {

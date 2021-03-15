@@ -41,6 +41,7 @@ public class OptimizationService : MonoBehaviour
 
     public void ChangeRenderScale()
     {
+        return;
         urpAsset.renderScale = mainSlider.value;
        
     }
@@ -65,6 +66,7 @@ public class OptimizationService : MonoBehaviour
 
     public void Fps()
     {
+        return;
         Application.targetFrameRate = (int)fpsSlider.value;
     }
 

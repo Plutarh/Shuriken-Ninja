@@ -83,6 +83,9 @@ namespace BzKovSoft.ObjectSlicerSamples
 			
 
 			var ksa = other.gameObject.GetComponent<KnifeSliceableAsync>();
+
+			bool isHeadshot = false;
+
 			if (ksa != null && ksa.owner != null)
 			{
 				if (hittedPawns.Contains(ksa.owner) || ksa.owner.characterSlicer.sliced) return;
@@ -93,7 +96,9 @@ namespace BzKovSoft.ObjectSlicerSamples
 					if (ksa.bodyPart == KnifeSliceableAsync.EBodyPart.Head)
 					{
 						EventService.OnHitEnemyHead?.Invoke();
-						//Debug.LogError($"HEAD {ksa.owner}", ksa);
+						isHeadshot = true;
+						var haedShotParticle = Instantiate(Resources.Load("HeadShotParticle"), transform.position,Camera.main.transform.rotation);
+						Destroy(haedShotParticle, 3f);
 					}
                     else
                     {
@@ -125,6 +130,8 @@ namespace BzKovSoft.ObjectSlicerSamples
 						{
 							ksa.owner.TakeDamage(weapon.damage * 3, MoveDirection, EDamageType.Hit);
 							EventService.OnHitEnemyHead?.Invoke();
+
+							isHeadshot = true;
 						}
 						else
 						{ 
@@ -163,8 +170,14 @@ namespace BzKovSoft.ObjectSlicerSamples
 				
 				GetComponent<Collider>().enabled = false;
 			}
-		
+
+            if (isHeadshot)
+            {
+				var haedShotParticle = Instantiate(Resources.Load("HeadShotParticle"), transform.position, Camera.main.transform.rotation);
+				Destroy(haedShotParticle, 3f);
+			}
 		}
+
 
      
     }

@@ -18,6 +18,11 @@ public class LevelSessionService : MonoBehaviour
     public float delayToStartNextPoint;
     public ELevelState levelState;
 
+    [Header("Level Statistic")]
+    public int totalEnemyCount;
+    public int deadEnemyCount;
+    public float completeLevelProgress;
+
     public enum ELevelState
     {
         NotStarted,
@@ -46,16 +51,29 @@ public class LevelSessionService : MonoBehaviour
         EventService.OnTapToPlay += StartGame;
         EventService.OnPlayerDead += OnPlayerDead;
         EventService.OnPlayerRanActionPoint += InvokeActionPoint;
+        EventService.OnEnemyDeath += EnemyDeathCounter;
+
+        EventService.OnUpdateLevelKillStatistic?.Invoke(0.03f);
     }
 
     void Start()
     {
         //SetPlayerNextMovePoint();
+        CheckActionPointsEnemyCount();
     }
 
     void Update()
     {
 
+    }
+
+    void CheckActionPointsEnemyCount()
+    {
+        foreach (var ap in actionPoints)
+        {
+            totalEnemyCount += ap.actionPointEnemies.Count;
+            totalEnemyCount += (int)ap.spawnCount;
+        }
     }
 
     void StartGame()
@@ -67,6 +85,15 @@ public class LevelSessionService : MonoBehaviour
     void OnPlayerDead()
     {
         EventService.OnGameOver?.Invoke(EventService.EGameState.Loose);
+    }
+
+    void EnemyDeathCounter(AIEnemy deathEnemy)
+    {
+        deadEnemyCount++;
+
+        completeLevelProgress = ((float)deadEnemyCount / (float)totalEnemyCount);
+
+        EventService.OnUpdateLevelKillStatistic?.Invoke(completeLevelProgress);
     }
 
     private void SetPlayerNextMovePoint()
@@ -122,6 +149,7 @@ public class LevelSessionService : MonoBehaviour
         EventService.OnTapToPlay -= StartGame;
         EventService.OnPlayerDead -= OnPlayerDead;
         EventService.OnPlayerRanActionPoint -= InvokeActionPoint;
+        EventService.OnEnemyDeath -= EnemyDeathCounter;
     }
 
 #if UNITY_EDITOR

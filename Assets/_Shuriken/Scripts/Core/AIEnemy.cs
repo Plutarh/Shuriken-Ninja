@@ -12,7 +12,7 @@ public class AIEnemy : Pawn
 
     public PlayerController player;
 
-    public event Action<AIEnemy> OnDeath;
+    //public event Action<AIEnemy> OnDeath;
 
     public Transform rootObj;
   
@@ -224,7 +224,11 @@ public class AIEnemy : Pawn
         }
         navMeshAgent.avoidancePriority = 50;
         navMeshAgent.isStopped = true;
-        OnDeath?.Invoke(this);
+
+        // Инвокаем ивент в смерти для нерезанных врагов. Резанные враги отправляют ивент на некопированный класс
+        if(characterSlicer.sliceSide == CharacterSlicerSampleFast.ESliceSide.NotSliced)
+            EventService.OnEnemyDeath?.Invoke(this);
+
         dead = true;
         ClearComponents();
         StartCoroutine(IEWaitToDestroy());

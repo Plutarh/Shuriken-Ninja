@@ -114,6 +114,8 @@ namespace BzKovSoft.CharacterSlicerSamples
 			// show elapsed time
 			drawText += addData.stopwatch.ElapsedMilliseconds.ToString() + " - " + gameObject.name + Environment.NewLine;
 
+			EventService.OnEnemyDeath(GetComponent<AIEnemy>());
+
 			IsDead = true;
 			resultNeg.IsDead = IsDead;
 			resultPos.IsDead = IsDead;

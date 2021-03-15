@@ -8,6 +8,14 @@ public class SceneLoader : MonoBehaviour
 
     public int sceneIndex;
     Coroutine loadRoutine;
+
+    public static SceneLoader Get;
+
+    private void Awake()
+    {
+        Get = this;
+    }
+
     void Start()
     {
         

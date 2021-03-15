@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using Zenject;
 
 public class InputService : MonoBehaviour, IInputService
@@ -36,7 +37,12 @@ public class InputService : MonoBehaviour, IInputService
         {
 
             RaycastHit raycastHit;
-          
+            if (EventSystem.current.IsPointerOverGameObject())    // is the touch on the GUI
+            {
+               
+                return;
+            }
+
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out raycastHit, raycastLenght, layerMask, QueryTriggerInteraction.Collide))
             {

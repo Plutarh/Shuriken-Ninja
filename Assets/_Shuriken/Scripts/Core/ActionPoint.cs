@@ -82,6 +82,8 @@ public class ActionPoint : MonoBehaviour
         CreateSpawnerParctiles();
         //EnableSpawnAuraPacticle(false);
         CheckStayedEnemies();
+
+        EventService.OnEnemyDeath += RemoveEnemy;
     }
 
     void Start()
@@ -148,7 +150,7 @@ public class ActionPoint : MonoBehaviour
        
         foreach (var ape in actionPointEnemies)
         {
-            ape.OnDeath -= RemoveEnemy;
+            //ape.OnDeath -= RemoveEnemy;
             ape.Disappear();
         }
 
@@ -283,7 +285,7 @@ public class ActionPoint : MonoBehaviour
         {
             pawn.navMeshAgent.avoidancePriority = priorityIndex;
             actionPointEnemies.Add(pawn);
-            pawn.OnDeath += RemoveEnemy;
+            //pawn.OnDeath += RemoveEnemy;
             priorityIndex++;
         }
     }
@@ -292,17 +294,25 @@ public class ActionPoint : MonoBehaviour
     {
         if (actionPointEnemies.Contains(enemy))
         {
-            enemy.OnDeath -= RemoveEnemy;
+            //enemy.OnDeath -= RemoveEnemy;
             actionPointEnemies.Remove(enemy);
             livePawns--;
         }
         else if (stayedEnemies.Contains(enemy))
         {
-            enemy.OnDeath -= RemoveEnemy;
-          
+            //enemy.OnDeath -= RemoveEnemy;
+
 
             stayedEnemies.Remove(enemy);
             livePawns--;
+        }
+        else
+        {
+            for (int i = actionPointEnemies.Count - 1; i >= 0; i--)
+            {
+                if (actionPointEnemies[i] == null) actionPointEnemies.RemoveAt(i);
+            }
+            return;
         }
 
         if(livePawns <= 0 && spawnCount <= 0)
@@ -318,6 +328,7 @@ public class ActionPoint : MonoBehaviour
             pawnSpawner.OnPawnSpawn -= AddEnemy;
 
         EventService.OnPlayerWakedUp -= DestroyLiveEnemies;
+        EventService.OnEnemyDeath -= RemoveEnemy;
     }
 
     private void OnDrawGizmos()

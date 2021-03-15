@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using DG.Tweening;
 
 public class TrapActivator : MonoBehaviour
 {
@@ -31,9 +32,13 @@ public class TrapActivator : MonoBehaviour
         OnActivate?.Invoke();
         activated = true;
         triggerCollider.isTrigger = false;
-        parentRb.isKinematic = false;
-        parentRb.useGravity = true;
-        animator.SetTrigger("Action");
+        //parentRb.isKinematic = false;
+        //parentRb.useGravity = true;
+        //animator.SetTrigger("Action");
+        parentRb.transform.DOMoveY(parentRb.transform.position.y + 10, 7).SetEase(Ease.Linear).OnComplete(() =>
+        {
+            Destroy(parentRb.gameObject);
+        });
     }
 
     private void OnTriggerEnter(Collider other)
