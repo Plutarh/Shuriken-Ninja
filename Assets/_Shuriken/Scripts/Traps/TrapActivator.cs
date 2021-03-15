@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using BzKovSoft.ObjectSlicerSamples;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -11,29 +12,44 @@ public class TrapActivator : MonoBehaviour
 
     public Collider triggerCollider;
 
+    public Animator animator;
+    public Rigidbody parentRb;
+
+    private void Awake()
+    {
+        if (triggerCollider == null) triggerCollider = GetComponent<Collider>();
+    }
+
     void Start()
     {
         
     }
 
-    // Update is called once per frame
-    void Update()
+   
+    void Action()
     {
-        
+        OnActivate?.Invoke();
+        activated = true;
+        triggerCollider.isTrigger = false;
+        parentRb.isKinematic = false;
+        parentRb.useGravity = true;
+        animator.SetTrigger("Action");
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other == null) return;
 
+        var bzKnife = other.GetComponent<BzKnife>();
 
-
-        if (!activated)
+        if(bzKnife != null && bzKnife.weapon.owner.pawnType == Pawn.EPawnType.Player)
         {
-            OnActivate?.Invoke();
-            activated = true;
-            triggerCollider.enabled = false;
+            if (!activated)
+            {
+                Action();
+                bzKnife.weapon.gameObject.AddComponent<Rigidbody>();
+                //bzKnife.weapon.gameObject.GetComponent<Rigidbody>().useGravity = true;
+            }
         }
-     
     }
 }

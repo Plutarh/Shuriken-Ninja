@@ -163,6 +163,7 @@ MonoBehaviour:
   hittedPawns: []
   triggerCount: 0
   stopPos: {fileID: 713822432279609849}
+  hitRotation: {x: 0, y: 0, z: 0}
 --- !u!65 &6434553436743500667
 BoxCollider:
   m_ObjectHideFlags: 0

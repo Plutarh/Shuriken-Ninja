@@ -27,9 +27,11 @@ public class SceneLoader : MonoBehaviour
     public void LoadNextLevel()
     {
         sceneIndex = SceneManager.GetActiveScene().buildIndex;
-        if (sceneIndex > SceneManager.sceneCount + 1)
+        if (sceneIndex >= SceneManager.sceneCountInBuildSettings - 1)
         {
+            Debug.LogError($"{sceneIndex} index - { SceneManager.sceneCountInBuildSettings - 1}");
             sceneIndex = 0;
+            LoadSceneByIndex(sceneIndex);
             return;
         }
         sceneIndex++;

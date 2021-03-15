@@ -8,7 +8,7 @@ public class RotateBlade : Trap
     public GameObject rotateObject;
     public ETrapState trapState;
     public float rotateSpeed;
-    public Vector3 finalRotation;
+    public Vector3 stopOffset;
 
     public Transform target;
     public float angle;
@@ -58,9 +58,18 @@ public class RotateBlade : Trap
                 break;
             case ETrapState.Action:
 
-                Quaternion rotationTarget = Quaternion.LookRotation(target.position - rotateObject.transform.position);
-                //rotationTarget.y = 0;
-                rotateObject.transform.rotation = Quaternion.RotateTowards(rotateObject.transform.rotation, rotationTarget, rotateSpeed * Time.deltaTime);
+              
+                Quaternion rotationTarget = Quaternion.LookRotation(target.localPosition - rotateObject.transform.localPosition);
+                rotateObject.transform.localRotation = Quaternion.RotateTowards(rotateObject.transform.localRotation, rotationTarget, rotateSpeed * Time.deltaTime);
+              
+                if (rotateObject.transform.localRotation == rotationTarget)
+                {
+                    rotationTarget = Quaternion.LookRotation(target.localPosition - rotateObject.transform.localPosition) * Quaternion.Euler(stopOffset);
+                    rotateObject.transform.localRotation = rotationTarget;
+                    ChangeState(ETrapState.Done);
+                }
+              
+                   
                 break;
             case ETrapState.Done:
                 break;

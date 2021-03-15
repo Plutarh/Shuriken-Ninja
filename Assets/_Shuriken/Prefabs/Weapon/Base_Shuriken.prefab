@@ -350,6 +350,7 @@ MonoBehaviour:
   hittedPawns: []
   triggerCount: 0
   stopPos: {fileID: 6382077496094646795}
+  hitRotation: {x: 0, y: 0, z: 0}
 --- !u!1 &6361552826430268413
 GameObject:
   m_ObjectHideFlags: 0
