@@ -31,6 +31,13 @@ public class PlayerController : Pawn
 
     public int powerThrow;
 
+    [Header("Run Multipliers")]
+    public float startNavMeshAgentSpeed;
+    public float startAnimatorSpeed;
+
+    public float runNavMeshAgentSpeedMultiplier;
+    public float animatorSpeedMultiplier;
+
     [Header("FX")]
     [SerializeField] ParticleSystem wakeUpParticle;
 
@@ -77,6 +84,8 @@ public class PlayerController : Pawn
         EventService.OnEnemyHit += OnEnemyHit;
         EventService.OnHitEnemyHead += OnHitEnemyHead;
         EventService.OnGameOver += OnGameOver;
+
+        playerState = EPlayerState.Stand;
     }
 
     
@@ -85,7 +94,11 @@ public class PlayerController : Pawn
 
     void Start()
     {
+       // ChangeState(EPlayerState.Stand);
         UIController.Get.SetPlayerThrowPoint(powerThrow);
+
+        startNavMeshAgentSpeed = navMeshAgent.speed;
+        startAnimatorSpeed = animator.speed;
     }
 
    
@@ -190,6 +203,7 @@ public class PlayerController : Pawn
 
     public void ChangeState(EPlayerState newState)
     {
+        Debug.LogError("state " + newState.ToString());
         if (playerState == newState) return;
         playerState = newState;
 
@@ -198,10 +212,17 @@ public class PlayerController : Pawn
         {
             case EPlayerState.MoveToPoint:
                 navMeshAgent.isStopped = false;
-                navMeshAgent.speed = 4;
+                navMeshAgent.speed *= runNavMeshAgentSpeedMultiplier;
+                animator.speed *= animatorSpeedMultiplier;
+
+               
 
                 break;
             case EPlayerState.Stand:
+
+                navMeshAgent.speed = startNavMeshAgentSpeed;
+                animator.speed = startAnimatorSpeed;
+
                 EventService.OnPlayerRanActionPoint?.Invoke();
                 ResetAttackTriggers();
                 navMeshAgent.isStopped = true;
@@ -313,7 +334,7 @@ public class PlayerController : Pawn
 
     void ThrowAnimation(bool nullTarget = false)
     {
-        if (levelSession.levelState == LevelSessionService.ELevelState.NotStarted) return;
+        if (levelSession.levelState == LevelSessionService.ELevelState.NotStarted || playerState != EPlayerState.Stand) return;
 
         if (shotMega)
         {
